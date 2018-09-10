@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <pthread.h>
 
 #define n_connect 1
 
@@ -37,7 +37,7 @@ int main(){
 
 	printf("Socket Servidor Aberto \n");
 	server.sin_family = PF_INET; // Protocolo de internet
-	server.sin_port = htons(1080); // Atribui a porta 1080 para ser a porta do socket.
+	server.sin_port = htons(12345); // Atribui a porta 1080 para ser a porta do socket.
 	server.sin_addr.s_addr = INADDR_ANY; // Permite qualquer um fazer a conexao no socket.
 
 	/**
@@ -53,6 +53,7 @@ int main(){
 		printf("Deu pau no bind\n");
 		return -1;
 	}
+	printf("Sucesso no bind\n");
 
 	/**
 	 * Terceiro passo, o Listen.
@@ -66,10 +67,9 @@ int main(){
 		printf("Deu pau no Listen\n");
 		return -1;
 	}
-	printf("Sucesso no listen\n");
 
 	/**
-	 * Espera-se o cliente se conectar, com accept, neste caso só será permitido
+	 * Espera-se o cliente se conectar, com accept, neste caso só gserá permitido
 	 * uma conexao. Logo que essa conexao for feita e receber uma mensagem, o
 	 * socket será fechado.
 	 **/
@@ -89,7 +89,26 @@ int main(){
 	/**
 	 * Para descobrir o IP do cliente que se conectou, basta fazer uma
 	 * manipulacao de deslocamento de bits na variavel de endereco no
-	 * cliente.sin-addr.s_addr. 
+	 * cliente.sin_addr.s_addr. Como é uma variavel de 32 bits, entao é preciso
+	 * separar em lotes de 8 bits.
 	 **/
+	int a1, a2, a3, a4;
+	a1 = client.sin_addr.s_addr >> 24;
+	a2 = (client.sin_addr.s_addr << 8) >> 24;
+	a3 = (client.sin_addr.s_addr << 16) >> 24;
+	a4 = (client.sin_addr.s_addr << 24) >> 24;
+	printf("O cliente conectado foi: %d.%d.%d.%d\n", a4, a3, a2, a1);
+
+	/** Fase de envio e recebimento */
+	while(tam_lei = recv(sck_cli, msg, sizeof(msg), 0) > 0){
+		printf("Mensagem recebida pelo cliente %d.%d.%d.%d: %s\n", a4, a3, a2, a1, msg);
+		msg[0] = '\0';
+	}
+
+	if(close(sck_ser) == -1){
+		printf("Deu pau pra fechar o socket\n");
+	}
+
+	printf("Servidor Fechado\n");
 	return 0;
 }
