@@ -69,8 +69,6 @@ public class ClientTCP{
             context.runOnUiThread( new Thread() {
                 public void run() {
                     Toast.makeText(context, "Deu erro desconhecido!!", Toast.LENGTH_SHORT).show();
-                    Button bt = context.getBtConectar();
-                    bt.setEnabled(true);
                 }
             });
         }

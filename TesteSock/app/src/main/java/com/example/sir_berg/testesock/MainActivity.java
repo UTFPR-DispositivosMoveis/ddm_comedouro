@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btEnviar;
     private EditText etTexto;
     private EditText etIpServer;
+    private TextView tvLogServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +26,18 @@ public class MainActivity extends AppCompatActivity {
         etTexto = (EditText) findViewById(R.id.etMensagem);
         etIpServer = (EditText) findViewById(R.id.etIpServer);
         etIpServer.setText("172.20.220.<UTF>");
-        //btEnviar.setEnabled(false);
+
+        tvLogServer = (TextView) findViewById(R.id.tvRespostaServer);
+    }
+
+    public EditText getEtTexto() {
+        return etTexto;
     }
 
     public void btEnviarOnClick(View view){
         /**
          * Cria o Cliente TCP como uma tarefa em background.
          **/
-
         Thread threadClient = new Thread(new RunClient(etIpServer.getText().toString(), 12345, this, etTexto.getText().toString()));
         threadClient.start();
 
@@ -45,29 +52,9 @@ public class MainActivity extends AppCompatActivity {
         btEnviar.setEnabled(true);
     }
 
-    class RunClient implements Runnable{
-        private String ip;
-        private int porta;
-        private MainActivity context;
-        private ClientTCP cli;
-        private String msg;
-
-        public RunClient(String ip, int porta, MainActivity context, String msg){
-            this.ip = ip;
-            this.porta = porta;
-            this.context = context;
-            this.msg = msg;
-        }
-
-        @Override
-        public void run() {
-            cli = new ClientTCP(this.ip, this.porta, context);
-            cli.ClientClose(context);
-        }
-
-        /**
-         *  Adicionar o Interpretador aqui!!!
-         *  o context funciona como se fosse um callback.
-         **/
+    public void setTvLogServer(String str){
+        tvLogServer.setText(tvLogServer.getText().toString()+"\n"+str);
+        Toast.makeText(this, "Novo dado na coleira", Toast.LENGTH_SHORT).show();
     }
+
 }

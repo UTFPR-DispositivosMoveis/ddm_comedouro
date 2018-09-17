@@ -43,8 +43,19 @@
             android:text="Conectar"
             android:id="@+id/btConectar"
             android:onClick="btConectarOnClick"/>
-
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log Servidor: "
+        android:textSize="30dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resposta do Servidor!!"
+        android:textSize="20dp"
+        android:id="@+id/tvRespostaServer"/>
 
 </LinearLayout>
