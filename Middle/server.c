@@ -11,16 +11,23 @@
 #define MAX_MSG 1024
 #define PORTA 12345
 
-int thread_conexao(void * param);
+void * thread_conexao(void * param);
+void * thread_uart   (void * param);
 
 int main(void)
 {
-	pthread_t conn;
+	pthread_t conn, uart;
 
+
+	/*  Criar a thread de comunicação com o APP via sockets TCP/IP   */
 	if (pthread_create(&conn, NULL, thread_conexao, NULL) < 0)
 		perror("Não foi possível criar a  thread de communicação");
-		
-    while(1)
+
+
+		if(pthread_create(&uart, NULL, thread_uart, NULL) < 0)
+			perror("Não foi possível criar a thread de UART");
+
+  while(1)
 	{
 		puts("Main thread rodando");
 		sleep(30);
@@ -29,7 +36,7 @@ int main(void)
 }
 
 
-int thread_conexao(void * param) 
+void * thread_conexao(void * param)
 {
 	//variaveis
 	int socket_desc , conexao , c;
@@ -43,10 +50,10 @@ int thread_conexao(void * param)
 	int client_port;
 
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
-	if (socket_desc == -1) 
+	if (socket_desc == -1)
 	{
 		perror("Nao foi possivel criar o socket\n");
-		return -1;
+		return NULL;
 	}
 
 	// Associar (bind) o socket a todos IPs locais
@@ -72,7 +79,7 @@ int thread_conexao(void * param)
 	{
 		if (conexao<0){
 			perror("Erro ao receber conexao\n");
-			return -1;
+			return NULL;
 		}
 
 		//Passo 3: realizar a comunicação
@@ -83,12 +90,22 @@ int thread_conexao(void * param)
 		// lendo dados enviados pelo cliente
 		if((tamanho = read(conexao,resposta, MAX_MSG)) < 0){
 			perror("Erro ao receber dados do cliente: ");
-			return -1;
+			return NULL;
 		}
 
 		// Coloca terminador de string
 		resposta[tamanho] = '\0';
-		printf("%sa[%d]: %s \n", client_ip, client_port, resposta);
+		char * pch;
+
+		pch = strtok(resposta, " ");
+		while(pch != NULL)
+		{
+			printf("%s\n", pch);
+			pch = strtok(NULL, " ");
+
+		}
+
+		printf("%s[%d]: %s \n", client_ip, client_port, resposta);
 
 		// Enviando resposta para o cliente
 		write(conexao , resposta , strlen(resposta));
@@ -96,6 +113,17 @@ int thread_conexao(void * param)
 
 		//Passo 4: Encerrar conexão
 		close(conexao);
+		puts("Conexao fechada");
 	}//fim do while
 
+}
+
+
+void * thread_uart(void * param)
+{
+	while(1)
+	{
+		puts("Thread da uart rodando");
+		sleep(60);
+	}
 }
