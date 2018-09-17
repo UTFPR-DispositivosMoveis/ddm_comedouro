@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -10,7 +11,26 @@
 #define MAX_MSG 1024
 #define PORTA 12345
 
-int main(void){
+int thread_conexao(void * param);
+
+int main(void)
+{
+	pthread_t conn;
+
+	if (pthread_create(&conn, NULL, thread_conexao, NULL) < 0)
+		perror("Não foi possível criar a  thread de communicação");
+		
+    while(1)
+	{
+		puts("Main thread rodando");
+		sleep(30);
+	}
+	return 0;
+}
+
+
+int thread_conexao(void * param) 
+{
 	//variaveis
 	int socket_desc , conexao , c;
 	struct sockaddr_in server,client;
@@ -23,8 +43,9 @@ int main(void){
 	int client_port;
 
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
-	if (socket_desc == -1) {
-		printf("Nao foi possivel criar o socket\n");
+	if (socket_desc == -1) 
+	{
+		perror("Nao foi possivel criar o socket\n");
 		return -1;
 	}
 
@@ -35,7 +56,7 @@ int main(void){
 	server.sin_port = htons(PORTA);
 
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0){
-		puts("Erro ao fazer bind!!! \n");
+		perror("Erro ao fazer bind!!! \n");
 	}
 
 
@@ -47,7 +68,8 @@ int main(void){
 	//Aceitando e tratando conexoes
 	c = sizeof(struct sockaddr_in);
 	// Fica esperando por conexoes
-	while( (conexao = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ){;
+	while( (conexao = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) )
+	{
 		if (conexao<0){
 			perror("Erro ao receber conexao\n");
 			return -1;
@@ -66,7 +88,7 @@ int main(void){
 
 		// Coloca terminador de string
 		resposta[tamanho] = '\0';
-		printf("%s[%d]: %s \n", client_ip, client_port, resposta);
+		printf("%sa[%d]: %s \n", client_ip, client_port, resposta);
 
 		// Enviando resposta para o cliente
 		write(conexao , resposta , strlen(resposta));
