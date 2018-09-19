@@ -23,13 +23,13 @@ int main(void)
 	if (pthread_create(&conn, NULL, thread_conexao, NULL) < 0)
 		perror("Não foi possível criar a  thread de communicação");
 
+	/* Criar a thread de comunicação com o inloco, via UART */
+	/*if(pthread_create(&uart, NULL, thread_uart, NULL) < 0)
+		perror("Não foi possível criar a thread de UART");*/
 
-		if(pthread_create(&uart, NULL, thread_uart, NULL) < 0)
-			perror("Não foi possível criar a thread de UART");
-
-  while(1)
+	while(1)
 	{
-		puts("Main thread rodando");
+		//puts("Main thread rodando");
 		sleep(30);
 	}
 	return 0;
@@ -95,17 +95,29 @@ void * thread_conexao(void * param)
 
 		// Coloca terminador de string
 		resposta[tamanho] = '\0';
-		char * pch;
+		char * tokens[40];
+		int i = 0, tam = 0;
 
-		pch = strtok(resposta, " ");
-		while(pch != NULL)
+
+		/*Separa a string em tokens para o vetor */
+		tokens[0] = strtok(resposta, " ");
+		while(tokens[i] != NULL)
 		{
-			printf("%s\n", pch);
-			pch = strtok(NULL, " ");
-
+			i++;
+			tokens[i] = strtok(NULL, " ");
 		}
 
-		printf("%s[%d]: %s \n", client_ip, client_port, resposta);
+		tam = i;
+
+		if(!strcmp("funcao", tokens[0]))
+		{
+			puts("Deu bom");
+			for(i = 1; i < tam; i++)
+				printf("Setando parametro %s\n", tokens[i]);
+		}
+		else puts("Deu ruim");
+
+		//printf("%s[%d]: %s \n", client_ip, client_port, resposta);
 
 		// Enviando resposta para o cliente
 		write(conexao , resposta , strlen(resposta));
@@ -123,7 +135,7 @@ void * thread_uart(void * param)
 {
 	while(1)
 	{
-		puts("Thread da uart rodando");
+		//puts("Thread da uart rodando");
 		sleep(60);
 	}
 }
