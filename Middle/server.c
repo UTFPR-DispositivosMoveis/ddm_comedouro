@@ -11,7 +11,7 @@
 #define MAX_MSG 1024
 #define PORTA 12345
 
-void * thread_conexao(void * param);
+void * thread_conexao_recebe(void * param);
 void * thread_uart   (void * param);
 
 int main(void)
@@ -20,7 +20,7 @@ int main(void)
 
 
 	/*  Criar a thread de comunicação com o APP via sockets TCP/IP   */
-	if (pthread_create(&conn, NULL, thread_conexao, NULL) < 0)
+	if (pthread_create(&conn, NULL, thread_conexao_recebe, NULL) < 0)
 		perror("Não foi possível criar a  thread de communicação");
 
 	/* Criar a thread de comunicação com o inloco, via UART */
@@ -36,16 +36,12 @@ int main(void)
 }
 
 
-void * thread_conexao(void * param)
+void * thread_conexao_recebe(void * param)
 {
-	//variaveis
+
 	int socket_desc , conexao , c;
 	struct sockaddr_in server,client;
-	char *mensagem;
-   char resposta[MAX_MSG];
 	int tamanho, count;
-
-	// destinado a armazenar o IP e porta do cliente
 	char *client_ip;
 	int client_port;
 
@@ -56,8 +52,6 @@ void * thread_conexao(void * param)
 		return NULL;
 	}
 
-	// Associar (bind) o socket a todos IPs locais
-        // e a PORTA ESPECIFICA para os clientes se conectarem
 	server.sin_family = AF_INET; // AF_INET = ARPA INTERNET PROTOCOLS
 	server.sin_addr.s_addr = INADDR_ANY; // Obtem IP do S.O.
 	server.sin_port = htons(PORTA);
@@ -66,15 +60,12 @@ void * thread_conexao(void * param)
 		perror("Erro ao fazer bind!!! \n");
 	}
 
-
-        // Passo 2: aguarda por conexões de clientes
-        // O segundo parametro indica quantos conexoes podem aguardar no buffer
-	listen(socket_desc, 3);
-	/*********************************************************/
-
+	listen(socket_desc, 1);
+	char string[MAX_MSG];
 	//Aceitando e tratando conexoes
 	c = sizeof(struct sockaddr_in);
-	// Fica esperando por conexoes
+
+	/*schema: Conecta, recebe parâmetros e ai fora*/
 	while( (conexao = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) )
 	{
 		if (conexao<0){
@@ -88,45 +79,50 @@ void * thread_conexao(void * param)
 		client_port = ntohs(client.sin_port);
 
 		// lendo dados enviados pelo cliente
-		if((tamanho = read(conexao,resposta, MAX_MSG)) < 0){
+		if((tamanho = read(conexao,string, MAX_MSG)) < 0){
 			perror("Erro ao receber dados do cliente: ");
 			return NULL;
 		}
 
-		// Coloca terminador de string
-		resposta[tamanho] = '\0';
+		
+		// Enviando resposta para o cliente
+		write(conexao , string , strlen(string));
+
+
+		/*****termina a conexão com o cliente*/
+		close(conexao);
+		puts("Conexao fechada");
+		
+		/******************************Tratamento da string**********************/
+	
+		string[tamanho] = '\0';
 		char * tokens[40];
 		int i = 0, tam = 0;
-
-
-		/*Separa a string em tokens para o vetor */
-		tokens[0] = strtok(resposta, " ");
+		
+		/*Começa o tratameno da requisição mandada*/
+		tokens[0] = strtok(string, " ");
+		printf("%s", tokens[0]);
 		while(tokens[i] != NULL)
 		{
 			i++;
 			tokens[i] = strtok(NULL, " ");
+			printf("%s", tokens[i]);
 		}
 
 		tam = i;
 
-		if(!strcmp("funcao", tokens[0]))
+		if(!strcmp("set", tokens[0])) /*Ativa uart para setar os parâmetros no micro*/
 		{
-			puts("Deu bom");
 			for(i = 1; i < tam; i++)
-				printf("Setando parametro %s\n", tokens[i]);
+				printf("\nSetando parametro %s", tokens[i]);
+		}
+		else if(!strcmp("get", tokens[0])) /*Ativa uart requerindo os dados atuais*/
+		{
+			printf("\nGetando parâmetros\n");
 		}
 		else puts("Deu ruim");
-
-		//printf("%s[%d]: %s \n", client_ip, client_port, resposta);
-
-		// Enviando resposta para o cliente
-		write(conexao , resposta , strlen(resposta));
-
-
-		//Passo 4: Encerrar conexão
-		close(conexao);
-		puts("Conexao fechada");
-	}//fim do while
+		
+	}
 
 }
 
