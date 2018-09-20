@@ -28,10 +28,10 @@ void Config_BCS (uint16_t FREQ_MCLK_KHZ)
         PMM_setVCore(PMM_CORE_LEVEL_3);
     }
     /*
-     * Cofiguração cristais:
+     * CofiguraÃ§Ã£o cristais:
      * XT1 - 32768 Hz para ser utilizado pelo ACLK
-     * XT2 - 4 MHz para ser utilizado pelo FLL que ajustará a frequência do DCO
-     * Ligações:
+     * XT2 - 4 MHz para ser utilizado pelo FLL que ajustarÃ¡ a frequÃªncia do DCO
+     * LigaÃ§Ãµes:
      * XT1: IN  P5.4
      *      OUT P5.5
      * XT2: IN  P5.2
@@ -39,17 +39,17 @@ void Config_BCS (uint16_t FREQ_MCLK_KHZ)
      */
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN2); //XT1IN + XT2IN
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN5 | GPIO_PIN3); //XT1OUT + XT2OUT
-    UCS_setExternalClockSource(32768, 4000000); //Configurando frequência dos cristais
+    UCS_setExternalClockSource(32768, 4000000); //Configurando frequÃªncia dos cristais
     UCS_turnOnLFXT1 (UCS_XT1_DRIVE_0, UCS_XCAP_3); //Ligando XT1
     UCS_turnOnXT2(UCS_XT2_DRIVE_4MHZ_8MHZ); //Ligando XT2
     /*
-     * Configuração Clocks:
+     * ConfiguraÃ§Ã£o Clocks:
      * DCO = MCLK
      * SMCLK = MCLK/2
      * ACLK = XT1CLK
      */
     UCS_initClockSignal(UCS_FLLREF, UCS_XT2CLK_SELECT, UCS_CLOCK_DIVIDER_4); //FLL = 1MHZ
-    uint16_t MCLK_FLLREF_RATIO = ((FREQ_MCLK_KHZ)/(1000)); //Frequência do sistema em KHz / FLL em KHz
+    uint16_t MCLK_FLLREF_RATIO = ((FREQ_MCLK_KHZ)/(1000)); //FrequÃªncia do sistema em KHz / FLL em KHz
     UCS_initFLLSettle(FREQ_MCLK_KHZ, MCLK_FLLREF_RATIO); //Configurando DCO
     UCS_initClockSignal(UCS_MCLK, UCS_DCOCLK_SELECT, UCS_CLOCK_DIVIDER_1); //MCLK = DCO
     UCS_initClockSignal(UCS_SMCLK, UCS_DCOCLK_SELECT, UCS_CLOCK_DIVIDER_2); //SMCLK = DCO/4
@@ -218,4 +218,3 @@ void RTC_A_ISR (void)
         default: break;
     }
 }
-

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-             Outra Versão para Library de Manipulação de LCDs
+             Outra Versï¿½o para Library de Manipulaï¿½ï¿½o de LCDs
                para MSP430 - Compilador IAR versao 5.20
                  Adaptada por Francisco Fambrini - 9/10/2011
                               ffambrini@gmail.com
@@ -7,8 +7,8 @@ Baseada no seguinte original:
 http://groups.google.com/group/hive76-discussion/browse_thread/thread/e0f340ed29a2acad
 Derivada do ARDUINO
 Agradecimento ao prof. Alessandro Cunha - TechTraining por indicar o original
-Essa biblioteca é Freeware - use por sua conta e risco
-                       VERSÃO 1.0  - DATA: 9/10/2011
+Essa biblioteca ï¿½ Freeware - use por sua conta e risco
+                       VERSï¿½O 1.0  - DATA: 9/10/2011
 --------------------------------------------------------------------------------
 Aterre o pino 3 do LCD (R/W aterrado)
 Ligue o pino 2 do LCD em 5 volts externos ao LaunchPad, porque o MSP430 trabalha com 3,6V
@@ -22,7 +22,7 @@ PINAGEM DO LCD:
                     p1.3                    EN
                     p1.2                    RS
 
-// Para configurar os pinos do LCD use a seguinte funçao
+// Para configurar os pinos do LCD use a seguinte funï¿½ao
 
 //                  HD44780_init( &theHD44780, RS , E , d4, d5, d6, d7 );
 
@@ -37,15 +37,18 @@ PINAGEM DO LCD:
 #define INPUT 0
 #define OUTPUT 1	
 
-#include "msp430.h"
+#define DISPLAY_PORT    GPIO_PORT_P3
+
+#include "msp430f5529.h"
+#include "driverlib.h"
 //------------------------------------------------------------------------------
 // Comando de digital I/O 
 void pinMode(int pin, int isOutput){ 			
 		if(isOutput){
-			P3DIR |= (1 << pin);
+		    GPIO_setAsOutputPin(DISPLAY_PORT, pin);
 		} 
 		else{
-			P3DIR &= (~(1 << pin));
+		    GPIO_setAsInputPin(DISPLAY_PORT, pin);
 		} 
 	}
 //------------------------------------------------------------------------------
@@ -54,9 +57,9 @@ void pinMode(int pin, int isOutput){
 void digitalWrite(WORD pin, WORD setOrReset)
 	{
 		if (setOrReset) 
-			P3OUT |= ( 1 << pin);
+		    GPIO_setOutputHighOnPin(DISPLAY_PORT, pin);
 		else
-			P3OUT &= (~(1 << pin));
+            GPIO_setOutputLowOnPin(DISPLAY_PORT, pin);
 	}
 //------------------------------------------------------------------------------
 
@@ -64,11 +67,11 @@ void digitalWrite(WORD pin, WORD setOrReset)
 //------------------------------------------------------------------------------
 	inline int digitalRead(WORD pin)
 	{
-		return (P3OUT & (1 << pin)) > 0;
+	    return GPIO_getInputPinValue(DISPLAY_PORT, pin) > 0;
 	}
 //------------------------------------------------------------------------------
 
-// Funções que fazem temporizações, baseadas nos Timers do MSP430
+// Funï¿½ï¿½es que fazem temporizaï¿½ï¿½es, baseadas nos Timers do MSP430
 //------------------------------------------------------------------------------	
 	void delayMicroseconds(unsigned int time){
 		TA0CCR0 = time-1; // Upper limit of count for TAR
@@ -158,7 +161,7 @@ void digitalWrite(WORD pin, WORD setOrReset)
 	
 	void HD44780_begin(HD44780 *me, uint8_t cols, uint8_t lines);
 	void HD44780_send(HD44780 *me, uint8_t value, uint8_t mode);
-	void HD44780_command(HD44780 *me, uint8_t value);             //essa função estava comentada na original
+	void HD44780_command(HD44780 *me, uint8_t value);             //essa funï¿½ï¿½o estava comentada na original
 	void HD44780_write4bits(HD44780 *me, uint8_t value);
 	void HD44780_pulseEnable(HD44780 *me);
 	void HD44780_clear(HD44780 *me);
@@ -185,7 +188,7 @@ void digitalWrite(WORD pin, WORD setOrReset)
 	
 	
 	
-//Função que configura os pinos do LCD
+//Funï¿½ï¿½o que configura os pinos do LCD
 	void HD44780_init(HD44780 *me, int rs, int enable, int d0, int d1, int d2, int d3)
 	{
 	  me->_rs_pin = rs;
