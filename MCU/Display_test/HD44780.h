@@ -99,6 +99,7 @@ void digitalWrite(WORD pin, WORD setOrReset)
 	#pragma vector = TIMER0_A0_VECTOR
 	__interrupt void TA0_ISR (void)
 	{
+        //HD44780_print_string(&theHD44780, "Wall vacilaum");
 		__low_power_mode_off_on_exit(); // Restore Active Mode on return
 	}	
 //------------------------------------------------------------------------------

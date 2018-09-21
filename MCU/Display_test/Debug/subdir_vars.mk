@@ -8,26 +8,26 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../Display.c \
-../LCD.c 
+../main.c 
 
 C_DEPS += \
 ./Display.d \
-./LCD.d 
+./main.d 
 
 OBJS += \
 ./Display.obj \
-./LCD.obj 
+./main.obj 
 
 OBJS__QUOTED += \
 "Display.obj" \
-"LCD.obj" 
+"main.obj" 
 
 C_DEPS__QUOTED += \
 "Display.d" \
-"LCD.d" 
+"main.d" 
 
 C_SRCS__QUOTED += \
 "../Display.c" \
-"../LCD.c" 
+"../main.c" 
 
 
