@@ -1,76 +1,89 @@
-
+#include "driverlib.h"
 #include "Display.h"
 
-/*
 
-static void fn_alarme1(sm_t *sm, uint8_t data){
-    if(data == '>')
-        sm->handler(sm->buffer);
-    else if(data == '<')
+static void fn_off(Display_Interface_t *display){
 
-    sm->state = st_stx;
-}
-
-static void fn_alarme2(Display_Interface_t *display, uint8_t data){
-    if(data == '$')
-        sm->handler(sm->buffer);
-    sm->state = st_stx;
-}
-
-void initSM(Display_Interface_t *display, short addr, handler_t handl){
-    sm->state = st_stx;
-    sm->devAddr = addr;
-    sm->action[st_alarme1] = (Action_t)fn_alarme1;
-    sm->action[st_alarme2] = (Action_t)fn_alarme2;
-    sm->devAddr = addr;
-    sm->handler = handl;
-    sm->flag_addr = 0;
-}
-
-
-
-void exeSM(Display_Interface_t *display, uint8_t data){
-    sm->action[sm->state](sm, data);
-}
-
-
-*/
-
-void displaySetState(Display_Interface_t *display){
-
-    switch(display->state){
-        case   st_alarme1:
-            if(display->var[display->state] < 24 && display->var[display->state] >= 0){
-                char c[2];
-                c[0] = (display->var[display->state] % 10) + 48;
-                c[1] =  ((display->var[display->state]/10) % 10) + 48;
-                display->var_value = c;
-            }   else
-                display->var_value = "OFF";
-            break;
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, NEXT_PIN | PREV_PIN | INC_PIN | DEC_PIN)){
+        //displayTurnOn(true);  TODO
+        display->state = st_alarme1;
     }
+
+}
+
+
+static void fn_alarme1(Display_Interface_t *display){
+
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, NEXT_PIN))
+        display->state = st_alarme2;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, PREV_PIN))
+        display->state = st_alarme3;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, INC_PIN))
+        display->var[display->state]++;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, DEC_PIN))
+        display->var[display->state]--;
+
+     display->var_nome = "Alarme 1:";
+}
+
+static void fn_alarme2(Display_Interface_t *display){
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, NEXT_PIN))
+        display->state = st_alarme3;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, PREV_PIN))
+        display->state = st_alarme1;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, INC_PIN))
+        display->var[display->state]++;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, DEC_PIN))
+        display->var[display->state]--;
+
+    display->var_nome = "Alarme 2:";
+}
+
+static void fn_alarme3(Display_Interface_t *display){
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, NEXT_PIN))
+        display->state = st_alarme1;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, PREV_PIN))
+        display->state = st_alarme2;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, INC_PIN))
+        display->var[display->state]++;
+
+    if(GPIO_getInterruptStatus(GPIO_PORT_P1, DEC_PIN))
+        display->var[display->state]--;
+
+    display->var_nome = "Alarme 3:";
 }
 
 void initDisplay(Display_Interface_t *display){
 
-    display->var_nome[st_alarme1] = "Alarme 1";
-    display->var[st_alarme1] = 1;
+    display->state = st_off;
 
-    display->var_nome[st_alarme2] = "Alarme 2";
-    display->var[st_alarme2] = 1;
-
-    display->var_nome[st_alarme3] = "Alarme 3";
-    display->var[st_alarme3] = 1;
-
-    display->var_value = "";
+    display->var[st_alarme1] = 15;
+    display->var[st_alarme2] = 15;
+    display->var[st_alarme3] = 15;
 
 
+    display->action[st_off] = (Action_t)fn_off;
+    display->action[st_alarme1] = (Action_t)fn_alarme1;
+    display->action[st_alarme2] = (Action_t)fn_alarme2;
+    display->action[st_alarme3] = (Action_t)fn_alarme3;
 
+}
+
+
+void exeSM(Display_Interface_t *display){
+    display->action[display->state](display);
 }
 
 
-/*
-void exeSM(Display_Interface_t *display, uint8_t data){
 
-}
-*/
