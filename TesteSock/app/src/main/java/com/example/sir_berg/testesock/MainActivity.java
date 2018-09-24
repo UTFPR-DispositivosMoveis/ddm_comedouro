@@ -1,5 +1,7 @@
 package com.example.sir_berg.testesock;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,18 +18,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText etIpServer;
     private TextView tvLogServer;
 
+    private int porta = 12345;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btConectar = (Button) findViewById(R.id.btConectar);
         btEnviar = (Button) findViewById(R.id.btEnviar);
         etTexto = (EditText) findViewById(R.id.etMensagem);
         etIpServer = (EditText) findViewById(R.id.etIpServer);
+        tvLogServer = (TextView) findViewById(R.id.tvRespostaServer);
+
         etIpServer.setText("172.20.220.<UTF>");
 
-        tvLogServer = (TextView) findViewById(R.id.tvRespostaServer);
     }
 
     public EditText getEtTexto() {
@@ -38,18 +42,22 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Cria o Cliente TCP como uma tarefa em background.
          **/
-        Thread threadClient = new Thread(new RunClient(etIpServer.getText().toString(), 12345, this, etTexto.getText().toString()));
+        Thread threadClient = new Thread(new RunClient(etIpServer.getText().toString(), this.porta, this, "ma "+etTexto.getText().toString()));
         threadClient.start();
 
     }
 
-    public void btConectarOnClick(View view) {
+    /**
+     * Indo para a intent de configuraçao.
+     * So para fins de teste.
+     **/
+    public void btConfiguracaoOnClick(View view){
 
-        /**
-         * Uma vez conectado, mantem conectado e desativa.
-         */
-        btConectar.setEnabled(false);
-        btEnviar.setEnabled(true);
+        Intent i = new Intent(this, Configuracao.class);
+        i.putExtra("ip", etIpServer.getText().toString());
+        i.putExtra("porta", this.porta);
+        startActivityForResult(i, 0);
+
     }
 
     public void setTvLogServer(String str){
@@ -57,4 +65,15 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Novo dado na coleira", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        String hora;
+        if(data != null){
+            if(resultCode == 0){
+                hora = data.getStringExtra("hora");
+                setTvLogServer(hora);
+            }
+        }
+
+    }
 }
