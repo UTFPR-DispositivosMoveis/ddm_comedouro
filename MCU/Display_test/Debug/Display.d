@@ -1,13 +1,15 @@
 # FIXED
 
 Display.obj: ../Display.c
-Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/driverlib.h
-Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h
-Display.obj: /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430.h
+Display.obj: ../Display.h
+Display.obj: ../HD44780.h
 Display.obj: /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430f5529.h
 Display.obj: /home/raul/ti/ccsv8/ccs_base/msp430/include/in430.h
 Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/intrinsics.h
 Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/intrinsics_legacy_undefs.h
+Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/driverlib.h
+Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h
+Display.obj: /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430.h
 Display.obj: /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430f5xx_6xxgeneric.h
 Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/stdint.h
 Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/sys/stdint.h
@@ -58,17 +60,17 @@ Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Par
 Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/timer_d.h
 Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/lcd_c.h
 Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/sd24_b.h
-Display.obj: ../HD44780.h
-Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/driverlib.h
 
 ../Display.c: 
-/media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/driverlib.h: 
-/media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h: 
-/home/raul/ti/ccsv8/ccs_base/msp430/include/msp430.h: 
+../Display.h: 
+../HD44780.h: 
 /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430f5529.h: 
 /home/raul/ti/ccsv8/ccs_base/msp430/include/in430.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/intrinsics.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/intrinsics_legacy_undefs.h: 
+/media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/driverlib.h: 
+/media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h: 
+/home/raul/ti/ccsv8/ccs_base/msp430/include/msp430.h: 
 /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430f5xx_6xxgeneric.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/stdint.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/sys/stdint.h: 
@@ -119,5 +121,3 @@ Display.obj: /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Par
 /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/timer_d.h: 
 /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/lcd_c.h: 
 /media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/sd24_b.h: 
-../HD44780.h: 
-/media/raul/Raul/Facuul/UTFPR/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Display_test/driverlib/MSP430F5xx_6xx/driverlib.h: 
