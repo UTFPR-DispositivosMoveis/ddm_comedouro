@@ -7,27 +7,21 @@ CMD_SRCS += \
 ../lnk_msp430f5529.cmd 
 
 C_SRCS += \
-../LCD.c \
 ../main.c 
 
 C_DEPS += \
-./LCD.d \
 ./main.d 
 
 OBJS += \
-./LCD.obj \
 ./main.obj 
 
 OBJS__QUOTED += \
-"LCD.obj" \
 "main.obj" 
 
 C_DEPS__QUOTED += \
-"LCD.d" \
 "main.d" 
 
 C_SRCS__QUOTED += \
-"../LCD.c" \
 "../main.c" 
 
 
