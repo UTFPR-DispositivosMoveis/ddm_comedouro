@@ -1,3 +1,8 @@
+/*
+ * gcc -Wall -o server.c server.run -pthread -lwiringPi
+ * 
+ */
+
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
@@ -7,32 +12,62 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <semaphore.h>
 
 #define MAX_MSG 1024
 #define PORTA 12345
 
+sem_t uart_send, uart_receive;
+char buffer_uart[MAX_MSG];
+int serial_port;
+
 void * thread_conexao_recebe(void * param);
-void * thread_uart   (void * param);
+void * thread_uart_send(void * param);
+void * thread_uart_receive(void * param);
 
 int main(void)
 {
-	pthread_t conn, uart;
+	pthread_t conn, uart_s, uart_r;
 
 
 	/*  Criar a thread de comunicação com o APP via sockets TCP/IP   */
 	if (pthread_create(&conn, NULL, thread_conexao_recebe, NULL) < 0)
 		perror("Não foi possível criar a  thread de communicação");
 
-	/* Criar a thread de comunicação com o inloco, via UART */
-	/*if(pthread_create(&uart, NULL, thread_uart, NULL) < 0)
-		perror("Não foi possível criar a thread de UART");*/
+	/* Criar a thread de envio para o inloco, via UART par */
+	if(pthread_create(&uart_s, NULL, thread_uart_send, NULL) < 0)
+		perror("Não foi possível criar a thread de UART Send");
+	
+	/* Criar a thread de recebimento para o inloco, via UART par */			
+	if(pthread_create(&uart_r, NULL, thread_uart_receive, NULL) < 0)
+		perror("Não foi possível criar a thread de UART receive");
+
+	/*Inicializa semaforos de controle da UART*/
+	sem_init(&uart_send, 0, 0);
+	sem_init(&uart_receive, 0, 0);
+
+
+	if ((serial_port = serialOpen ("/dev/ttyS0", 115200)) < 0)	/* open serial port */
+	{
+		fprintf (stderr, "Unable to open serial device: %s\n", strerror (errno)) ;
+		return 1 ;
+	}
+
+	if (wiringPiSetup () == -1)					/* initializes wiringPi setup */
+	{
+		fprintf (stdout, "Unable to start wiringPi: %s\n", strerror (errno)) ;
+		return 1 ;
+	}
 
 	while(1)
 	{
 		//puts("Main thread rodando");
-		sleep(30);
+		//sleep(30);
 	}
+	
+	pthread_join(conn, NULL);
 	return 0;
+		
 }
 
 
@@ -83,8 +118,7 @@ void * thread_conexao_recebe(void * param)
 			perror("Erro ao receber dados do cliente: ");
 			return NULL;
 		}
-
-		
+				
 		// Enviando resposta para o cliente
 		write(conexao , string , strlen(string));
 
@@ -110,14 +144,17 @@ void * thread_conexao_recebe(void * param)
 		}
 
 		tam = i;
-
+		 
+		  
 		if(!strcmp("set", tokens[0])) /*Ativa uart para setar os parâmetros no micro*/
 		{
+			
 			for(i = 1; i < tam; i++)
 				printf("\nSetando parametro %s", tokens[i]);
 		}
 		else if(!strcmp("get", tokens[0])) /*Ativa uart requerindo os dados atuais*/
 		{
+			
 			printf("\nGetando parâmetros\n");
 		}
 		else puts("Deu ruim");
@@ -126,12 +163,26 @@ void * thread_conexao_recebe(void * param)
 
 }
 
-
-void * thread_uart(void * param)
+void * thread_uart_send(void * param)
 {
 	while(1)
 	{
-		//puts("Thread da uart rodando");
-		sleep(60);
+		if(sem_wait(&uart_send) > 0)
+		{
+			//TODO mandar dados para o micro
+		}
+
+	}
+}
+
+void * thread_uart_receive(void * param)
+{
+	while(1)
+	{
+		if(sem_wait(&uart_receive) > 0)
+		{
+			
+		}
+			
 	}
 }
