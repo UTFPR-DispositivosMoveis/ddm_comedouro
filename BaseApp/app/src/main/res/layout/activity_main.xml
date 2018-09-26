@@ -7,33 +7,46 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bateria: não conectado"
+        android:id="@+id/tvBateria"
+        android:textSize="30dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Coloque a mensagem!!"/>
+        android:text="Nível Ração: não conectado"
+        android:id="@+id/tvRacao"
+        android:textSize="30dp"/>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etMensagem"/>
+        android:text="Tratar: 19:30"
+        android:id="@+id/tvHora"
+        android:textSize="30dp"/>
 
-    <LinearLayout
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enviar"
-            android:onClick="btEnviarOnClick"
-            android:id="@+id/btEnviar"/>
+        android:layout_height="wrap_content"
+        android:text="Configurar"
+        android:id="@+id/btConfigurar"
+        android:onClick="btConfigurarOnClick"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Conectar"
-            android:id="@+id/btConectar"
-            android:onClick="btConectarOnClick"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manual"
+        android:id="@+id/btManual"
+        android:onClick="btManualOnClick"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Atualizar"
+        android:id="@+id/btAtualizar"
+        android:onClick="btAtualizarOnClick"/>
 
-    </LinearLayout>
 
 
 </LinearLayout>

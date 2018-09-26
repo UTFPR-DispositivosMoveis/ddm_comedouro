@@ -6,6 +6,11 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <!-->
+        A partir daqui somente a parte de testes do servidor.
+        Esse teste serve para testar conectividade com o servidor.
+    </!-->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,22 +33,26 @@
         android:id="@+id/etMensagem"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enviar"
+            android:layout_gravity="center"
             android:onClick="btEnviarOnClick"
             android:id="@+id/btEnviar"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Conectar"
-            android:id="@+id/btConectar"
-            android:onClick="btConectarOnClick"/>
+            android:onClick="btConfiguracaoOnClick"
+            android:text="Configuraçao"/>
     </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -57,5 +66,7 @@
         android:text="Resposta do Servidor!!"
         android:textSize="20dp"
         android:id="@+id/tvRespostaServer"/>
+
+
 
 </LinearLayout>
