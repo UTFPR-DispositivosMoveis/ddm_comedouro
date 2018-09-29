@@ -44,7 +44,16 @@ PINAGEM DO LCD:
 #define INPUT               0
 #define OUTPUT              1
 
-#define DISPLAY_PORT    GPIO_PORT_P3
+#define DISPLAY_PORT        GPIO_PORT_P6
+
+#define DISPLAY_PIN_RS      GPIO_PIN0
+#define DISPLAY_PIN_EN      GPIO_PIN1
+#define DISPLAY_PIN_D4      GPIO_PIN2
+#define DISPLAY_PIN_D5      GPIO_PIN3
+#define DISPLAY_PIN_D6      GPIO_PIN4
+#define DISPLAY_PIN_D7      GPIO_PIN5
+
+#define LED_PIN             GPIO_PIN6
 
 //------------------------------------------------------------------------------
 // Comando de digital I/O 

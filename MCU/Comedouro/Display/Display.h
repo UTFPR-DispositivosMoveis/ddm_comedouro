@@ -10,17 +10,15 @@
 
 #include "HD44780.h"
 
-#define BUTTON_PORT         GPIO_PORT_P1
-#define BUTTON_PORT_VECTOR  PORT1_VECTOR
+#define BUTTON_PORT         GPIO_PORT_P3
+#define BUTTON_PORT_VECTOR  PORT3_VECTOR
 
 
-#define OK_PIN              GPIO_PIN6
-#define PREV_PIN            GPIO_PIN5
-#define NEXT_PIN            GPIO_PIN4
-#define INC_PIN             GPIO_PIN3
-#define DEC_PIN             GPIO_PIN2
-
-#define LED_PIN             GPIO_PIN6
+#define OK_PIN              GPIO_PIN7
+#define PREV_PIN            GPIO_PIN6
+#define NEXT_PIN            GPIO_PIN5
+#define INC_PIN             GPIO_PIN2
+#define DEC_PIN             GPIO_PIN1
 
 
 #define NEXT_BIT            (0x0001)
@@ -37,6 +35,7 @@ typedef enum {
     st_alarme1,
     st_alarme2,
     st_alarme3,
+    st_tmpAberto,
     st_end
 }   state_t;
 

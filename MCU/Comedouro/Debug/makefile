@@ -179,7 +179,8 @@ BIN_OUTPUTS__QUOTED += \
 
 
 # All Target
-all: Comedouro.out
+all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+	@$(MAKE) --no-print-directory -Onone "Comedouro.out"
 
 # Tool invocations
 Comedouro.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)

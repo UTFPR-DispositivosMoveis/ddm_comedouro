@@ -31,11 +31,15 @@ inline int digitalRead(WORD pin){
 
 
 void delayMicroseconds(unsigned int time){
+
+    __delay_cycles(24);
+    /*
     TA0CCR0 = time-1; // Upper limit of count for TAR
     TA0CTL = MC_1|ID_0|TASSEL_2|TACLR; // Set up and start Timer A
     while ((TA0CTL & TAIFG) == 0){ // Wait for overflow
     } // doing nothing
     TA0CTL &= (~TAIFG); // Clear overflow flag
+    */
 }
 
 void delayMicrosecondszz(unsigned int time){
@@ -48,11 +52,14 @@ void delayMillisecondszz(unsigned int time){
 }
 
 inline void delayMilliseconds(unsigned int delay){
+    __delay_cycles(24000);
+    /*
     while(delay > 60){
         delayMicroseconds(60000);
         delay -= 60;
     }
     if (delay) delayMicroseconds((delay << 10) - (delay << 4) - (delay << 3));
+    */
 }
 
 
