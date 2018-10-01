@@ -17,35 +17,33 @@
 #define MAX_MSG 1024
 #define PORTA 12345
 
-sem_t uart_send, uart_receive;
+pthread_mutex_t lock_file;
 char buffer_uart[MAX_MSG];
-int serial_port;
+int serial_port, buffer_index;
+FILE *configs;
 
 void * thread_conexao_recebe(void * param);
-void * thread_uart_send(void * param);
-void * thread_uart_receive(void * param);
+void * thread_uart(void * param);
 
 int main(void)
 {
-	pthread_t conn, uart_s, uart_r;
+	pthread_t conn, uart;
 
 
 	/*  Criar a thread de comunicação com o APP via sockets TCP/IP   */
-	if (pthread_create(&conn, NULL, thread_conexao_recebe, NULL) < 0)
+	if (pthread_create(&conn, NULL, thread_conexao_recebe, NULL) < 0) {
 		perror("Não foi possível criar a  thread de communicação");
-
-	/* Criar a thread de envio para o inloco, via UART par */
-	if(pthread_create(&uart_s, NULL, thread_uart_send, NULL) < 0)
-		perror("Não foi possível criar a thread de UART Send");
+	}
 	
-	/* Criar a thread de recebimento para o inloco, via UART par */			
-	if(pthread_create(&uart_r, NULL, thread_uart_receive, NULL) < 0)
-		perror("Não foi possível criar a thread de UART receive");
+	if (pthread_create(&uart, NULL, thread_uart, NULL) < 0) {
+		perror("Não foi possível criar a  thread da uart");
+	}
 
-	/*Inicializa semaforos de controle da UART*/
-	sem_init(&uart_send, 0, 0);
-	sem_init(&uart_receive, 0, 0);
+	configs = fopen("config.base", "r+");
 
+	if(pthread_mutex_init(&lock_file, NULL) != 0) {
+		perror("Não foi possível criar o mutex");
+	}
 
 	if ((serial_port = serialOpen ("/dev/ttyS0", 115200)) < 0)	/* open serial port */
 	{
@@ -58,6 +56,8 @@ int main(void)
 		fprintf (stdout, "Unable to start wiringPi: %s\n", strerror (errno)) ;
 		return 1 ;
 	}
+
+	
 
 	while(1)
 	{
@@ -74,15 +74,12 @@ int main(void)
 void * thread_conexao_recebe(void * param)
 {
 
-	int socket_desc , conexao , c;
+	int socket_desc , conexao , c, client_port, tamanho, count;
 	struct sockaddr_in server,client;
-	int tamanho, count;
 	char *client_ip;
-	int client_port;
 
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
-	if (socket_desc == -1)
-	{
+	if (socket_desc == -1) {
 		perror("Nao foi possivel criar o socket\n");
 		return NULL;
 	}
@@ -91,7 +88,7 @@ void * thread_conexao_recebe(void * param)
 	server.sin_addr.s_addr = INADDR_ANY; // Obtem IP do S.O.
 	server.sin_port = htons(PORTA);
 
-	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0){
+	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
 		perror("Erro ao fazer bind!!! \n");
 	}
 
@@ -101,9 +98,8 @@ void * thread_conexao_recebe(void * param)
 	c = sizeof(struct sockaddr_in);
 
 	/*schema: Conecta, recebe parâmetros e ai fora*/
-	while( (conexao = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) )
-	{
-		if (conexao<0){
+	while( (conexao = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c))) {
+		if (conexao<0) {
 			perror("Erro ao receber conexao\n");
 			return NULL;
 		}
@@ -114,26 +110,18 @@ void * thread_conexao_recebe(void * param)
 		client_port = ntohs(client.sin_port);
 
 		// lendo dados enviados pelo cliente
-		if((tamanho = read(conexao,string, MAX_MSG)) < 0){
+		if((tamanho = read(conexao,string, MAX_MSG)) < 0) {
 			perror("Erro ao receber dados do cliente: ");
 			return NULL;
 		}
-				
-		// Enviando resposta para o cliente
-		write(conexao , string , strlen(string));
-
-
-		/*****termina a conexão com o cliente*/
-		close(conexao);
-		puts("Conexao fechada");
 		
-		/******************************Tratamento da string**********************/
-	
 		string[tamanho] = '\0';
+		/*
 		char * tokens[40];
 		int i = 0, tam = 0;
 		
 		/*Começa o tratameno da requisição mandada*/
+		/*
 		tokens[0] = strtok(string, " ");
 		printf("%s", tokens[0]);
 		while(tokens[i] != NULL)
@@ -144,45 +132,48 @@ void * thread_conexao_recebe(void * param)
 		}
 
 		tam = i;
-		 
-		  
-		if(!strcmp("set", tokens[0])) /*Ativa uart para setar os parâmetros no micro*/
+
+		if(!strcmp("set", tokens[0])) 
 		{
 			
 			for(i = 1; i < tam; i++)
 				printf("\nSetando parametro %s", tokens[i]);
 		}
-		else if(!strcmp("get", tokens[0])) /*Ativa uart requerindo os dados atuais*/
+		else if(!strcmp("get", tokens[0])) 
 		{
 			
 			printf("\nGetando parâmetros\n");
 		}
 		else puts("Deu ruim");
+		*/
 		
+		
+		
+		int i = 0;
+		/* Envia a string recebida para o microcontrolador */
+		serialPuts(serial_port, string);
+		/* E recebe a resposta do microcontrolador */
+		//while(buffer_uart[i++] = serialGetchar(serial_port)) {}
+		
+		/* Enviando resposta para o cliente */
+		write(conexao , string , strlen(string));
+
+
+		/*****termina a conexão com o cliente*/
+		close(conexao);
+		puts("Conexao fechada");
 	}
 
 }
 
-void * thread_uart_send(void * param)
-{
-	while(1)
-	{
-		if(sem_wait(&uart_send) > 0)
-		{
-			//TODO mandar dados para o micro
-		}
+void * thread_uart(void * param) {
 
-	}
-}
-
-void * thread_uart_receive(void * param)
-{
-	while(1)
-	{
-		if(sem_wait(&uart_receive) > 0)
-		{
-			
-		}
-			
+	while(1) {
+		while(serialDataAvail(serial_port) == -1) {}
+		while(buffer_uart[buffer_index++] = serialGetchar(serial_port)) {}
+		
+		/* Deixa travado pra somente essa thread poder utilizar o arquivo */
+		pthread_mutex_lock(&lock_file);
+		configs
 	}
 }
