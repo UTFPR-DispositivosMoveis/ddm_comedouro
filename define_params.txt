@@ -1,0 +1,18 @@
+Parametros que podem ser setados
+		 * adicionar alarme
+		 * alterar alarme
+		 * ambos de hora em hora
+		 * acionar comerdor
+		 * liga buzzer
+		 * desliga buzzer
+		 * pegar dados
+
+
+		 
+		 
+Estutura dos parametros de setar:
+		  * funcao parametro
+		  * ex: hora 22 
+		  * ex: hora 23
+		  * ex: buzzer on
+		  * ex: hora -1
