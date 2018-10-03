@@ -218,3 +218,45 @@ void RTC_A_ISR (void)
         default: break;
     }
 }
+
+
+int main(){
+    int echo_pulse_duration;      // time in us
+    int distance_cm;
+
+    // Disable watchdog timer
+    WDTCTL = WDTPW + WDTHOLD;
+
+    // Make P1.0 a digital output for the LED and P1.6
+    // a digital output for the sensor trigger pulses
+    P1DIR = BIT1+BIT6;
+    P1IN = BIT2;
+
+    // Set up Timer_A1: SMCLK clock, input divider=1,
+    // "continuous" mode. It counts from 0 to 65535,
+    // incrementing once per clock cycle (i.e. every 1us).
+    TA1CTL = TASSEL_2 + ID_0 + MC_2;
+
+    // Now just monitor distance sensor
+    while(1)
+    {
+
+        // Send a 20us trigger pulse
+        P1OUT |= BIT1;                // trigger high
+        __delay_cycles(20);           // 20us delay
+        P1OUT &= ~BIT1;               // trigger low
+
+        // Measure duration of echo pulse
+        while ((P1IN & BIT2) == 0);   // Wait for start of echo pulse
+        TA1R = 0;                     // Reset timer at start of pulse
+        while ((P1IN & BIT2) > 0);    // Wait for end of echo pulse
+        echo_pulse_duration = TA1R;   // Current timer value is pulse length
+        distance_cm = 0.017 * echo_pulse_duration; // Convert from us to cm
+
+        if (distance_cm < 50) P1OUT |= BIT6; // LED on
+        else P1OUT &= ~BIT6;                 // LED off
+    }
+}
+
+*/
+ */
