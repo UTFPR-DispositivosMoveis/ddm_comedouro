@@ -16,7 +16,7 @@
 
 #define OK_PIN              GPIO_PIN6
 #define PREV_PIN            GPIO_PIN5
-#define NEXT_PIN            GPIO_PIN4
+#define NEXT_PIN            GPIO_PIN3
 #define INC_PIN             GPIO_PIN2
 #define DEC_PIN             GPIO_PIN0
 
