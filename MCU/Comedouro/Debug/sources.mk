@@ -113,5 +113,6 @@ PDE_DEPS__QUOTED :=
 SUBDIRS := \
 . \
 Display \
+Display/HD44780 \
 driverlib/MSP430F5xx_6xx \
 

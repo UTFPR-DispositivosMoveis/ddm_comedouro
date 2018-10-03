@@ -8,6 +8,9 @@
 #include    <string.h>
 #include    "Display.h"
 
+#include    "driverlib.h"
+
+
 
 void displayTurnOn(int isOn){
     if(isOn)

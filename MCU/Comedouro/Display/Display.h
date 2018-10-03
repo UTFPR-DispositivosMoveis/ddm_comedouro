@@ -8,7 +8,23 @@
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 
-#include "HD44780.h"
+#include "HD44780/HD44780.h"
+
+
+
+#define DISPLAY_PORT        GPIO_PORT_P6
+
+#define DISPLAY_PIN_RS      GPIO_PIN6
+#define DISPLAY_PIN_EN      GPIO_PIN4
+#define DISPLAY_PIN_D4      GPIO_PIN3
+#define DISPLAY_PIN_D5      GPIO_PIN2
+#define DISPLAY_PIN_D6      GPIO_PIN1
+#define DISPLAY_PIN_D7      GPIO_PIN0
+
+#define LED_PIN             GPIO_PIN5
+
+
+
 
 #define BUTTON_PORT         GPIO_PORT_P2
 #define BUTTON_PORT_VECTOR  PORT2_VECTOR

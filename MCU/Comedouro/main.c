@@ -6,6 +6,7 @@
  */
 
 #include    "Display/Display.h"
+#include    "driverlib.h"
 
 HD44780 theHD44780;
 
@@ -50,8 +51,8 @@ void main(void){
 
  //   Config_BCS(24000);
 
-    HD44780_init(&theHD44780, DISPLAY_PIN_RS, DISPLAY_PIN_EN, DISPLAY_PIN_D4,
-                             DISPLAY_PIN_D5, DISPLAY_PIN_D6, DISPLAY_PIN_D7);
+    HD44780_init(&theHD44780, DISPLAY_PORT, DISPLAY_PIN_RS, DISPLAY_PIN_EN,
+                 DISPLAY_PIN_D4, DISPLAY_PIN_D5, DISPLAY_PIN_D6, DISPLAY_PIN_D7);
 
     HD44780_begin(&theHD44780, 16, 2);
 
@@ -80,7 +81,7 @@ void Port_1 (void){
 
 
 
-    delayMilliseconds(2);
+    __delay_cycles(50000);
 
     exeStateMachine(&display, getButtonFlag());
 

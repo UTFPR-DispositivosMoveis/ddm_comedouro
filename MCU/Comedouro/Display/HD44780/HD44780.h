@@ -29,14 +29,11 @@ PINAGEM DO LCD:
 // no caso acima:   HD44780_init(&theHD44780 , 2 , 3 ,   4,  5,  6, 7 );
 -------------------------------------------------------------------------------*/
 
-#include "msp430f5529.h"
-#include "driverlib.h"
-
+#include "stdint.h"
 
 #define HD44780LIB_H_
 
-#define uint8_t             unsigned int
-#define uint16_t            unsigned int
+
 #define WORD                unsigned int
 #define byte                unsigned char
 #define LOW                 0
@@ -44,36 +41,9 @@ PINAGEM DO LCD:
 #define INPUT               0
 #define OUTPUT              1
 
-#define DISPLAY_PORT        GPIO_PORT_P6
 
-#define DISPLAY_PIN_RS      GPIO_PIN5
-#define DISPLAY_PIN_EN      GPIO_PIN4
-#define DISPLAY_PIN_D4      GPIO_PIN3
-#define DISPLAY_PIN_D5      GPIO_PIN2
-#define DISPLAY_PIN_D6      GPIO_PIN1
-#define DISPLAY_PIN_D7      GPIO_PIN0
 
-#define LED_PIN             GPIO_PIN6
 
-//------------------------------------------------------------------------------
-// Comando de digital I/O 
-void pinMode(int pin, int isOutput);
-//------------------------------------------------------------------------------
-void digitalWrite(WORD pin, WORD setOrReset);
-//------------------------------------------------------------------------------
-inline int digitalRead(WORD pin);
-//------------------------------------------------------------------------------
-
-// Fun��es que fazem temporiza��es, baseadas nos Timers do MSP430
-//------------------------------------------------------------------------------
-void delayMicroseconds(unsigned int time);
-//------------------------------------------------------------------------------
-void delayMicrosecondszz(unsigned int time);
-//------------------------------------------------------------------------------
-inline void delayMilliseconds(unsigned int delay);
-//------------------------------------------------------------------------------
-void delayMillisecondszz(unsigned int time);
-//------------------------------------------------------------------------------
 // Comandos que manipulam o display LCD
 
 #define LCD_CLEARDISPLAY 0x01
@@ -129,9 +99,11 @@ typedef struct _HD44780{
 
     uint8_t _numlines,_currline;
 
+    WORD _display_port;
+
 } HD44780;
 
-void HD44780_init(HD44780 *me, int rs, int enable, int d0, int d1, int d2, int d3);
+void HD44780_init(HD44780 *me, WORD display_port, int rs, int enable, int d0, int d1, int d2, int d3);
 void HD44780_begin(HD44780 *me, uint8_t cols, uint8_t lines);
 void HD44780_send(HD44780 *me, uint8_t value, uint8_t mode);
 void HD44780_command(HD44780 *me, uint8_t value);             //essa fun��o estava comentada na original

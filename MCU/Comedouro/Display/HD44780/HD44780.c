@@ -6,71 +6,8 @@
  */
 
 
-#include "HD44780.h"
-
-
-void pinMode(int pin, int isOutput){
-    if(isOutput)
-        GPIO_setAsOutputPin(DISPLAY_PORT, pin);
-    else
-        GPIO_setAsInputPin(DISPLAY_PORT, pin);
-}
-
-void digitalWrite(WORD pin, WORD setOrReset){
-    if (setOrReset)
-        GPIO_setOutputHighOnPin(DISPLAY_PORT, pin);
-    else
-        GPIO_setOutputLowOnPin(DISPLAY_PORT, pin);
-}
-
-inline int digitalRead(WORD pin){
-    return GPIO_getInputPinValue(DISPLAY_PORT, pin) > 0;
-}
-
-
-
-
-void delayMicroseconds(unsigned int time){
-/*
-    TA0CCR0 = time-1; // Upper limit of count for TAR
-    TA0CTL = MC_1|ID_0|TASSEL_2|TACLR; // Set up and start Timer A
-    while ((TA0CTL & TAIFG) == 0){ // Wait for overflow
-    } // doing nothing
-    TA0CTL &= (~TAIFG); // Clear overflow flag
-*/
-
-    TB0CCR0 = time-1; // Upper limit of count for TAR
-    TB0CTL = MC_1|ID_0|TBSSEL_2|TACLR; // Set up and start Timer B
-    while (!(TB0CTL & TBIFG));
-    TB0CTL &= (~TBIFG); // Clear overflow flag
-
-}
-/*
-void delayMicrosecondszz(unsigned int time){
-    TA0CCR0 = time; // Upper limit of count for TAR
-    TA0CTL = MC_1|ID_0|TASSEL_2|TACLR; // Set up and start Timer A
-}
-
-void delayMillisecondszz(unsigned int time){
-    delayMicrosecondszz(1000 * time);
-}
-*/
-inline void delayMilliseconds(unsigned int delay){
-
-    while(delay > 60){
-        delayMicroseconds(60000);
-        delay -= 60;
-    }
-    if (delay) delayMicroseconds((delay << 10) - (delay << 4) - (delay << 3));
-
-}
-
-
-
-
-
-
-
+#include    "HD44780.h"
+#include    "port_HD44780.h"
 
 
 void HD44780_write(HD44780 *me, uint8_t value){
@@ -82,15 +19,15 @@ inline void HD44780_command(HD44780 *me, uint8_t value) {
 }
 
 void HD44780_send(HD44780 *me, uint8_t value, uint8_t mode) {
-    digitalWrite(me->_rs_pin, mode);
+    digitalWrite(me->_display_port, me->_rs_pin, mode);
     HD44780_write4bits(me, value>>4);
     HD44780_write4bits(me, value);
 }
 
 
-
 //Fun��o que configura os pinos do LCD
-void HD44780_init(HD44780 *me, int rs, int enable, int d0, int d1, int d2, int d3){
+void HD44780_init(HD44780 *me, WORD display_port, int rs, int enable, int d0, int d1, int d2, int d3){
+    me->_display_port = display_port;
     me->_rs_pin = rs;
     me->_enable_pin = enable;
 
@@ -99,8 +36,8 @@ void HD44780_init(HD44780 *me, int rs, int enable, int d0, int d1, int d2, int d
     me->_data_pins[2] = d2;
     me->_data_pins[3] = d3;
 
-    pinMode(rs, OUTPUT);
-    pinMode(enable, OUTPUT);
+    pinMode(me->_display_port, rs, OUTPUT);
+    pinMode(me->_display_port, enable, OUTPUT);
 
     me->_displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
 }
@@ -119,8 +56,8 @@ void HD44780_begin(HD44780 *me, uint8_t cols, uint8_t lines) {
     // before sending commands. Arduino can turn on way befer 4.5V so we'll wait 50
     delayMicroseconds(50000);
     // Now we pull both RS and R/W low to begin commands
-    digitalWrite(me->_rs_pin, LOW);
-    digitalWrite(me->_enable_pin, LOW);
+    digitalWrite(me->_display_port, me->_rs_pin, LOW);
+    digitalWrite(me->_display_port, me->_enable_pin, LOW);
 
     //put the LCD into 4 bit or 8 bit mode
     if (! (me->_displayfunction & LCD_8BITMODE)) {
@@ -177,19 +114,19 @@ void HD44780_begin(HD44780 *me, uint8_t cols, uint8_t lines) {
 void HD44780_write4bits(HD44780 *me, uint8_t value) {
     unsigned int i;
     for (i = 0; i < 4; i++) {
-        pinMode(me->_data_pins[i],OUTPUT);
-        digitalWrite(me->_data_pins[i], (value >> i) & 0x01);
+        pinMode(me->_display_port, me->_data_pins[i],OUTPUT);
+        digitalWrite(me->_display_port, me->_data_pins[i], (value >> i) & 0x01);
     }
 
     HD44780_pulseEnable(me);
 }
 
 void HD44780_pulseEnable(HD44780 *me) {
-    digitalWrite(me->_enable_pin, LOW);
+    digitalWrite(me->_display_port, me->_enable_pin, LOW);
     delayMicroseconds(2);
-    digitalWrite(me->_enable_pin, HIGH);
+    digitalWrite(me->_display_port, me->_enable_pin, HIGH);
     delayMicroseconds(2);    // enable pulse must be >450ns
-    digitalWrite(me->_enable_pin, LOW);
+    digitalWrite(me->_display_port, me->_enable_pin, LOW);
     delayMicroseconds(100);   // commands need > 37us to settle
 }
 
