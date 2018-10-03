@@ -10,15 +10,15 @@
 
 #include "HD44780.h"
 
-#define BUTTON_PORT         GPIO_PORT_P3
-#define BUTTON_PORT_VECTOR  PORT3_VECTOR
+#define BUTTON_PORT         GPIO_PORT_P2
+#define BUTTON_PORT_VECTOR  PORT2_VECTOR
 
 
-#define OK_PIN              GPIO_PIN7
-#define PREV_PIN            GPIO_PIN6
-#define NEXT_PIN            GPIO_PIN5
+#define OK_PIN              GPIO_PIN6
+#define PREV_PIN            GPIO_PIN5
+#define NEXT_PIN            GPIO_PIN4
 #define INC_PIN             GPIO_PIN2
-#define DEC_PIN             GPIO_PIN1
+#define DEC_PIN             GPIO_PIN0
 
 
 #define NEXT_BIT            (0x0001)

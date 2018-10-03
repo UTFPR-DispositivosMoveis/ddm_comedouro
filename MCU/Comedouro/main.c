@@ -48,7 +48,7 @@ void Config_BCS (uint16_t FREQ_MCLK_KHZ){
 void main(void){
     WDT_A_hold(WDT_A_BASE);
 
-    Config_BCS(24000);
+ //   Config_BCS(24000);
 
     HD44780_init(&theHD44780, DISPLAY_PIN_RS, DISPLAY_PIN_EN, DISPLAY_PIN_D4,
                              DISPLAY_PIN_D5, DISPLAY_PIN_D6, DISPLAY_PIN_D7);
