@@ -1,4 +1,10 @@
-/*------------------------------------------------------------------------------
+/*
+
+Biblioteca modificada por: Raul Scarmocin (raulfreitas@alunos.utfpr.edu.br)
+
+Modificar port_HD44780.c
+
+-----------------------------------------------------------------------------
              Outra Vers�o para Library de Manipula��o de LCDs
                para MSP430 - Compilador IAR versao 5.20
                  Adaptada por Francisco Fambrini - 9/10/2011

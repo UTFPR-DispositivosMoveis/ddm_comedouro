@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker Unix v18.1.2                   
 ******************************************************************************
->> Linked Wed Oct  3 21:17:18 2018
+>> Linked Thu Oct  4 00:40:36 2018
 
 OUTPUT FILE NAME:   <Comedouro.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00004400
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00004438
 
 
 MEMORY CONFIGURATION
@@ -19,8 +19,8 @@ MEMORY CONFIGURATION
   INFOB                 00001900   00000080  00000000  00000080  RWIX
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   USBRAM                00001c00   00000800  00000000  00000800  RWIX
-  RAM                   00002400   00002000  000000a4  00001f5c  RWIX
-  FLASH                 00004400   0000bb80  00000052  0000bb2e  RWIX
+  RAM                   00002400   00002000  000000e2  00001f1e  RWIX
+  FLASH                 00004400   0000bb80  000000ca  0000bab6  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -85,7 +85,7 @@ MEMORY CONFIGURATION
   INT61                 0000fffa   00000002  00000002  00000000  RWIX
   INT62                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FLASH2                00010000   00014400  000008ee  00013b12  RWIX
+  FLASH2                00010000   00014400  00000b06  000138fa  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -93,37 +93,41 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.bss       0    00002400    00000004     UNINITIALIZED
-                  00002400    00000002     (.common:distance_cm)
-                  00002402    00000002     (.common:echo_pulse_duration)
+.bss       0    00002400    00000042     UNINITIALIZED
+                  00002400    00000034     (.common:display)
+                  00002434    0000000e     (.common:theHD44780)
 
 .stack     0    00004360    000000a0     UNINITIALIZED
                   00004360    00000004     rts430x_lc_rd_eabi.lib : boot.c.obj (.stack)
                   00004364    0000009c     --HOLE--
 
 .text:_isr 
-*          0    00004400    00000024     
-                  00004400    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
-                  0000441c    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00004400    0000005c     
+                  00004400    00000038     main.obj (.text:_isr:Port_1)
+                  00004438    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
+                  00004454    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
 
-.cinit     0    00004440    00000012     
-                  00004440    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  00004446    00000004     (__TI_handler_table)
-                  0000444a    00000008     (__TI_cinit_table)
+.cinit     0    000044b8    00000012     
+                  000044b8    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  000044be    00000004     (__TI_handler_table)
+                  000044c2    00000008     (__TI_cinit_table)
 
 .binit     0    00004400    00000000     
 
 .init_array 
 *          0    00004400    00000000     UNINITIALIZED
 
-.const     0    00004424    0000001c     
-                  00004424    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+.const     0    0000445c    0000005c     
+                  0000445c    0000002e     StateMachine.obj (.const:.string)
+                  0000448a    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  000044a6    0000000a     Display.obj (.const:.string)
+                  000044b0    00000008     HD44780.obj (.const:$P$T0$1)
 
 RTC        0    0000ffd2    00000002     
                   0000ffd2    00000002     rts430x_lc_rd_eabi.lib : int41.asm.obj (.int41)
 
 PORT2      0    0000ffd4    00000002     
-                  0000ffd4    00000002     rts430x_lc_rd_eabi.lib : int42.asm.obj (.int42)
+                  0000ffd4    00000002     main.obj (.int42)
 
 TIMER2_A1 
 *          0    0000ffd6    00000002     
@@ -196,65 +200,95 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.c.obj (.reset)
 
-.text      0    00010000    000008ee     
-                  00010000    00000280     rts430x_lc_rd_eabi.lib : frcmpyd.c.obj (.text:__TI_frcmpyd)
-                  00010280    00000266                            : mpyd.c.obj (.text:__mspabi_mpyd)
-                  000104e6    0000009e                            : fltlid.c.obj (.text:__mspabi_fltlid)
-                  00010584    0000008e     main.obj (.text:main)
-                  00010612    00000066     rts430x_lc_rd_eabi.lib : fixdli.c.obj (.text:__mspabi_fixdli)
-                  00010678    00000054                            : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  000106cc    0000003e                            : asr32.asm.obj (.text:l_asr_const)
-                  0001070a    0000003e                            : lsl32.asm.obj (.text:l_lsl_const)
-                  00010748    0000003e                            : lsr32.asm.obj (.text:l_lsr_const)
-                  00010786    00000034     gpio.obj (.text:GPIO_setAsInputPin)
-                  000107ba    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
-                  000107e2    00000028     rts430x_lc_rd_eabi.lib : fixdi.c.obj (.text:__mspabi_fixdi)
-                  0001080a    00000024                            : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  0001082e    00000024                            : mult32_f5hw.asm.obj (.text)
-                  00010852    00000020     wdt_a.obj (.text:WDT_A_hold)
-                  00010872    0000001c     gpio.obj (.text:GPIO_getInputPinValue)
-                  0001088e    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
-                  000108aa    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
-                  000108c6    00000010     rts430x_lc_rd_eabi.lib : lsr32.asm.obj (.text:l_lsr)
-                  000108d6    0000000c                            : fltid.c.obj (.text:__mspabi_fltid)
-                  000108e2    00000006                            : exit.c.obj (.text:abort)
-                  000108e8    00000004                            : pre_init.c.obj (.text:_system_pre_init)
-                  000108ec    00000002                            : startup.c.obj (.text:_system_post_cinit)
+.text      0    00010000    00000b06     
+                  00010000    000000ea     HD44780.obj (.text:HD44780_begin)
+                  000100ea    000000be     StateMachine.obj (.text:fn_alarme2)
+                  000101a8    000000be     StateMachine.obj (.text:fn_tmpAberto)
+                  00010266    000000bc     StateMachine.obj (.text:fn_alarme1)
+                  00010322    000000bc     StateMachine.obj (.text:fn_alarme3)
+                  000103de    00000096     Display.obj (.text:displaySetState)
+                  00010474    00000082     StateMachine.obj (.text:fn_off)
+                  000104f6    0000006e     main.obj (.text:main)
+                  00010564    00000056     Display.obj (.text:getButtonFlag)
+                  000105ba    00000054     rts430x_lc_rd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  0001060e    00000052     HD44780.obj (.text:HD44780_init)
+                  00010660    0000004c     HD44780.obj (.text:HD44780_write4bits)
+                  000106ac    0000004a     HD44780.obj (.text:HD44780_setCursor)
+                  000106f6    00000046     HD44780.obj (.text:HD44780_pulseEnable)
+                  0001073c    0000003e     gpio.obj (.text:GPIO_setAsInputPinWithPullDownResistor)
+                  0001077a    00000038     main.obj (.text:GPIO_Config)
+                  000107b2    00000034     gpio.obj (.text:GPIO_setAsInputPin)
+                  000107e6    00000034     Display.obj (.text:displayUpdate)
+                  0001081a    00000030     gpio.obj (.text:GPIO_getInterruptStatus)
+                  0001084a    0000002e     gpio.obj (.text:GPIO_selectInterruptEdge)
+                  00010878    0000002c     rts430x_lc_rd_eabi.lib : div16s.asm.obj (.text)
+                  000108a4    0000002a     HD44780.obj (.text:HD44780_send)
+                  000108ce    0000002a     StateMachine.obj (.text:initStateMachine)
+                  000108f8    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
+                  00010920    00000024     rts430x_lc_rd_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00010944    00000020     wdt_a.obj (.text:WDT_A_hold)
+                  00010964    00000020     Display.obj (.text:displayTurnOn)
+                  00010984    0000001e     gpio.obj (.text:GPIO_clearInterrupt)
+                  000109a2    0000001e     gpio.obj (.text:GPIO_enableInterrupt)
+                  000109c0    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
+                  000109dc    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
+                  000109f8    0000001c     Display.obj (.text:displayClear)
+                  00010a14    0000001a     HD44780.obj (.text:HD44780_print_string)
+                  00010a2e    0000001a     Display.obj (.text:initDisplay)
+                  00010a48    00000018     port_HD44780.obj (.text:delayMicroseconds)
+                  00010a60    00000016     rts430x_lc_rd_eabi.lib : div16u.asm.obj (.text)
+                  00010a76    00000014     port_HD44780.obj (.text:digitalWrite)
+                  00010a8a    00000014     port_HD44780.obj (.text:pinMode)
+                  00010a9e    00000012     rts430x_lc_rd_eabi.lib : strcpy.c.obj (.text:strcpy)
+                  00010ab0    00000010     HD44780.obj (.text:HD44780_clear)
+                  00010ac0    00000010     HD44780.obj (.text:HD44780_display)
+                  00010ad0    00000010     StateMachine.obj (.text:exeStateMachine)
+                  00010ae0    0000000a     rts430x_lc_rd_eabi.lib : lsr16.asm.obj (.text)
+                  00010aea    00000008     HD44780.obj (.text:HD44780_command)
+                  00010af2    00000008     HD44780.obj (.text:HD44780_write)
+                  00010afa    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
+                  00010b00    00000004                            : pre_init.c.obj (.text:_system_pre_init)
+                  00010b04    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
        Module                 code   ro data   rw data
        ------                 ----   -------   -------
-    ./IO/
-       main.obj               142    0         4      
+    ./
+       main.obj               222    2         66     
     +--+----------------------+------+---------+---------+
-       Total:                 142    0         4      
+       Total:                 222    2         66     
+                                                      
+    ./Display/
+       StateMachine.obj       944    46        0      
+       Display.obj            374    10        0      
+    +--+----------------------+------+---------+---------+
+       Total:                 1318   56        0      
+                                                      
+    ./Display/HD44780/
+       HD44780.obj            652    8         0      
+       port_HD44780.obj       64     0         0      
+    +--+----------------------+------+---------+---------+
+       Total:                 716    8         0      
                                                       
     ./driverlib/MSP430F5xx_6xx/
-       gpio.obj               176    28        0      
+       gpio.obj               364    28        0      
        wdt_a.obj              32     0         0      
     +--+----------------------+------+---------+---------+
-       Total:                 208    28        0      
+       Total:                 396    28        0      
                                                       
     /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/lib/rts430x_lc_rd_eabi.lib
-       frcmpyd.c.obj          640    0         0      
-       mpyd.c.obj             614    0         0      
-       fltlid.c.obj           158    0         0      
-       fixdli.c.obj           102    0         0      
        autoinit.c.obj         84     0         0      
-       lsr32.asm.obj          78     0         0      
-       asr32.asm.obj          62     0         0      
-       lsl32.asm.obj          62     0         0      
-       fixdi.c.obj            40     0         0      
+       div16s.asm.obj         44     0         0      
        copy_zero_init.c.obj   36     0         0      
-       mult32_f5hw.asm.obj    36     0         0      
        boot.c.obj             28     2         0      
-       fltid.c.obj            12     0         0      
+       div16u.asm.obj         22     0         0      
+       strcpy.c.obj           18     0         0      
+       lsr16.asm.obj          10     0         0      
        isr_trap.asm.obj       8      0         0      
        exit.c.obj             6      0         0      
        pre_init.c.obj         4      0         0      
        int41.asm.obj          0      2         0      
-       int42.asm.obj          0      2         0      
        int43.asm.obj          0      2         0      
        int44.asm.obj          0      2         0      
        int45.asm.obj          0      2         0      
@@ -277,23 +311,23 @@ MODULE SUMMARY
        int62.asm.obj          0      2         0      
        startup.c.obj          2      0         0      
     +--+----------------------+------+---------+---------+
-       Total:                 1972   46        0      
+       Total:                 262    44        0      
                                                       
        Stack:                 0      0         160    
        Linker Generated:      0      18        0      
     +--+----------------------+------+---------+---------+
-       Grand Total:           2322   92        164    
+       Grand Total:           2914   156       226    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000444a records: 1, size/record: 8, table size: 8
-	.bss: load addr=00004440, load size=00000006 bytes, run addr=00002400, run size=00000004 bytes, compression=zero_init
+__TI_cinit_table @ 000044c2 records: 1, size/record: 8, table size: 8
+	.bss: load addr=000044b8, load size=00000006 bytes, run addr=00002400, run size=00000042 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00004446 records: 1, size/record: 4, table size: 4
+__TI_handler_table @ 000044be records: 1, size/record: 4, table size: 4
 	index: 0, handler: __TI_zero_init
 
 
@@ -383,7 +417,7 @@ address   name
 00000732  ADC12MEM9                              
 00000733  ADC12MEM9_H                            
 00000732  ADC12MEM9_L                            
-000108e2  C$$EXIT                                
+00010afa  C$$EXIT                                
 000008c0  CBCTL0                                 
 000008c1  CBCTL0_H                               
 000008c0  CBCTL0_L                               
@@ -469,11 +503,28 @@ address   name
 00000146  FCTL4                                  
 00000147  FCTL4_H                                
 00000146  FCTL4_L                                
-00010872  GPIO_getInputPinValue                  
-00010786  GPIO_setAsInputPin                     
-000107ba  GPIO_setAsOutputPin                    
-0001088e  GPIO_setOutputHighOnPin                
-000108aa  GPIO_setOutputLowOnPin                 
+0001077a  GPIO_Config                            
+00010984  GPIO_clearInterrupt                    
+000109a2  GPIO_enableInterrupt                   
+0001081a  GPIO_getInterruptStatus                
+0001084a  GPIO_selectInterruptEdge               
+000107b2  GPIO_setAsInputPin                     
+0001073c  GPIO_setAsInputPinWithPullDownResistor 
+000108f8  GPIO_setAsOutputPin                    
+000109c0  GPIO_setOutputHighOnPin                
+000109dc  GPIO_setOutputLowOnPin                 
+00010000  HD44780_begin                          
+00010ab0  HD44780_clear                          
+00010aea  HD44780_command                        
+00010ac0  HD44780_display                        
+0001060e  HD44780_init                           
+00010af2  HD44780_print_byte                     
+00010a14  HD44780_print_string                   
+000106f6  HD44780_pulseEnable                    
+000108a4  HD44780_send                           
+000106ac  HD44780_setCursor                      
+00010af2  HD44780_write                          
+00010660  HD44780_write4bits                     
 000004c4  MAC                                    
 000004da  MAC32H                                 
 000004db  MAC32H_H                               
@@ -653,6 +704,7 @@ address   name
 0000012e  PMMRIE                                 
 0000012f  PMMRIE_H                               
 0000012e  PMMRIE_L                               
+00004400  Port_1                                 
 00000158  RCCTL0                                 
 00000159  RCCTL0_H                               
 00000158  RCCTL0_L                               
@@ -1055,16 +1107,15 @@ address   name
 0000015c  WDTCTL                                 
 0000015d  WDTCTL_H                               
 0000015c  WDTCTL_L                               
-00010852  WDT_A_hold                             
+00010944  WDT_A_hold                             
 00004400  __STACK_END                            
 000000a0  __STACK_SIZE                           
-0000444a  __TI_CINIT_Base                        
-00004452  __TI_CINIT_Limit                       
-00004446  __TI_Handler_Table_Base                
-0000444a  __TI_Handler_Table_Limit               
-0000441c  __TI_ISR_TRAP                          
-00010678  __TI_auto_init_nobinit_nopinit_hold_wdt
-00010000  __TI_frcmpyd                           
+000044c2  __TI_CINIT_Base                        
+000044ca  __TI_CINIT_Limit                       
+000044be  __TI_Handler_Table_Base                
+000044c2  __TI_Handler_Table_Limit               
+00004454  __TI_ISR_TRAP                          
+000105ba  __TI_auto_init_nobinit_nopinit_hold_wdt
 0000ffd2  __TI_int41                             
 0000ffd4  __TI_int42                             
 0000ffd6  __TI_int43                             
@@ -1090,69 +1141,34 @@ address   name
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
-0001080a  __TI_zero_init_nomemset                
+00010920  __TI_zero_init_nomemset                
 ffffffff  __c_args__                             
-000107e2  __mspabi_fixdi                         
-00010612  __mspabi_fixdli                        
-000108d6  __mspabi_fltid                         
-000104e6  __mspabi_fltlid                        
-00010280  __mspabi_mpyd                          
-0001082e  __mspabi_mpyl_f5hw                     
-00010742  __mspabi_slll_1                        
-0001071e  __mspabi_slll_10                       
-0001071a  __mspabi_slll_11                       
-00010716  __mspabi_slll_12                       
-00010712  __mspabi_slll_13                       
-0001070e  __mspabi_slll_14                       
-0001070a  __mspabi_slll_15                       
-0001073e  __mspabi_slll_2                        
-0001073a  __mspabi_slll_3                        
-00010736  __mspabi_slll_4                        
-00010732  __mspabi_slll_5                        
-0001072e  __mspabi_slll_6                        
-0001072a  __mspabi_slll_7                        
-00010726  __mspabi_slll_8                        
-00010722  __mspabi_slll_9                        
-00010704  __mspabi_sral_1                        
-000106e0  __mspabi_sral_10                       
-000106dc  __mspabi_sral_11                       
-000106d8  __mspabi_sral_12                       
-000106d4  __mspabi_sral_13                       
-000106d0  __mspabi_sral_14                       
-000106cc  __mspabi_sral_15                       
-00010700  __mspabi_sral_2                        
-000106fc  __mspabi_sral_3                        
-000106f8  __mspabi_sral_4                        
-000106f4  __mspabi_sral_5                        
-000106f0  __mspabi_sral_6                        
-000106ec  __mspabi_sral_7                        
-000106e8  __mspabi_sral_8                        
-000106e4  __mspabi_sral_9                        
-000108c6  __mspabi_srll                          
-00010780  __mspabi_srll_1                        
-0001075c  __mspabi_srll_10                       
-00010758  __mspabi_srll_11                       
-00010754  __mspabi_srll_12                       
-00010750  __mspabi_srll_13                       
-0001074c  __mspabi_srll_14                       
-00010748  __mspabi_srll_15                       
-0001077c  __mspabi_srll_2                        
-00010778  __mspabi_srll_3                        
-00010774  __mspabi_srll_4                        
-00010770  __mspabi_srll_5                        
-0001076c  __mspabi_srll_6                        
-00010768  __mspabi_srll_7                        
-00010764  __mspabi_srll_8                        
-00010760  __mspabi_srll_9                        
-00004400  _c_int00_noargs                        
+00010878  __mspabi_divi                          
+00010a60  __mspabi_divu                          
+00010878  __mspabi_remi                          
+00010a60  __mspabi_remu                          
+00010ae0  __mspabi_srli                          
+00004438  _c_int00_noargs                        
 0000fffe  _reset_vector                          
 00004360  _stack                                 
-000108ec  _system_post_cinit                     
-000108e8  _system_pre_init                       
-000108e2  abort                                  
-00002400  distance_cm                            
-00002402  echo_pulse_duration                    
-00010584  main                                   
+00010b04  _system_post_cinit                     
+00010b00  _system_pre_init                       
+00010afa  abort                                  
+00010a48  delayMicroseconds                      
+00010a76  digitalWrite                           
+00002400  display                                
+000109f8  displayClear                           
+000103de  displaySetState                        
+00010964  displayTurnOn                          
+000107e6  displayUpdate                          
+00010ad0  exeStateMachine                        
+00010564  getButtonFlag                          
+00010a2e  initDisplay                            
+000108ce  initStateMachine                       
+000104f6  main                                   
+00010a8a  pinMode                                
+00010a9e  strcpy                                 
+00002434  theHD44780                             
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1908,16 +1924,17 @@ address   name
 000023fd  USBIEPBBAY_7                           
 000023fe  USBIEPBCTY_7                           
 000023ff  USBIEPSIZXY_7                          
-00002400  distance_cm                            
-00002402  echo_pulse_duration                    
+00002400  display                                
+00002434  theHD44780                             
 00004360  _stack                                 
+00004400  Port_1                                 
 00004400  __STACK_END                            
-00004400  _c_int00_noargs                        
-0000441c  __TI_ISR_TRAP                          
-00004446  __TI_Handler_Table_Base                
-0000444a  __TI_CINIT_Base                        
-0000444a  __TI_Handler_Table_Limit               
-00004452  __TI_CINIT_Limit                       
+00004438  _c_int00_noargs                        
+00004454  __TI_ISR_TRAP                          
+000044be  __TI_Handler_Table_Base                
+000044c2  __TI_CINIT_Base                        
+000044c2  __TI_Handler_Table_Limit               
+000044ca  __TI_CINIT_Limit                       
 0000ffd2  __TI_int41                             
 0000ffd4  __TI_int42                             
 0000ffd6  __TI_int43                             
@@ -1941,75 +1958,56 @@ address   name
 0000fffa  __TI_int61                             
 0000fffc  __TI_int62                             
 0000fffe  _reset_vector                          
-00010000  __TI_frcmpyd                           
-00010280  __mspabi_mpyd                          
-000104e6  __mspabi_fltlid                        
-00010584  main                                   
-00010612  __mspabi_fixdli                        
-00010678  __TI_auto_init_nobinit_nopinit_hold_wdt
-000106cc  __mspabi_sral_15                       
-000106d0  __mspabi_sral_14                       
-000106d4  __mspabi_sral_13                       
-000106d8  __mspabi_sral_12                       
-000106dc  __mspabi_sral_11                       
-000106e0  __mspabi_sral_10                       
-000106e4  __mspabi_sral_9                        
-000106e8  __mspabi_sral_8                        
-000106ec  __mspabi_sral_7                        
-000106f0  __mspabi_sral_6                        
-000106f4  __mspabi_sral_5                        
-000106f8  __mspabi_sral_4                        
-000106fc  __mspabi_sral_3                        
-00010700  __mspabi_sral_2                        
-00010704  __mspabi_sral_1                        
-0001070a  __mspabi_slll_15                       
-0001070e  __mspabi_slll_14                       
-00010712  __mspabi_slll_13                       
-00010716  __mspabi_slll_12                       
-0001071a  __mspabi_slll_11                       
-0001071e  __mspabi_slll_10                       
-00010722  __mspabi_slll_9                        
-00010726  __mspabi_slll_8                        
-0001072a  __mspabi_slll_7                        
-0001072e  __mspabi_slll_6                        
-00010732  __mspabi_slll_5                        
-00010736  __mspabi_slll_4                        
-0001073a  __mspabi_slll_3                        
-0001073e  __mspabi_slll_2                        
-00010742  __mspabi_slll_1                        
-00010748  __mspabi_srll_15                       
-0001074c  __mspabi_srll_14                       
-00010750  __mspabi_srll_13                       
-00010754  __mspabi_srll_12                       
-00010758  __mspabi_srll_11                       
-0001075c  __mspabi_srll_10                       
-00010760  __mspabi_srll_9                        
-00010764  __mspabi_srll_8                        
-00010768  __mspabi_srll_7                        
-0001076c  __mspabi_srll_6                        
-00010770  __mspabi_srll_5                        
-00010774  __mspabi_srll_4                        
-00010778  __mspabi_srll_3                        
-0001077c  __mspabi_srll_2                        
-00010780  __mspabi_srll_1                        
-00010786  GPIO_setAsInputPin                     
-000107ba  GPIO_setAsOutputPin                    
-000107e2  __mspabi_fixdi                         
-0001080a  __TI_zero_init_nomemset                
-0001082e  __mspabi_mpyl_f5hw                     
-00010852  WDT_A_hold                             
-00010872  GPIO_getInputPinValue                  
-0001088e  GPIO_setOutputHighOnPin                
-000108aa  GPIO_setOutputLowOnPin                 
-000108c6  __mspabi_srll                          
-000108d6  __mspabi_fltid                         
-000108e2  C$$EXIT                                
-000108e2  abort                                  
-000108e8  _system_pre_init                       
-000108ec  _system_post_cinit                     
+00010000  HD44780_begin                          
+000103de  displaySetState                        
+000104f6  main                                   
+00010564  getButtonFlag                          
+000105ba  __TI_auto_init_nobinit_nopinit_hold_wdt
+0001060e  HD44780_init                           
+00010660  HD44780_write4bits                     
+000106ac  HD44780_setCursor                      
+000106f6  HD44780_pulseEnable                    
+0001073c  GPIO_setAsInputPinWithPullDownResistor 
+0001077a  GPIO_Config                            
+000107b2  GPIO_setAsInputPin                     
+000107e6  displayUpdate                          
+0001081a  GPIO_getInterruptStatus                
+0001084a  GPIO_selectInterruptEdge               
+00010878  __mspabi_divi                          
+00010878  __mspabi_remi                          
+000108a4  HD44780_send                           
+000108ce  initStateMachine                       
+000108f8  GPIO_setAsOutputPin                    
+00010920  __TI_zero_init_nomemset                
+00010944  WDT_A_hold                             
+00010964  displayTurnOn                          
+00010984  GPIO_clearInterrupt                    
+000109a2  GPIO_enableInterrupt                   
+000109c0  GPIO_setOutputHighOnPin                
+000109dc  GPIO_setOutputLowOnPin                 
+000109f8  displayClear                           
+00010a14  HD44780_print_string                   
+00010a2e  initDisplay                            
+00010a48  delayMicroseconds                      
+00010a60  __mspabi_divu                          
+00010a60  __mspabi_remu                          
+00010a76  digitalWrite                           
+00010a8a  pinMode                                
+00010a9e  strcpy                                 
+00010ab0  HD44780_clear                          
+00010ac0  HD44780_display                        
+00010ad0  exeStateMachine                        
+00010ae0  __mspabi_srli                          
+00010aea  HD44780_command                        
+00010af2  HD44780_print_byte                     
+00010af2  HD44780_write                          
+00010afa  C$$EXIT                                
+00010afa  abort                                  
+00010b00  _system_pre_init                       
+00010b04  _system_post_cinit                     
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
 ffffffff  __c_args__                             
 
-[852 symbols]
+[834 symbols]
