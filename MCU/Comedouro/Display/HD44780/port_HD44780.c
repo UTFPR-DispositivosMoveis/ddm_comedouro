@@ -2,7 +2,22 @@
  * port_HD44780.c
  *
  *  Created on: 3 de out de 2018
- *      Author: raul
+ *      Author: Raul Scarmocin (raulsfreitas@alunos.utfpr.edu.br)
+ *
+ *      HD44780 faz uso das seguintes funções:
+ *
+ *      (altere as seguintes funções genéricas para tornar funcional no microcontrolador desejado)
+ *
+ *      pinMode(porta, pino, modo)  // Altera o pino de uma porta para modo OUTPUT (saida) ou INPUT (entrada)
+ *      digitalWrite(porta, pino, set) // Escreve no pino da porta como nivel alto (HIGH) ou baixo (LOW)
+ *      digitalRead(porta, pino)    // Lê o nível lógico da porta, retornando HIGH ou LOW
+ *      delayMicroseconds(delay)    // faz uso do timer para causar um delay BLOQUEANTE em microsegundos
+ *
+ *      (as seguintes não precisa alterar)
+ *
+ *      delayMilliseconds(delay)    // faz uso de delayMicroseconds() para causar um delay em millisegundos
+ *      delayMicrosecondszz(delay)  //delay em microseconds com interrupção (não utilizado)
+ *      delayMillisecondszz(delay)    // faz uso de delayMicrosecondszz() para causar um delay em millisegundos
  */
 
 #include "port_HD44780.h"
