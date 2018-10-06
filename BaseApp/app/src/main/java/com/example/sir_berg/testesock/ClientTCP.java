@@ -1,65 +1,60 @@
 package com.example.sir_berg.testesock;
 
-import android.content.Context;
+
+import android.app.Activity;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.DataOutputStream;
 import java.io.OutputStream;
+import java.io.InputStream;
 import java.net.Socket;
-import java.util.concurrent.Semaphore;
 
 public class ClientTCP{
-    private Semaphore control;
-    private String buffer;
     private Socket sock; // Descritor de socket.
     private OutputStream out; // Saida de bytes
+    private InputStream in;
+    private String con = "";
 
-    public ClientTCP(String ip, int porta, final MainActivity context, String buffer){
+    public ClientTCP(String ip, int porta, final Activity context){
         try {
             this.sock = new Socket(ip, porta);
-            out = new DataOutputStream(sock.getOutputStream());
-            this.buffer = buffer;
-            out.write(this.buffer.getBytes());
-            out.flush();
+            this.out = sock.getOutputStream();
+            this.in  = sock.getInputStream();
         }catch (Exception ex) {
-            context.runOnUiThread( new Thread() {
-                public void run() {
-                    Toast.makeText(context, "Deu erro desconhecido!!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            con = "failCon";
         }
     }
 
-    public void ClientClose(final MainActivity context){
+    public String getCon(){
+        return this.con;
+    }
+
+    public String ClientSendReq(String requisicao){
+
+        String resp = "";
+
+        try {
+            this.out.write(requisicao.getBytes()); // Manda a requisicao.
+
+            int bytesRead;
+
+            while(( bytesRead = in.read() ) != -1){
+                resp += (char) bytesRead;
+            }
+
+        }catch (Exception ex){
+            resp = "fail";
+        }
+
+        return resp;
+    }
+
+    public void ClientClose(){
         try {
             this.sock.close();
         }catch (Exception e){
-            context.runOnUiThread( new Thread() {
-                public void run() {
-                    Toast.makeText(context, "Deu erro desconhecido!!", Toast.LENGTH_SHORT).show();
-//                    Button bt = context.getBtConectar();
-//                    bt.setEnabled(true);
-                }
-            });
+
         }
     }
 
-    public void flush(final MainActivity context){
-        try {
-            out.write(buffer.getBytes());
-        }catch (Exception ex){
-            context.runOnUiThread( new Thread() {
-                public void run() {
-                    Toast.makeText(context, "Deu erro desconhecido!!", Toast.LENGTH_SHORT).show();
-//                    Button bt = context.getBtConectar();
-//                    bt.setEnabled(true);
-                }
-            });
-        }
-    }
-
-    public void setBuffer(String buffer){
-        this.buffer = buffer;
-    }
 }

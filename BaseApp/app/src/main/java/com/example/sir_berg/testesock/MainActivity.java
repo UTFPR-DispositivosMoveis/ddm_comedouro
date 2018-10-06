@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,12 +20,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvRacao;
     private TextView tvHora;
 
-    private Integer alturaRacao;
-    private Integer nivelBateria;
+    private Integer alturaRacao = 0;
+    private Integer nivelBateria = 0;
 
     private Integer hora1 = -1;
     private Integer hora2 = -1;
     private Integer hora3 = -1;
+
+    private String ip = "192.168.4.1";
+    private int porta = 12345;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
         btConfigurar = (Button) findViewById(R.id.btConfigurar);
         btManual = (Button) findViewById(R.id.btManual);
+
+        tvBateria = (TextView) findViewById(R.id.tvBateria);
+        tvRacao = (TextView) findViewById(R.id.tvRacao);
         tvHora = (TextView) findViewById(R.id.tvHora);
 
-        tvHora.setText(this.makeHora());
+        Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "ma getstatus"));
+        thread.start();
     }
 
     public void btConfigurarOnClick(View view){
@@ -43,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra( "hora1", hora1);
         i.putExtra( "hora2", hora2);
         i.putExtra( "hora3", hora3);
+        i.putExtra("ip", this.ip);
+        i.putExtra("porta", this.porta);
         startActivityForResult(i, 0);
     }
 
@@ -85,36 +95,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btAtualizarOnClick(View view){
+        Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "ma getstatus"));
+        thread.start();
+    }
 
-        /*Cria o Cliente TCP como uma tarefa em background.*/
-//        Thread threadClient = new Thread(new RunClient("172.20.220.247", 12345, this, etTexto.getText().toString()));
-//        threadClient.start();
+    /**
+     * getstatus: Ordem de recebimento
+     * hora1 hora2 hora3 alturaRacao nivelBateria
+     **/
+    public void setStatus(int hora1, int hora2, int hora3, int alturaRacao, int nivelBateria){
+        this.hora1 = hora1;
+        this.hora2 = hora2;
+        this.hora3 = hora3;
+        this.alturaRacao = alturaRacao;
+        this.nivelBateria = nivelBateria;
+
+        tvBateria.setText("Bateria: " + String.format("%02d", nivelBateria) + "%");
+        tvRacao.setText("Nível Ração: " + String.format("%02d", alturaRacao) + "%");
+        tvHora.setText(makeHora());
+    }
+
+    public void setStatusNotConnect(){
+        Toast.makeText(this, "Servidor não disponível!!", Toast.LENGTH_SHORT).show();
+        tvHora.setText(makeHora());
     }
 
     public Button getBtConfigurar() {
         return btConfigurar;
-    }
-
-    class RunClient implements Runnable{
-        private String ip;
-        private int porta;
-        private MainActivity context;
-        private ClientTCP cli;
-        private String msg;
-
-        public RunClient(String ip, int porta, MainActivity context, String msg){
-            this.ip = ip;
-            this.porta = porta;
-            this.context = context;
-            this.msg = msg;
-        }
-
-        @Override
-        public void run() {
-            cli = new ClientTCP(this.ip, this.porta, context, this.msg);
-            //  ok = send
-            // string = recive
-            cli.ClientClose(context);
-        }
     }
 }

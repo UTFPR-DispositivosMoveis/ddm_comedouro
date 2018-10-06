@@ -18,6 +18,8 @@ public class Configuracao extends AppCompatActivity {
     private TextView tvHora1, tvHora2, tvHora3;
     private int hora, hora1, hora2, hora3;
     private Spinner spHora;
+    private Integer porta;
+    private String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class Configuracao extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(Configuracao.this, "Nehuma hora selecionada!", Toast.LENGTH_LONG).show();
+                Toast.makeText(Configuracao.this, "Nenhuma hora selecionada!", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -55,6 +57,9 @@ public class Configuracao extends AppCompatActivity {
         hora1 = i.getIntExtra("hora1", -1);
         hora2 = i.getIntExtra("hora2", -1);
         hora3 = i.getIntExtra("hora3", -1);
+
+        ip = i.getStringExtra("ip");
+        porta = i.getIntExtra("porta", 12345);
 
         tvHora1.setText(makeHora(hora1,1));
         tvHora2.setText(makeHora(hora2,2));
@@ -71,14 +76,49 @@ public class Configuracao extends AppCompatActivity {
         return aux;
     }
 
+    public void setHora(int hora, int indice){
+        switch (indice){
+            case 1:
+                this.hora1 = hora;
+                tvHora1.setText(makeHora(hora, 1));
+                break;
+            case 2:
+                this.hora2 = hora;
+                tvHora2.setText(makeHora(hora, 2));
+                break;
+            case 3:
+                this.hora3 = hora;
+                tvHora3.setText(makeHora(hora, 3));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void setHoraErro(){
+        Toast.makeText(this, "Não foi possível conectar ao servidor!!", Toast.LENGTH_SHORT).show();
+    }
+
     public void btSalvar(View view) {
 
         String horaFormatada = hora1 +"h00 \nTratar: " + hora2 +"h00 \nTratar: " +hora3+"h00 \n";
         Intent i = getIntent();
 
-        // enviar para rede e validar o recebimento
-        // usar função do wall
-        // mostrar o resultado
+        Toast.makeText(this, horaFormatada,
+                Toast.LENGTH_LONG).show();
+        i.putExtra( "hora1", hora1);
+        i.putExtra( "hora2", hora2);
+        i.putExtra( "hora3", hora3);
+        setResult( 0, i );
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String horaFormatada = hora1 +"h00 \nTratar: " + hora2 +"h00 \nTratar: " +hora3+"h00 \n";
+        Intent i = getIntent();
+
         Toast.makeText(this, horaFormatada,
                 Toast.LENGTH_LONG).show();
         i.putExtra( "hora1", hora1);
@@ -90,28 +130,29 @@ public class Configuracao extends AppCompatActivity {
 
     public void btSet1(View view) {
         if(hora == -1){
-            hora1 = hora;
-            tvHora1.setText("Tratar 1: desativado!");
+            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora -1 1"));
+            thread.start();
             return;
         }else{
             if(hora != hora2 && hora != hora3) {
-                hora1 = hora;
-                tvHora1.setText("Tratar 1: " + hora + "h00");
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 1"));
+                thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",
                         Toast.LENGTH_LONG).show();
             }
         }
     }
+
     public void btSet2(View view) {
         if(hora==-1){
-            hora2 = hora;
-            tvHora2.setText("Tratar 2: desativado!");
+            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora -1 2"));
+            thread.start();
             return;
         }else{
             if(hora!=hora1 && hora!=hora3) {
-                hora2 = hora;
-                tvHora2.setText("Tratar 2: " + hora + "h00");
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 2"));
+                thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",
                         Toast.LENGTH_LONG).show();
@@ -120,13 +161,13 @@ public class Configuracao extends AppCompatActivity {
     }
     public void btSet3(View view) {
         if(hora==-1){
-            hora3 = hora;
-            tvHora3.setText("Tratar 3: desativado!");
+            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora -1 3"));
+            thread.start();
             return;
         }else{
             if(hora != hora2 && hora != hora1) {
-                hora3 = hora;
-                tvHora3.setText("Tratar 3: " + hora + "h00");
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 3"));
+                thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",
                         Toast.LENGTH_LONG).show();
