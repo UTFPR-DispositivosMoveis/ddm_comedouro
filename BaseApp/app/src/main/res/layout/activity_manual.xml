@@ -7,17 +7,40 @@
     android:orientation="vertical"
     tools:context=".Manual">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tempo de abertura:"
+            android:textSize="30dp"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/spTempo"
+            android:textSize="30dp">
+
+        </Spinner>
+
+    </LinearLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tratar"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:onClick="btTratar"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Buzzer"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:onClick="btBuzzer"/>
 
 
 </LinearLayout>

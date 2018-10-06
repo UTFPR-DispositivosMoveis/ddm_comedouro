@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
     private Integer alturaRacao;
     private Integer nivelBateria;
 
+    private Integer hora1 = -1;
+    private Integer hora2 = -1;
+    private Integer hora3 = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +34,15 @@ public class MainActivity extends AppCompatActivity {
         btConfigurar = (Button) findViewById(R.id.btConfigurar);
         btManual = (Button) findViewById(R.id.btManual);
         tvHora = (TextView) findViewById(R.id.tvHora);
-        //btEnviar.setEnabled(false);
-        //tvHora =
 
+        tvHora.setText(this.makeHora());
     }
 
     public void btConfigurarOnClick(View view){
         Intent i = new Intent(this, Configuracao.class);
-        i.putExtra( "hora", tvHora.getText().toString());
+        i.putExtra( "hora1", hora1);
+        i.putExtra( "hora2", hora2);
+        i.putExtra( "hora3", hora3);
         startActivityForResult(i, 0);
     }
 
@@ -45,28 +50,45 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if ( data != null){
-            String hora = data.getStringExtra( "hora" );
-            tvHora.setText("Tratar: "+ hora );
+            hora1 = data.getIntExtra("hora1", -1);
+            hora2 = data.getIntExtra("hora2", -1);
+            hora3 = data.getIntExtra("hora3", -1);
+            tvHora.setText(makeHora());
         }
     }
 
+    private String makeHora(){
+        String aux="";
+        if(hora1 == -1){
+            aux = aux + "Tratar 1: desativado!\n";
+        }else{
+            aux = aux + "Tratar 1: " + String.format("%02d", hora1)+ "h00\n";
+        }
+
+        if(hora2 == -1){
+            aux = aux + "Tratar 2: desativado!\n";
+        }else{
+            aux = aux + "Tratar 2: " + String.format("%02d", hora2)+ "h00\n";
+        }
+
+        if(hora3 == -1){
+            aux = aux + "Tratar 3: desativado!\n";
+        }else{
+            aux = aux + "Tratar 3: " + String.format("%02d", hora3)+ "h00";
+        }
+        return aux;
+    }
+
     public void btManualOnClick(View view) {
-
-        /**
-         * Conecta, enviar e desconecta.
-         */
-        /*btConectar.setEnabled(false);
-        btEnviar.setEnabled(true);*/
-
-        Intent i = new Intent(this, Configuracao.class);
+        Intent i = new Intent(this, Manual.class);
         startActivity(i);
     }
 
     public void btAtualizarOnClick(View view){
 
         /*Cria o Cliente TCP como uma tarefa em background.*/
-        Thread threadClient = new Thread(new RunClient("172.20.220.247", 12345, this, etTexto.getText().toString()));
-        threadClient.start();
+//        Thread threadClient = new Thread(new RunClient("172.20.220.247", 12345, this, etTexto.getText().toString()));
+//        threadClient.start();
     }
 
     public Button getBtConfigurar() {
