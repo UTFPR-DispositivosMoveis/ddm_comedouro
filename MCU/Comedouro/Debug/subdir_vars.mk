@@ -6,22 +6,4 @@
 CMD_SRCS += \
 ../lnk_msp430f5529.cmd 
 
-C_SRCS += \
-../main.c 
-
-C_DEPS += \
-./main.d 
-
-OBJS += \
-./main.obj 
-
-OBJS__QUOTED += \
-"main.obj" 
-
-C_DEPS__QUOTED += \
-"main.d" 
-
-C_SRCS__QUOTED += \
-"../main.c" 
-
 
