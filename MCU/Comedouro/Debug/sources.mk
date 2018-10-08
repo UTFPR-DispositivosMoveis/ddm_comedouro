@@ -114,6 +114,10 @@ SUBDIRS := \
 . \
 Display \
 Display/HD44780 \
+IO/Buzzer \
 IO \
+IO/Motor \
+IO/SR04 \
+Parser \
 driverlib/MSP430F5xx_6xx \
 
