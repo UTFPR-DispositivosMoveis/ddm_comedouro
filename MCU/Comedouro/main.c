@@ -15,15 +15,6 @@ Timer_B_initContinuousModeParam param = {0};
 uint8_t state = 0;
 Display_Interface_t display;
 
-
-void GPIO_Config(){
-    GPIO_setAsOutputPin(DISPLAY_PORT, LED_PIN);
-    GPIO_setAsInputPinWithPullDownResistor(BUTTON_PORT, PREV_PIN | NEXT_PIN | INC_PIN | DEC_PIN | OK_PIN);
-    GPIO_enableInterrupt(BUTTON_PORT, PREV_PIN | NEXT_PIN | INC_PIN | DEC_PIN | OK_PIN);
-    GPIO_selectInterruptEdge(BUTTON_PORT, PREV_PIN | NEXT_PIN | INC_PIN | DEC_PIN | OK_PIN, GPIO_LOW_TO_HIGH_TRANSITION);
-    GPIO_clearInterrupt(BUTTON_PORT, PREV_PIN | NEXT_PIN | INC_PIN | DEC_PIN | OK_PIN);
-}
-
 void Config_BCS (uint16_t FREQ_MCLK_KHZ){
     if (FREQ_MCLK_KHZ >= 8000 && FREQ_MCLK_KHZ < 12000)
         PMM_setVCore(PMM_CORE_LEVEL_1);
@@ -62,7 +53,7 @@ void main(void){
 
     displayUpdate(&display, &theHD44780);
 
-    GPIO_Config();
+    Display_Config();
 
     __bis_SR_register(LPM3_bits + GIE);
 

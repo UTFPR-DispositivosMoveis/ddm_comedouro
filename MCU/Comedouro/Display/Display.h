@@ -60,17 +60,17 @@ typedef struct Display_Interface_t  {
     Action_t action[st_end];
 //    handler_t handler;
 
-    int var[st_end];
+    short int var[st_end];
     char *var_nome;
     char var_value[16];
 
 } Display_Interface_t;
 
-
+void Display_Config();
 void initDisplay(Display_Interface_t *display);
 void displayUpdate(Display_Interface_t *display, HD44780 *me);
 uint16_t getButtonFlag();
-void displayTurnOn(int isOn);
+void displayTurnOn(Display_Interface_t *display, int isOn);
 
 void initStateMachine(Display_Interface_t *display);
 void exeStateMachine(Display_Interface_t *display, uint16_t flag);

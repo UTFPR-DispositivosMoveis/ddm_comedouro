@@ -13,6 +13,7 @@ Display/Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS
 Display/Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/machine/_types.h
 Display/Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/machine/_stdint.h
 Display/Display.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/sys/_stdint.h
+Display/Display.obj: /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/Global_Var.h
 Display/Display.obj: /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/driverlib/MSP430F5xx_6xx/driverlib.h
 Display/Display.obj: /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h
 Display/Display.obj: /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430.h
@@ -76,6 +77,7 @@ Display/Display.obj: /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Par
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/machine/_types.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/machine/_stdint.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/sys/_stdint.h: 
+/home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/Global_Var.h: 
 /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/driverlib/MSP430F5xx_6xx/driverlib.h: 
 /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h: 
 /home/raul/ti/ccsv8/ccs_base/msp430/include/msp430.h: 
