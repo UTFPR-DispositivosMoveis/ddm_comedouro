@@ -34,6 +34,7 @@ static void fn_off(Display_Interface_t *display, uint16_t flag){
 
 
 static void fn_alarme1(Display_Interface_t *display, uint16_t flag){
+    static uint8_t minutos;
 
     switch(flag & (PREV_BIT | NEXT_BIT | INC_BIT | DEC_BIT | OK_BIT)){
     case    NEXT_BIT:
@@ -46,13 +47,25 @@ static void fn_alarme1(Display_Interface_t *display, uint16_t flag){
         return;
     case    INC_BIT:
         display->var_nome = "Alarme 1:";
-        display->var[display->state] += 100;
+
+        //INCREMENTO
+        minutos = display->var[display->state] % 100;
+        display->var[display->state] += 100 - minutos;
+
         if(display->var[display->state] > 2400)
             display->var[display->state] = 2400;
         return;
     case    DEC_BIT:
         display->var_nome = "Alarme 1:";
-        display->var[display->state] -= 100;
+
+        //DECREMENTO
+        minutos = display->var[display->state] % 100;
+        if(minutos > 0)
+            display->var[display->state] -= minutos;
+        else
+            display->var[display->state] -= 100;
+
+
         if(display->var[display->state] < -100)
             display->var[display->state] = -100;
         return;
@@ -66,6 +79,7 @@ static void fn_alarme1(Display_Interface_t *display, uint16_t flag){
 }
 
 static void fn_alarme2(Display_Interface_t *display, uint16_t flag){
+    static uint8_t minutos;
 
     switch(flag & (PREV_BIT | NEXT_BIT | INC_BIT | DEC_BIT | OK_BIT)){
     case    NEXT_BIT:
@@ -78,13 +92,25 @@ static void fn_alarme2(Display_Interface_t *display, uint16_t flag){
         return;
     case    INC_BIT:
         display->var_nome = "Alarme 2:";
-        display->var[display->state] += 100;
+
+        //INCREMENTO
+        minutos = display->var[display->state] % 100;
+        display->var[display->state] += 100 - minutos;
+
         if(display->var[display->state] > 2400)
             display->var[display->state] = 2400;
         return;
     case    DEC_BIT:
         display->var_nome = "Alarme 2:";
-        display->var[display->state] -= 100;
+
+        //DECREMENTO
+        minutos = display->var[display->state] % 100;
+        if(minutos > 0)
+            display->var[display->state] -= minutos;
+        else
+            display->var[display->state] -= 100;
+
+
         if(display->var[display->state] < -100)
             display->var[display->state] = -100;
         return;
@@ -98,6 +124,7 @@ static void fn_alarme2(Display_Interface_t *display, uint16_t flag){
 }
 
 static void fn_alarme3(Display_Interface_t *display, uint16_t flag){
+    static uint8_t minutos;
 
     switch(flag & (PREV_BIT | NEXT_BIT | INC_BIT | DEC_BIT | OK_BIT)){
     case    NEXT_BIT:
@@ -110,13 +137,25 @@ static void fn_alarme3(Display_Interface_t *display, uint16_t flag){
         return;
     case    INC_BIT:
         display->var_nome = "Alarme 3:";
-        display->var[display->state] += 100;
+
+        //INCREMENTO
+        minutos = display->var[display->state] % 100;
+        display->var[display->state] += 100 - minutos;
+
         if(display->var[display->state] > 2400)
             display->var[display->state] = 2400;
         return;
     case    DEC_BIT:
         display->var_nome = "Alarme 3:";
-        display->var[display->state] -= 100;
+
+        //DECREMENTO
+        minutos = display->var[display->state] % 100;
+        if(minutos > 0)
+            display->var[display->state] -= minutos;
+        else
+            display->var[display->state] -= 100;
+
+
         if(display->var[display->state] < -100)
             display->var[display->state] = -100;
         return;
