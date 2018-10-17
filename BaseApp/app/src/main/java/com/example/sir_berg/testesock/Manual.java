@@ -1,5 +1,6 @@
 package com.example.sir_berg.testesock;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,9 @@ public class Manual extends AppCompatActivity {
     final String tempo[] = {"5s", "10s", "15s", "20s"};
     private Integer time;
 
+    private String ip;
+    private int porta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,10 @@ public class Manual extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tempo);
         spTempo.setAdapter(adapter);
+
+        Intent i = getIntent();
+        ip = i.getStringExtra("ip");
+        porta = i.getIntExtra("porta", 12345);
 
         spTempo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -41,14 +49,30 @@ public class Manual extends AppCompatActivity {
     public void btTratar(View view){
         // funcao para abrir valvula de racao para tratar peixes
         // mostrar o resultado
-        Toast.makeText(this, "Abriu tratadouro!",
-                Toast.LENGTH_LONG).show();
-//        btTratar;
+        Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "man tratar " + time));
+        thread.start();
+    }
+
+    public void tratarOk(){
+        Toast.makeText(this, "Tratamento Ok!!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void tratarNotOk(){
+        Toast.makeText(this, "Comedouro ocupado!!", Toast.LENGTH_SHORT).show();
     }
 
     public void btBuzzer(View view){
         // funcao para ligar alerta sonoro
+        Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "man buzzer " + time));
+        thread.start();
+    }
 
+    public void buzzerOk(){
+        Toast.makeText(this, "Buzzer Ligado!!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void buzzerNotOk(){
+        Toast.makeText(this, "Buzzer ocupado!!", Toast.LENGTH_SHORT).show();
     }
 
 }

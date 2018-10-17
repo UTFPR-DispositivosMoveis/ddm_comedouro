@@ -135,7 +135,7 @@ public class Configuracao extends AppCompatActivity {
             return;
         }else{
             if(hora != hora2 && hora != hora3) {
-                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 1"));
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" l"));
                 thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",
