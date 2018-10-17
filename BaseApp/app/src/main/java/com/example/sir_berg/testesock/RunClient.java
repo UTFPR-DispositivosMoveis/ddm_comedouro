@@ -111,7 +111,37 @@ class RunClient implements Runnable{
 
             case "man":
                 final Manual auxMan = (Manual)context;
-
+                /**
+                 * Fazendo um switch case das funcoes
+                 **/
+                switch (func){
+                    case "buzzer":
+                        auxMan.runOnUiThread(new Thread(){
+                            public void run(){
+                                if(resp.equals("fail")){
+                                    auxMan.buzzerNotOk();
+                                }else{
+                                    if(resp.equals("ok")){
+                                        auxMan.buzzerOk();
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    case "tratar":
+                        auxMan.runOnUiThread(new Thread(){
+                            public void run(){
+                                if(resp.equals("fail")){
+                                    auxMan.tratarNotOk();
+                                }else{
+                                    if(resp.equals("ok")){
+                                        auxMan.tratarOk();
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                }
                 break;
 
             default:
