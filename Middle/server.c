@@ -18,7 +18,7 @@
 #define PORTA			12345
 
 int fd; /* Porta serial */
-FILE * configs; /* Ponteiro para o arquivo de configurações */
+char buffer[100]; /* buffer da serial*/
 
 
 char uart_send(char * data, int size);
@@ -99,25 +99,17 @@ int main(void)
 			sprintf(string, "ERRO"); /* Caso a string não seja modificada deu erro*/
 
 			/* verificar qual é a função solicitada pela APP*/
-			if(!strcmp(list[0], "get"))  /* Função de pegar valores do micro */
+			if(!strcmp(list[0], "getStatus"))  /* Função de pegar valores do micro */
 			{
-				if(!strcmp(list[1], "1"))  /*  Pegar os valores dos parâmtros que estão salvos no arquivo*/
-				{
-					/* Semafaro e */
-				}
-				else /* Pegar os valores dos sensores do microcontrolador */
-				{
-					send[0] = 1;
-					send[1] = 2;
-					send[2] = ';';
+				send[0] = 1;
+				send[2] = ';';
 
-					if(send_uart(send, 3))
-					{
-						sprintf(string, "OK");
-					}
+				if(send_uart(send, 3))
+				{
+					sprintf(string, "OK");
 				}
 			}
-			else if(!strcmp(list[0], "hora"))
+			else if(!strcmp(list[0], "alarme"))
 			{
 				char param1 = atoi(list[1]);
 				char param2 = atoi(list[2]);
@@ -131,7 +123,7 @@ int main(void)
 					sprintf(string, "OK");
 				}
 			}
-			else if(!strcmp(list[0], "tempo"))
+			else if(!strcmp(list[0], "manual"))
 			{
 				char param = atoi(list[1]);
 				send[0] = 3;
@@ -143,22 +135,10 @@ int main(void)
 					sprintf(string, "OK");
 				}
 			}
-			else if(!strcmp(list[0], "manual"))
-			{
-				char param = atoi(list[1]);
-				send[0] = 4;
-				send[1] = param;
-				send[2] = ';';
-
-				if(send_uart(send, 3))
-				{
-					sprintf(string, "OK");
-				}
-			}
 			else if(!strcmp(list[0], "buzzer"))
 			{
 				char param = atoi(list[1]);
-				send[0] = 5;
+				send[0] = 4;
 				send[1] = param;
 				send[2] = ';';
 
@@ -188,14 +168,11 @@ char uart_send(char * data, int size)
 		serialPutc(fd, data[i]);
 	}
 
-	return serialGet(fd);
-}
 
-void uart_receiver(void * param)
-{
 
-	while(1)
+	while(serialDataAvail(fd))
 	{
-		/*Se dados disponíveis atualiza o arquivo, utilizar semáforo para controle de acesso ao arquivo*/
+		buffer[i++] = serialGetchar(fd);
 	}
+	return 1;
 }
