@@ -10,13 +10,16 @@
 #include    "Motor/Motor.h"
 #include    "SR04/SR04.h"
 #include    "Buzzer/Buzzer.h"
+#include    "Display/HD44780/port_HD44780.h"
+#include    "Global_Var.h"
 
-volatile Calendar newTime;
 
+unsigned char hora;
+unsigned char minuto;
 unsigned int nivel_dist;
 
 void config_RTC(){
-    Calendar currentTime;
+        Calendar currentTime;
 
         //Set P1.0 to output direction
         GPIO_setAsOutputPin(
@@ -122,9 +125,15 @@ void config_BCS(uint16_t FREQ_MCLK_KHZ){
 }
 
 void config_IO(){
+    config_RTC();
     config_Buzzer();
     config_Motor();
     config_SR04();
+
+    hora_alarme1 = -100;
+    hora_alarme2 = -100;
+    hora_alarme3 = -100;
+    tempo_motor = 1000;
 }
 
 
@@ -145,13 +154,19 @@ void RTC_A_ISR (void){
 
             set_MotorAngle(90);
 
-            __delay_cycles(48000000);
+            delayMilliseconds(tempo_motor);
 
             set_MotorAngle(0);
 
             nivel_dist = get_Distance();
 
             set_BuzzerOff();
+
+            minuto++;
+            if(minuto >= 60){
+                minuto = 0;
+                hora = (hora + 1) % 24;
+            }
 
             break;
         case 6: break;  //RTCAIFG

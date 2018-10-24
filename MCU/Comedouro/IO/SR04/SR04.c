@@ -23,11 +23,11 @@ void config_SR04(){
 
     SR04Timer.clockSource = TIMER_B_CLOCKSOURCE_SMCLK;
     SR04Timer.clockSourceDivider = TIMER_B_CLOCKSOURCE_DIVIDER_1;
-    SR04Timer.timerInterruptEnable_TAIE = TIMER_B_TAIE_INTERRUPT_DISABLE;
+    SR04Timer.timerInterruptEnable_TBIE = TIMER_B_TBIE_INTERRUPT_DISABLE;
     SR04Timer.timerClear = TIMER_B_DO_CLEAR;
     SR04Timer.startTimer = false;
-    Timer_B_initContinuousMode(TIMER_B1_BASE, &SR04Timer);
-    Timer_B_startCounter(TIMER_A0_BASE, TIMER_B_CONTINUOUS_MODE);
+    Timer_B_initContinuousMode(TIMER_B0_BASE, &SR04Timer);
+    Timer_B_startCounter(TIMER_B0_BASE, TIMER_B_CONTINUOUS_MODE);
 }
 
 unsigned int get_Distance(){
@@ -39,10 +39,10 @@ unsigned int get_Distance(){
     GPIO_setOutputLowOnPin(SR04_TRIG_PORT, SR04_TRIG_PIN);
 
     while (!GPIO_getInputPinValue(SR04_ECHO_PORT, SR04_ECHO_PIN));   // Wait for start of echo pulse
-    uint16_t start_Count = Timer_B_getCounterValue (TIMER_B1_BASE);
+    uint16_t start_Count = Timer_B_getCounterValue (TIMER_B0_BASE);
 
     while (GPIO_getInputPinValue(SR04_ECHO_PORT, SR04_ECHO_PIN));    // Wait for end of echo pulse
-    uint16_t stop_Count = Timer_B_getCounterValue (TIMER_B1_BASE);
+    uint16_t stop_Count = Timer_B_getCounterValue (TIMER_B0_BASE);
 
     static unsigned int dist;
 

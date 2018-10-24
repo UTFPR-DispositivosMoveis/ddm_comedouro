@@ -12,16 +12,13 @@ unsigned int dist;
 void main (void){
     WDT_A_hold(WDT_A_BASE);
     config_BCS(24000);
-//    config_RTC();
     config_IO();
-
+    set_MotorAngle(0);
+    __delay_cycles(24000000);
+    __enable_interrupt();
 
     while(1){
-/*        set_MotorAngle(90);
-        __delay_cycles(24000000);
-        set_MotorAngle(0);
-        __delay_cycles(24000000);
-*/        dist = get_Distance();
+        __bis_SR_register(LPM0_bits + GIE);
     }
 
 

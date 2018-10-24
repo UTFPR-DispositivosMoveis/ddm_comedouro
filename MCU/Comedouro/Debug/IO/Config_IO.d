@@ -61,6 +61,8 @@ IO/Config_IO.obj: ../IO/Config_IO.h
 IO/Config_IO.obj: ../IO/Motor/Motor.h
 IO/Config_IO.obj: ../IO/SR04/SR04.h
 IO/Config_IO.obj: ../IO/Buzzer/Buzzer.h
+IO/Config_IO.obj: /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/Display/HD44780/port_HD44780.h
+IO/Config_IO.obj: /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/Global_Var.h
 
 ../IO/Config_IO.c: 
 /home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/driverlib/MSP430F5xx_6xx/driverlib.h: 
@@ -123,3 +125,5 @@ IO/Config_IO.obj: ../IO/Buzzer/Buzzer.h
 ../IO/Motor/Motor.h: 
 ../IO/SR04/SR04.h: 
 ../IO/Buzzer/Buzzer.h: 
+/home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/Display/HD44780/port_HD44780.h: 
+/home/raul/Documentos/Desenvolvimento\ De\ Aplicativos\ Para\ Dispositivos\ MÃ³veis/ddm_comedouro/MCU/Comedouro/Global_Var.h: 

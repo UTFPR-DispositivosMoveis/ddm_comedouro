@@ -5,8 +5,12 @@
  *      Author: raul
  */
 
-#include    "Display/Display.h"
 #include    "driverlib.h"
+#include    "Display/Display.h"
+#include    "IO/Config_IO.h"
+#include    "IO/Motor/Motor.h"
+#include    "IO/SR04/SR04.h"
+#include    <stdio.h>
 
 HD44780 theHD44780;
 
@@ -14,6 +18,9 @@ Timer_B_initContinuousModeParam param = {0};
 
 uint8_t state = 0;
 Display_Interface_t display;
+
+
+unsigned int dist;
 
 void Config_BCS (uint16_t FREQ_MCLK_KHZ){
     if (FREQ_MCLK_KHZ >= 8000 && FREQ_MCLK_KHZ < 12000)
@@ -40,8 +47,6 @@ void Config_BCS (uint16_t FREQ_MCLK_KHZ){
 void main(void){
     WDT_A_hold(WDT_A_BASE);
 
- //   Config_BCS(24000);
-
     HD44780_init(&theHD44780, DISPLAY_PORT, DISPLAY_PIN_RS, DISPLAY_PIN_EN,
                  DISPLAY_PIN_D4, DISPLAY_PIN_D5, DISPLAY_PIN_D6, DISPLAY_PIN_D7);
 
@@ -55,7 +60,22 @@ void main(void){
 
     Display_Config();
 
-    __bis_SR_register(LPM3_bits + GIE);
+    WDT_A_hold(WDT_A_BASE);
+
+    config_BCS(24000);
+
+    config_IO();
+
+    set_MotorAngle(0);
+
+    __delay_cycles(24000000);
+
+    __enable_interrupt();
+
+    while(1){
+        __bis_SR_register(LPM0_bits + GIE);
+    }
+
 
     __no_operation();
 
