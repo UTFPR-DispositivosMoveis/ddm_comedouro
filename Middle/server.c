@@ -6,11 +6,10 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include <pthread.h>
 #include <wiringSerial.h>
 
 /*compilação
-	gcc -Wall server server.c -o -lwiringPi -lpthread
+	gcc -Wall server server.c -o -lwiringPi
 */
 
 #define MAX_CLIENT 		1
@@ -21,22 +20,12 @@ int fd; /* Porta serial */
 char buffer[100]; /* buffer da serial*/
 
 
-char uart_send(char * data, int size);
-void uart_receiver(void * param);
+void uart_send(char * data, int size);
 
 int main(void)
 {
 	int socket_desc, conexao, c, client_port, len;
 	struct sockaddr_in server, client;
-	pthread_t uart;
-
-
-	/* Thread de recepção dos dados da uart */
-	if(pthread_create(&uart, NULL, uart_receiver, NULL) < 0)
-	{
-		perror("Erro ao criar a thread da uart");
-		return -1;
-	}
 
 	/* Inicializando comunicação serial */
 	if((fd = serialOpen("/dev/ttyS0", 115200)) < 0)
@@ -104,10 +93,7 @@ int main(void)
 				send[0] = 1;
 				send[2] = ';';
 
-				if(send_uart(send, 3))
-				{
-					sprintf(string, "OK");
-				}
+				send_uart(send, 2);
 			}
 			else if(!strcmp(list[0], "alarme"))
 			{
@@ -118,10 +104,7 @@ int main(void)
 				send[2] = param2;
 				send[3] = ';';
 
-				if(send_uart(send, 4))
-				{
-					sprintf(string, "OK");
-				}
+				send_uart(send, 4);
 			}
 			else if(!strcmp(list[0], "manual"))
 			{
@@ -130,10 +113,7 @@ int main(void)
 				send[1] = param;
 				send[2] = ';';
 
-				if(send_uart(send, 3))
-				{
-					sprintf(string, "OK");
-				}
+				send_uart(send, 3);
 			}
 			else if(!strcmp(list[0], "buzzer"))
 			{
@@ -142,14 +122,13 @@ int main(void)
 				send[1] = param;
 				send[2] = ';';
 
-				if(send_uart(send, 3))
-				{
-					sprintf(string, "OK");
-				}
+				send_uart(send, 3);				
 			}
 
+
+
 			/* Mandar um OK ou estado de erro de resposta */
-			write(conexao , string , strlen(string));
+			write(conexao , buffer , strlen(buffer));
 
 			close(conexao);
 			puts("Conexao fechada");
@@ -160,7 +139,7 @@ int main(void)
 }
 
 
-char uart_send(char * data, int size)
+void uart_send(char * data, int size)
 {
 
 	for(int i = 0; i < size; i++)
@@ -169,10 +148,10 @@ char uart_send(char * data, int size)
 	}
 
 
-
+	int i = 0;
 	while(serialDataAvail(fd))
 	{
 		buffer[i++] = serialGetchar(fd);
 	}
-	return 1;
+	buffer[i] = '\0';
 }
