@@ -43,7 +43,6 @@ public class Configuracao extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 hora = position-1;
-                Toast.makeText(Configuracao.this, horas[position], Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -135,7 +134,7 @@ public class Configuracao extends AppCompatActivity {
             return;
         }else{
             if(hora != hora2 && hora != hora3) {
-                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" l"));
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 1"));
                 thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",
@@ -150,7 +149,7 @@ public class Configuracao extends AppCompatActivity {
             thread.start();
             return;
         }else{
-            if(hora!=hora1 && hora!=hora3) {
+            if(hora != hora1 && hora!=hora3) {
                 Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 2"));
                 thread.start();
             }else{
