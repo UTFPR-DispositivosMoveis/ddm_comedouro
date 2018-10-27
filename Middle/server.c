@@ -7,9 +7,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <wiringSerial.h>
+#include <wiringPi.h>
 
 /*compilação
-	gcc -Wall server server.c -o -lwiringPi
+	gcc -Wall -o server server.c -lwiringPi
 */
 
 #define MAX_CLIENT 		1
@@ -18,13 +19,14 @@
 
 int fd; /* Porta serial */
 char buffer[100]; /* buffer da serial*/
+int ind; /* Controle de indice do buffer*/
 
 
-void uart_send(char * data, int size);
+void send_uart(char * data, int size);
 
 int main(void)
 {
-	int socket_desc, conexao, c, client_port, len;
+	int socket_desc, conexao, c, len;
 	struct sockaddr_in server, client;
 
 	/* Inicializando comunicação serial */
@@ -72,18 +74,17 @@ int main(void)
 			len = sprintf(string, "OK");
 
 			/* Parse da string recebida */
-			char * token = stktok(string, " ");
+			char * token = strtok(string, " ");
 			char list[10][10];
 
 
 			for(int i = 0; token != NULL; i++)
 			{
-				list[i] = token;
+				sprintf(list[i], "%s", token);
 				token = strtok(NULL, " ");
 			}
 
 			char send[20]; /* buffer para mandar dados via UART */
-			char answer = 0; /* Resposta  da uart*/
 
 			sprintf(string, "ERRO"); /* Caso a string não seja modificada deu erro*/
 
@@ -128,7 +129,7 @@ int main(void)
 
 
 			/* Mandar um OK ou estado de erro de resposta */
-			write(conexao , buffer , strlen(buffer));
+			write(conexao , buffer , ind);
 
 			close(conexao);
 			puts("Conexao fechada");
@@ -139,19 +140,19 @@ int main(void)
 }
 
 
-void uart_send(char * data, int size)
+void send_uart(char * data, int size)
 {
 
 	for(int i = 0; i < size; i++)
 	{
-		serialPutc(fd, data[i]);
+		serialPutchar(fd, data[i]);
 	}
 
 
-	int i = 0;
+	ind = 0;
 	while(serialDataAvail(fd))
 	{
-		buffer[i++] = serialGetchar(fd);
+		buffer[ind++] = serialGetchar(fd);
 	}
-	buffer[i] = '\0';
+	buffer[ind] = '\0';
 }
