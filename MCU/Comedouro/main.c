@@ -76,9 +76,6 @@ void main(void){
         __bis_SR_register(LPM0_bits + GIE);
     }
 
-
-    __no_operation();
-
 }
 
 

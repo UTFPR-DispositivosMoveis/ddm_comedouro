@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker Unix v18.1.2                   
 ******************************************************************************
->> Linked Wed Oct 24 15:31:55 2018
+>> Linked Wed Oct 31 15:04:25 2018
 
 OUTPUT FILE NAME:   <Comedouro.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000448c
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000044ee
 
 
 MEMORY CONFIGURATION
@@ -19,8 +19,8 @@ MEMORY CONFIGURATION
   INFOB                 00001900   00000080  00000000  00000080  RWIX
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   USBRAM                00001c00   00000800  00000000  00000800  RWIX
-  RAM                   00002400   00002000  00000119  00001ee7  RWIX
-  FLASH                 00004400   0000bb80  00000138  0000ba48  RWIX
+  RAM                   00002400   00002000  00000122  00001ede  RWIX
+  FLASH                 00004400   0000bb80  0000019a  0000b9e6  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -85,7 +85,7 @@ MEMORY CONFIGURATION
   INT61                 0000fffa   00000002  00000002  00000000  RWIX
   INT62                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FLASH2                00010000   00014400  00001a7c  00012984  RWIX
+  FLASH2                00010000   00014400  00001c3e  000127c2  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -93,51 +93,54 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.bss       0    00002400    0000004f     UNINITIALIZED
+.bss       0    00002400    00000054     UNINITIALIZED
                   00002400    00000034     (.common:display)
                   00002434    0000000e     (.common:theHD44780)
-                  00002442    00000002     (.common:hora_alarme1)
-                  00002444    00000002     (.common:hora_alarme2)
-                  00002446    00000002     (.common:hora_alarme3)
-                  00002448    00000002     (.common:nivel_dist)
-                  0000244a    00000002     (.common:tempo_motor)
-                  0000244c    00000001     Display.obj (.bss)
-                  0000244d    00000001     (.common:hora)
-                  0000244e    00000001     (.common:minuto)
+                  00002442    00000004     (.common:Comando)
+                  00002446    00000002     (.common:hora_alarme1)
+                  00002448    00000002     (.common:hora_alarme2)
+                  0000244a    00000002     (.common:hora_alarme3)
+                  0000244c    00000002     (.common:hora_atual)
+                  0000244e    00000002     (.common:nivel_dist)
+                  00002450    00000002     (.common:tempo_motor)
+                  00002452    00000001     Display.obj (.bss)
+                  00002453    00000001     (.common:buzzer)
 
-.data      0    00002450    0000002a     UNINITIALIZED
-                  00002450    0000000c     Buzzer.obj (.data:buzzerTimer)
-                  0000245c    0000000c     Motor.obj (.data:motorTimer)
-                  00002468    0000000a     SR04.obj (.data:SR04Timer)
-                  00002472    00000008     ucs.obj (.data)
+.data      0    00002454    0000002e     UNINITIALIZED
+                  00002454    0000000c     Buzzer.obj (.data:buzzerTimer)
+                  00002460    0000000c     Motor.obj (.data:motorTimer)
+                  0000246c    0000000a     SR04.obj (.data:SR04Timer)
+                  00002476    00000008     ucs.obj (.data)
+                  0000247e    00000004     Protocol.obj (.data)
 
 .stack     0    00004360    000000a0     UNINITIALIZED
                   00004360    00000004     rts430x_lc_rd_eabi.lib : boot.c.obj (.stack)
                   00004364    0000009c     --HOLE--
 
 .text:_isr 
-*          0    00004400    000000b0     
-                  00004400    00000054     Config_IO.obj (.text:_isr:RTC_A_ISR)
-                  00004454    00000038     main.obj (.text:_isr:Port_1)
-                  0000448c    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
-                  000044a8    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00004400    00000112     
+                  00004400    0000005c     Config_IO.obj (.text:_isr:RTC_A_ISR)
+                  0000445c    0000005a     Protocol.obj (.text:_isr:USCI_A0_ISR)
+                  000044b6    00000038     main.obj (.text:_isr:Port_1)
+                  000044ee    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
+                  0000450a    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
 
-.cinit     0    0000450e    0000002a     
-                  0000450e    0000000c     (__TI_handler_table)
-                  0000451a    00000008     (.cinit..data.load) [load image, compression = lzss]
-                  00004522    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  00004528    00000010     (__TI_cinit_table)
+.cinit     0    00004570    0000002a     
+                  00004570    0000000c     (__TI_handler_table)
+                  0000457c    00000008     (.cinit..data.load) [load image, compression = lzss]
+                  00004584    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  0000458a    00000010     (__TI_cinit_table)
 
 .binit     0    00004400    00000000     
 
 .init_array 
 *          0    00004400    00000000     UNINITIALIZED
 
-.const     0    000044b0    0000005e     
-                  000044b0    0000002e     StateMachine.obj (.const:.string)
-                  000044de    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
-                  000044fa    0000000c     Display.obj (.const:.string)
-                  00004506    00000008     HD44780.obj (.const:$P$T0$1)
+.const     0    00004512    0000005e     
+                  00004512    0000002e     StateMachine.obj (.const:.string)
+                  00004540    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  0000455c    0000000c     Display.obj (.const:.string)
+                  00004568    00000008     HD44780.obj (.const:$P$T0$1)
 
 RTC        0    0000ffd2    00000002     
                   0000ffd2    00000002     Config_IO.obj (.int41)
@@ -191,7 +194,7 @@ USCI_B0    0    0000ffee    00000002
                   0000ffee    00000002     rts430x_lc_rd_eabi.lib : int55.asm.obj (.int55)
 
 USCI_A0    0    0000fff0    00000002     
-                  0000fff0    00000002     rts430x_lc_rd_eabi.lib : int56.asm.obj (.int56)
+                  0000fff0    00000002     Protocol.obj (.int56)
 
 WDT        0    0000fff2    00000002     
                   0000fff2    00000002     rts430x_lc_rd_eabi.lib : int57.asm.obj (.int57)
@@ -216,7 +219,7 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.c.obj (.reset)
 
-.text      0    00010000    00001a7c     
+.text      0    00010000    00001c3e     
                   00010000    0000017a     Display.obj (.text:displaySetState)
                   0001017a    00000132     rts430x_lc_rd_eabi.lib : fs_add.asm.obj (.text)
                   000102ac    00000118     StateMachine.obj (.text:fn_alarme2)
@@ -234,78 +237,87 @@ SYSNMI     0    0000fffc    00000002
                   00010c8a    00000088     Config_IO.obj (.text:config_RTC)
                   00010d12    00000088     StateMachine.obj (.text:fn_tmpAberto)
                   00010d9a    00000082     StateMachine.obj (.text:fn_off)
-                  00010e1c    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00010e92    00000076     Motor.obj (.text:set_MotorAngle)
-                  00010f08    00000072     timer_a.obj (.text:Timer_A_outputPWM)
-                  00010f7a    00000068     rtc_a.obj (.text:RTC_A_initCalendar)
-                  00010fe2    0000005a     SR04.obj (.text:get_Distance)
-                  0001103c    00000056     Display.obj (.text:displayTurnOn)
-                  00011092    00000056     Display.obj (.text:getButtonFlag)
-                  000110e8    00000054     rts430x_lc_rd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  0001113c    00000052     HD44780.obj (.text:HD44780_init)
-                  0001118e    00000052     pmm.obj (.text:PMM_setVCore)
-                  000111e0    00000050     timer_b.obj (.text:Timer_B_initContinuousMode)
-                  00011230    0000004c     HD44780.obj (.text:HD44780_write4bits)
-                  0001127c    0000004a     HD44780.obj (.text:HD44780_setCursor)
-                  000112c6    00000046     HD44780.obj (.text:HD44780_pulseEnable)
-                  0001130c    00000046     rts430x_lc_rd_eabi.lib : fs_tou.asm.obj (.text)
-                  00011352    00000040     SR04.obj (.text:config_SR04)
-                  00011392    0000003e     gpio.obj (.text:GPIO_setAsInputPinWithPullDownResistor)
-                  000113d0    0000003e     Display.obj (.text:initDisplay)
-                  0001140e    00000038     Display.obj (.text:Display_Config)
-                  00011446    00000038     ucs.obj (.text:UCS_turnOnLFXT1)
-                  0001147e    00000038     Motor.obj (.text:config_Motor)
-                  000114b6    00000036     ucs.obj (.text:UCS_initFLLSettle)
-                  000114ec    00000034     gpio.obj (.text:GPIO_setAsInputPin)
-                  00011520    00000034     rtc_a.obj (.text:RTC_A_clearInterrupt)
-                  00011554    00000034     ucs.obj (.text:UCS_turnOnXT2)
-                  00011588    00000034     port_HD44780.obj (.text:delayMilliseconds)
-                  000115bc    00000034     Display.obj (.text:displayUpdate)
-                  000115f0    00000032     timer_b.obj (.text:Timer_B_getCounterValue)
-                  00011622    00000032     Buzzer.obj (.text:config_Buzzer)
-                  00011654    00000030     gpio.obj (.text:GPIO_getInterruptStatus)
-                  00011684    0000002e     gpio.obj (.text:GPIO_selectInterruptEdge)
-                  000116b2    0000002e     rtc_a.obj (.text:RTC_A_enableInterrupt)
-                  000116e0    0000002c     rts430x_lc_rd_eabi.lib : div16s.asm.obj (.text)
-                  0001170c    0000002a     HD44780.obj (.text:HD44780_send)
-                  00011736    0000002a     Config_IO.obj (.text:config_IO)
-                  00011760    0000002a     StateMachine.obj (.text:initStateMachine)
-                  0001178a    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
-                  000117b2    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
-                  000117da    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionOutputPin)
-                  00011802    00000026     Buzzer.obj (.text:set_BuzzerOn)
-                  00011828    00000024     rts430x_lc_rd_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  0001184c    00000024                            : fs_utof.asm.obj (.text)
-                  00011870    00000020     wdt_a.obj (.text:WDT_A_hold)
-                  00011890    0000001e     gpio.obj (.text:GPIO_clearInterrupt)
-                  000118ae    0000001e     gpio.obj (.text:GPIO_enableInterrupt)
-                  000118cc    0000001c     gpio.obj (.text:GPIO_getInputPinValue)
-                  000118e8    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
-                  00011904    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
-                  00011920    0000001c     Display.obj (.text:displayClear)
-                  0001193c    0000001a     HD44780.obj (.text:HD44780_print_string)
-                  00011956    00000018     port_HD44780.obj (.text:delayMicroseconds)
-                  0001196e    00000016     rts430x_lc_rd_eabi.lib : div16u.asm.obj (.text)
-                  00011984    00000014     port_HD44780.obj (.text:digitalWrite)
-                  00011998    00000014     rts430x_lc_rd_eabi.lib : memcpy.c.obj (.text:memcpy)
-                  000119ac    00000014     port_HD44780.obj (.text:pinMode)
-                  000119c0    00000012     ucs.obj (.text:UCS_setExternalClockSource)
-                  000119d2    00000012     rts430x_lc_rd_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  000119e4    00000012                            : strcpy.c.obj (.text:strcpy)
-                  000119f6    00000010     HD44780.obj (.text:HD44780_clear)
-                  00011a06    00000010     HD44780.obj (.text:HD44780_display)
-                  00011a16    00000010     StateMachine.obj (.text:exeStateMachine)
-                  00011a26    0000000c     rtc_a.obj (.text:RTC_A_setCalendarEvent)
-                  00011a32    0000000c     rtc_a.obj (.text:RTC_A_startClock)
-                  00011a3e    0000000a     rts430x_lc_rd_eabi.lib : lsr16.asm.obj (.text)
-                  00011a48    0000000a     Buzzer.obj (.text:set_BuzzerOff)
-                  00011a52    00000008     HD44780.obj (.text:HD44780_command)
-                  00011a5a    00000008     HD44780.obj (.text:HD44780_write)
-                  00011a62    00000008     timer_a.obj (.text:Timer_A_stop)
-                  00011a6a    00000006     timer_b.obj (.text:Timer_B_startCounter)
-                  00011a70    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
-                  00011a76    00000004                            : pre_init.c.obj (.text:_system_pre_init)
-                  00011a7a    00000002                            : startup.c.obj (.text:_system_post_cinit)
+                  00010e1c    0000007a     Protocol.obj (.text:UART_get_status)
+                  00010e96    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00010f0c    00000076     Motor.obj (.text:set_MotorAngle)
+                  00010f82    00000072     timer_a.obj (.text:Timer_A_outputPWM)
+                  00010ff4    00000068     rtc_a.obj (.text:RTC_A_initCalendar)
+                  0001105c    0000005a     SR04.obj (.text:get_Distance)
+                  000110b6    00000056     Display.obj (.text:displayTurnOn)
+                  0001110c    00000056     Display.obj (.text:getButtonFlag)
+                  00011162    00000054     rts430x_lc_rd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  000111b6    00000052     HD44780.obj (.text:HD44780_init)
+                  00011208    00000052     pmm.obj (.text:PMM_setVCore)
+                  0001125a    00000052     Protocol.obj (.text:UART_Alarme)
+                  000112ac    00000050     timer_b.obj (.text:Timer_B_initContinuousMode)
+                  000112fc    0000004c     HD44780.obj (.text:HD44780_write4bits)
+                  00011348    0000004a     HD44780.obj (.text:HD44780_setCursor)
+                  00011392    00000046     HD44780.obj (.text:HD44780_pulseEnable)
+                  000113d8    00000046     rts430x_lc_rd_eabi.lib : fs_tou.asm.obj (.text)
+                  0001141e    00000040     SR04.obj (.text:config_SR04)
+                  0001145e    0000003e     gpio.obj (.text:GPIO_setAsInputPinWithPullDownResistor)
+                  0001149c    0000003e     Display.obj (.text:initDisplay)
+                  000114da    00000038     Display.obj (.text:Display_Config)
+                  00011512    00000038     ucs.obj (.text:UCS_turnOnLFXT1)
+                  0001154a    00000038     Motor.obj (.text:config_Motor)
+                  00011582    00000036     ucs.obj (.text:UCS_initFLLSettle)
+                  000115b8    00000034     gpio.obj (.text:GPIO_setAsInputPin)
+                  000115ec    00000034     rtc_a.obj (.text:RTC_A_clearInterrupt)
+                  00011620    00000034     ucs.obj (.text:UCS_turnOnXT2)
+                  00011654    00000034     port_HD44780.obj (.text:delayMilliseconds)
+                  00011688    00000034     Display.obj (.text:displayUpdate)
+                  000116bc    00000032     Config_IO.obj (.text:Abrir_Valvula)
+                  000116ee    00000032     Protocol.obj (.text:Parser_Comandos)
+                  00011720    00000032     timer_b.obj (.text:Timer_B_getCounterValue)
+                  00011752    00000032     Buzzer.obj (.text:config_Buzzer)
+                  00011784    00000030     gpio.obj (.text:GPIO_getInterruptStatus)
+                  000117b4    0000002e     gpio.obj (.text:GPIO_selectInterruptEdge)
+                  000117e2    0000002e     rtc_a.obj (.text:RTC_A_enableInterrupt)
+                  00011810    0000002e     Config_IO.obj (.text:config_IO)
+                  0001183e    0000002c     rts430x_lc_rd_eabi.lib : div16s.asm.obj (.text)
+                  0001186a    0000002a     HD44780.obj (.text:HD44780_send)
+                  00011894    0000002a     StateMachine.obj (.text:initStateMachine)
+                  000118be    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
+                  000118e6    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
+                  0001190e    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionOutputPin)
+                  00011936    00000026     Buzzer.obj (.text:set_BuzzerOn)
+                  0001195c    00000024     rts430x_lc_rd_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00011980    00000024                            : fs_utof.asm.obj (.text)
+                  000119a4    00000022     Protocol.obj (.text:UART_Buzzer)
+                  000119c6    00000020     usci_a_uart.obj (.text:USCI_A_UART_transmitData)
+                  000119e6    00000020     wdt_a.obj (.text:WDT_A_hold)
+                  00011a06    0000001e     gpio.obj (.text:GPIO_clearInterrupt)
+                  00011a24    0000001e     gpio.obj (.text:GPIO_enableInterrupt)
+                  00011a42    0000001e     usci_a_uart.obj (.text:USCI_A_UART_receiveData)
+                  00011a60    0000001c     gpio.obj (.text:GPIO_getInputPinValue)
+                  00011a7c    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
+                  00011a98    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
+                  00011ab4    0000001c     Display.obj (.text:displayClear)
+                  00011ad0    0000001a     HD44780.obj (.text:HD44780_print_string)
+                  00011aea    00000018     port_HD44780.obj (.text:delayMicroseconds)
+                  00011b02    00000018     rts430x_lc_rd_eabi.lib : mult16_f5hw.asm.obj (.text)
+                  00011b1a    00000016     Protocol.obj (.text:UART_Manual)
+                  00011b30    00000016     rts430x_lc_rd_eabi.lib : div16u.asm.obj (.text)
+                  00011b46    00000014     port_HD44780.obj (.text:digitalWrite)
+                  00011b5a    00000014     rts430x_lc_rd_eabi.lib : memcpy.c.obj (.text:memcpy)
+                  00011b6e    00000014     port_HD44780.obj (.text:pinMode)
+                  00011b82    00000012     ucs.obj (.text:UCS_setExternalClockSource)
+                  00011b94    00000012     rts430x_lc_rd_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00011ba6    00000012                            : strcpy.c.obj (.text:strcpy)
+                  00011bb8    00000010     HD44780.obj (.text:HD44780_clear)
+                  00011bc8    00000010     HD44780.obj (.text:HD44780_display)
+                  00011bd8    00000010     StateMachine.obj (.text:exeStateMachine)
+                  00011be8    0000000c     rtc_a.obj (.text:RTC_A_setCalendarEvent)
+                  00011bf4    0000000c     rtc_a.obj (.text:RTC_A_startClock)
+                  00011c00    0000000a     rts430x_lc_rd_eabi.lib : lsr16.asm.obj (.text)
+                  00011c0a    0000000a     Buzzer.obj (.text:set_BuzzerOff)
+                  00011c14    00000008     HD44780.obj (.text:HD44780_command)
+                  00011c1c    00000008     HD44780.obj (.text:HD44780_write)
+                  00011c24    00000008     timer_a.obj (.text:Timer_A_stop)
+                  00011c2c    00000006     timer_b.obj (.text:Timer_B_startCounter)
+                  00011c32    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
+                  00011c38    00000004                            : pre_init.c.obj (.text:_system_pre_init)
+                  00011c3c    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
@@ -329,9 +341,9 @@ MODULE SUMMARY
        Total:                       768    8         0      
                                                             
     ./IO/
-       Config_IO.obj                452    2         4      
+       Config_IO.obj                514    2         5      
     +--+----------------------------+------+---------+---------+
-       Total:                       452    2         4      
+       Total:                       514    2         5      
                                                             
     ./IO/Buzzer/
        Buzzer.obj                   98     0         12     
@@ -348,6 +360,11 @@ MODULE SUMMARY
     +--+----------------------------+------+---------+---------+
        Total:                       154    0         10     
                                                             
+    ./Parser/
+       Protocol.obj                 400    2         8      
+    +--+----------------------------+------+---------+---------+
+       Total:                       400    2         8      
+                                                            
     ./driverlib/MSP430F5xx_6xx/
        ucs.obj                      572    0         8      
        gpio.obj                     472    28        0      
@@ -355,9 +372,10 @@ MODULE SUMMARY
        rtc_a.obj                    226    0         0      
        timer_b.obj                  136    0         0      
        timer_a.obj                  122    0         0      
+       usci_a_uart.obj              62     0         0      
        wdt_a.obj                    32     0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       2028   28        8      
+       Total:                       2090   28        8      
                                                             
     /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/lib/rts430x_lc_rd_eabi.lib
        fs_add.asm.obj               306    0         0      
@@ -370,6 +388,7 @@ MODULE SUMMARY
        copy_zero_init.c.obj         36     0         0      
        fs_utof.asm.obj              36     0         0      
        boot.c.obj                   28     2         0      
+       mult16_f5hw.asm.obj          24     0         0      
        div16u.asm.obj               22     0         0      
        memcpy.c.obj                 20     0         0      
        copy_decompress_none.c.obj   18     0         0      
@@ -391,7 +410,6 @@ MODULE SUMMARY
        int53.asm.obj                0      2         0      
        int54.asm.obj                0      2         0      
        int55.asm.obj                0      2         0      
-       int56.asm.obj                0      2         0      
        int57.asm.obj                0      2         0      
        int58.asm.obj                0      2         0      
        int59.asm.obj                0      2         0      
@@ -400,24 +418,24 @@ MODULE SUMMARY
        int62.asm.obj                0      2         0      
        startup.c.obj                2      0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       1158   42        0      
+       Total:                       1182   40        0      
                                                             
        Stack:                       0      0         160    
        Linker Generated:            0      42        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 6956   182       281    
+       Grand Total:                 7504   182       290    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00004528 records: 2, size/record: 8, table size: 16
-	.data: load addr=0000451a, load size=00000008 bytes, run addr=00002450, run size=0000002a bytes, compression=lzss
-	.bss: load addr=00004522, load size=00000006 bytes, run addr=00002400, run size=0000004f bytes, compression=zero_init
+__TI_cinit_table @ 0000458a records: 2, size/record: 8, table size: 16
+	.data: load addr=0000457c, load size=00000008 bytes, run addr=00002454, run size=0000002e bytes, compression=lzss
+	.bss: load addr=00004584, load size=00000006 bytes, run addr=00002400, run size=00000054 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000450e records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00004570 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -509,7 +527,8 @@ address   name
 00000732  ADC12MEM9                                  
 00000733  ADC12MEM9_H                                
 00000732  ADC12MEM9_L                                
-00011a70  C$$EXIT                                    
+000116bc  Abrir_Valvula                              
+00011c32  C$$EXIT                                    
 000008c0  CBCTL0                                     
 000008c1  CBCTL0_H                                   
 000008c0  CBCTL0_L                                   
@@ -538,6 +557,7 @@ address   name
 00000156  CRCRESR                                    
 00000157  CRCRESR_H                                  
 00000156  CRCRESR_L                                  
+00002442  Comando                                    
 00000510  DMA0CTL                                    
 00000511  DMA0CTL_H                                  
 00000510  DMA0CTL_L                                  
@@ -586,7 +606,7 @@ address   name
 0000050e  DMAIV                                      
 0000050f  DMAIV_H                                    
 0000050e  DMAIV_L                                    
-0001140e  Display_Config                             
+000114da  Display_Config                             
 00000140  FCTL1                                      
 00000141  FCTL1_H                                    
 00000140  FCTL1_L                                    
@@ -596,30 +616,30 @@ address   name
 00000146  FCTL4                                      
 00000147  FCTL4_H                                    
 00000146  FCTL4_L                                    
-00011890  GPIO_clearInterrupt                        
-000118ae  GPIO_enableInterrupt                       
-000118cc  GPIO_getInputPinValue                      
-00011654  GPIO_getInterruptStatus                    
-00011684  GPIO_selectInterruptEdge                   
-000114ec  GPIO_setAsInputPin                         
-00011392  GPIO_setAsInputPinWithPullDownResistor     
-0001178a  GPIO_setAsOutputPin                        
-000117b2  GPIO_setAsPeripheralModuleFunctionInputPin 
-000117da  GPIO_setAsPeripheralModuleFunctionOutputPin
-000118e8  GPIO_setOutputHighOnPin                    
-00011904  GPIO_setOutputLowOnPin                     
+00011a06  GPIO_clearInterrupt                        
+00011a24  GPIO_enableInterrupt                       
+00011a60  GPIO_getInputPinValue                      
+00011784  GPIO_getInterruptStatus                    
+000117b4  GPIO_selectInterruptEdge                   
+000115b8  GPIO_setAsInputPin                         
+0001145e  GPIO_setAsInputPinWithPullDownResistor     
+000118be  GPIO_setAsOutputPin                        
+000118e6  GPIO_setAsPeripheralModuleFunctionInputPin 
+0001190e  GPIO_setAsPeripheralModuleFunctionOutputPin
+00011a7c  GPIO_setOutputHighOnPin                    
+00011a98  GPIO_setOutputLowOnPin                     
 000105f0  HD44780_begin                              
-000119f6  HD44780_clear                              
-00011a52  HD44780_command                            
-00011a06  HD44780_display                            
-0001113c  HD44780_init                               
-00011a5a  HD44780_print_byte                         
-0001193c  HD44780_print_string                       
-000112c6  HD44780_pulseEnable                        
-0001170c  HD44780_send                               
-0001127c  HD44780_setCursor                          
-00011a5a  HD44780_write                              
-00011230  HD44780_write4bits                         
+00011bb8  HD44780_clear                              
+00011c14  HD44780_command                            
+00011bc8  HD44780_display                            
+000111b6  HD44780_init                               
+00011c1c  HD44780_print_byte                         
+00011ad0  HD44780_print_string                       
+00011392  HD44780_pulseEnable                        
+0001186a  HD44780_send                               
+00011348  HD44780_setCursor                          
+00011c1c  HD44780_write                              
+000112fc  HD44780_write4bits                         
 000004c4  MAC                                        
 000004da  MAC32H                                     
 000004db  MAC32H_H                                   
@@ -799,10 +819,11 @@ address   name
 0000012e  PMMRIE                                     
 0000012f  PMMRIE_H                                   
 0000012e  PMMRIE_L                                   
-0001118e  PMM_setVCore                               
+00011208  PMM_setVCore                               
 00010ab8  PMM_setVCoreDown                           
 000107bc  PMM_setVCoreUp                             
-00004454  Port_1                                     
+000116ee  Parser_Comandos                            
+000044b6  Port_1                                     
 00000158  RCCTL0                                     
 00000159  RCCTL0_H                                   
 00000158  RCCTL0_L                                   
@@ -862,11 +883,11 @@ address   name
 000004b7  RTCYEAR_H                                  
 000004b6  RTCYEAR_L                                  
 00004400  RTC_A_ISR                                  
-00011520  RTC_A_clearInterrupt                       
-000116b2  RTC_A_enableInterrupt                      
-00010f7a  RTC_A_initCalendar                         
-00011a26  RTC_A_setCalendarEvent                     
-00011a32  RTC_A_startClock                           
+000115ec  RTC_A_clearInterrupt                       
+000117e2  RTC_A_enableInterrupt                      
+00010ff4  RTC_A_initCalendar                         
+00011be8  RTC_A_setCalendarEvent                     
+00011bf4  RTC_A_startClock                           
 00000100  SFRIE1                                     
 00000101  SFRIE1_H                                   
 00000100  SFRIE1_L                                   
@@ -876,7 +897,7 @@ address   name
 00000104  SFRRPCR                                    
 00000105  SFRRPCR_H                                  
 00000104  SFRRPCR_L                                  
-00002468  SR04Timer                                  
+0000246c  SR04Timer                                  
 000004ce  SUMEXT                                     
 000004cf  SUMEXT_H                                   
 000004ce  SUMEXT_L                                   
@@ -974,11 +995,15 @@ address   name
 000003e0  TB0EX0                                     
 000003ee  TB0IV                                      
 000003d0  TB0R                                       
-00010f08  Timer_A_outputPWM                          
-00011a62  Timer_A_stop                               
-000115f0  Timer_B_getCounterValue                    
-000111e0  Timer_B_initContinuousMode                 
-00011a6a  Timer_B_startCounter                       
+00010f82  Timer_A_outputPWM                          
+00011c24  Timer_A_stop                               
+00011720  Timer_B_getCounterValue                    
+000112ac  Timer_B_initContinuousMode                 
+00011c2c  Timer_B_startCounter                       
+0001125a  UART_Alarme                                
+000119a4  UART_Buzzer                                
+00011b1a  UART_Manual                                
+00010e1c  UART_get_status                            
 000005d0  UCA0ABCTL                                  
 000005c6  UCA0BRW                                    
 000005c7  UCA0BRW_H                                  
@@ -1082,10 +1107,10 @@ address   name
 00000170  UCSCTL8_L                                  
 00010a12  UCS_initClockSignal                        
 000106da  UCS_initFLL                                
-000114b6  UCS_initFLLSettle                          
-000119c0  UCS_setExternalClockSource                 
-00011446  UCS_turnOnLFXT1                            
-00011554  UCS_turnOnXT2                              
+00011582  UCS_initFLLSettle                          
+00011b82  UCS_setExternalClockSource                 
+00011512  UCS_turnOnLFXT1                            
+00011620  UCS_turnOnXT2                              
 00000902  USBCNF                                     
 00000903  USBCNF_H                                   
 00000902  USBCNF_L                                   
@@ -1220,20 +1245,23 @@ address   name
 00000932  USBVECINT                                  
 00000933  USBVECINT_H                                
 00000932  USBVECINT_L                                
+0000445c  USCI_A0_ISR                                
+00011a42  USCI_A_UART_receiveData                    
+000119c6  USCI_A_UART_transmitData                   
 0000015c  WDTCTL                                     
 0000015d  WDTCTL_H                                   
 0000015c  WDTCTL_L                                   
-00011870  WDT_A_hold                                 
+000119e6  WDT_A_hold                                 
 00004400  __STACK_END                                
 000000a0  __STACK_SIZE                               
-00004528  __TI_CINIT_Base                            
-00004538  __TI_CINIT_Limit                           
-0000450e  __TI_Handler_Table_Base                    
-0000451a  __TI_Handler_Table_Limit                   
-000044a8  __TI_ISR_TRAP                              
-000110e8  __TI_auto_init_nobinit_nopinit_hold_wdt    
-00010e1c  __TI_decompress_lzss                       
-000119d2  __TI_decompress_none                       
+0000458a  __TI_CINIT_Base                            
+0000459a  __TI_CINIT_Limit                           
+00004570  __TI_Handler_Table_Base                    
+0000457c  __TI_Handler_Table_Limit                   
+0000450a  __TI_ISR_TRAP                              
+00011162  __TI_auto_init_nobinit_nopinit_hold_wdt    
+00010e96  __TI_decompress_lzss                       
+00011b94  __TI_decompress_none                       
 0000ffd2  __TI_int41                                 
 0000ffd4  __TI_int42                                 
 0000ffd6  __TI_int43                                 
@@ -1259,61 +1287,66 @@ address   name
 ffffffff  __TI_pprof_out_hndl                        
 ffffffff  __TI_prof_data_size                        
 ffffffff  __TI_prof_data_start                       
-00011828  __TI_zero_init_nomemset                    
+0001195c  __TI_zero_init_nomemset                    
 ffffffff  __c_args__                                 
 00010180  __mspabi_addf                              
 00010bfa  __mspabi_divf                              
-000116e0  __mspabi_divi                              
-0001196e  __mspabi_divu                              
-0001130c  __mspabi_fixfu                             
-0001184c  __mspabi_fltuf                             
+0001183e  __mspabi_divi                              
+00011b30  __mspabi_divu                              
+000113d8  __mspabi_fixfu                             
+00011980  __mspabi_fltuf                             
 0001095a  __mspabi_mpyf                              
-000116e0  __mspabi_remi                              
-0001196e  __mspabi_remu                              
-00011a3e  __mspabi_srli                              
+00011b02  __mspabi_mpyi_f5hw                         
+0001183e  __mspabi_remi                              
+00011b30  __mspabi_remu                              
+00011c00  __mspabi_srli                              
 0001017a  __mspabi_subf                              
-0000448c  _c_int00_noargs                            
+000044ee  _c_int00_noargs                            
 0000fffe  _reset_vector                              
 00004360  _stack                                     
-00011a7a  _system_post_cinit                         
-00011a76  _system_pre_init                           
-00011a70  abort                                      
-00002450  buzzerTimer                                
+00011c3c  _system_post_cinit                         
+00011c38  _system_pre_init                           
+00011c32  abort                                      
+00002453  buzzer                                     
+00002454  buzzerTimer                                
 0001089c  config_BCS                                 
-00011622  config_Buzzer                              
-00011736  config_IO                                  
-0001147e  config_Motor                               
+00011752  config_Buzzer                              
+00011810  config_IO                                  
+0001154a  config_Motor                               
 00010c8a  config_RTC                                 
-00011352  config_SR04                                
-00011956  delayMicroseconds                          
-00011588  delayMilliseconds                          
-00011984  digitalWrite                               
+0001141e  config_SR04                                
+00011aea  delayMicroseconds                          
+00011654  delayMilliseconds                          
+00011b46  digitalWrite                               
 00002400  display                                    
-00011920  displayClear                               
+00011ab4  displayClear                               
 00010000  displaySetState                            
-0001103c  displayTurnOn                              
-000115bc  displayUpdate                              
-00011a16  exeStateMachine                            
-00011092  getButtonFlag                              
-00010fe2  get_Distance                               
-0000244d  hora                                       
-00002442  hora_alarme1                               
-00002444  hora_alarme2                               
-00002446  hora_alarme3                               
-000113d0  initDisplay                                
-00011760  initStateMachine                           
+000110b6  displayTurnOn                              
+00011688  displayUpdate                              
+00002481  estadoString                               
+00011bd8  exeStateMachine                            
+0001110c  getButtonFlag                              
+0001105c  get_Distance                               
+00002446  hora_alarme1                               
+00002448  hora_alarme2                               
+0000244a  hora_alarme3                               
+0000244c  hora_atual                                 
+0001149c  initDisplay                                
+00011894  initStateMachine                           
 00010b5a  main                                       
-00011998  memcpy                                     
-0000244e  minuto                                     
-0000245c  motorTimer                                 
-00002448  nivel_dist                                 
-000119ac  pinMode                                    
-00011a48  set_BuzzerOff                              
-00011802  set_BuzzerOn                               
-00010e92  set_MotorAngle                             
-000119e4  strcpy                                     
-0000244a  tempo_motor                                
+00011b5a  memcpy                                     
+00002460  motorTimer                                 
+0000244e  nivel_dist                                 
+00011b6e  pinMode                                    
+00002480  posString                                  
+0000247e  receivedData                               
+00011c0a  set_BuzzerOff                              
+00011936  set_BuzzerOn                               
+00010f0c  set_MotorAngle                             
+00011ba6  strcpy                                     
+00002450  tempo_motor                                
 00002434  theHD44780                                 
+0000247f  transmitData                               
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -2071,26 +2104,32 @@ address   name
 000023ff  USBIEPSIZXY_7                              
 00002400  display                                    
 00002434  theHD44780                                 
-00002442  hora_alarme1                               
-00002444  hora_alarme2                               
-00002446  hora_alarme3                               
-00002448  nivel_dist                                 
-0000244a  tempo_motor                                
-0000244d  hora                                       
-0000244e  minuto                                     
-00002450  buzzerTimer                                
-0000245c  motorTimer                                 
-00002468  SR04Timer                                  
+00002442  Comando                                    
+00002446  hora_alarme1                               
+00002448  hora_alarme2                               
+0000244a  hora_alarme3                               
+0000244c  hora_atual                                 
+0000244e  nivel_dist                                 
+00002450  tempo_motor                                
+00002453  buzzer                                     
+00002454  buzzerTimer                                
+00002460  motorTimer                                 
+0000246c  SR04Timer                                  
+0000247e  receivedData                               
+0000247f  transmitData                               
+00002480  posString                                  
+00002481  estadoString                               
 00004360  _stack                                     
 00004400  RTC_A_ISR                                  
 00004400  __STACK_END                                
-00004454  Port_1                                     
-0000448c  _c_int00_noargs                            
-000044a8  __TI_ISR_TRAP                              
-0000450e  __TI_Handler_Table_Base                    
-0000451a  __TI_Handler_Table_Limit                   
-00004528  __TI_CINIT_Base                            
-00004538  __TI_CINIT_Limit                           
+0000445c  USCI_A0_ISR                                
+000044b6  Port_1                                     
+000044ee  _c_int00_noargs                            
+0000450a  __TI_ISR_TRAP                              
+00004570  __TI_Handler_Table_Base                    
+0000457c  __TI_Handler_Table_Limit                   
+0000458a  __TI_CINIT_Base                            
+0000459a  __TI_CINIT_Limit                           
 0000ffd2  __TI_int41                                 
 0000ffd4  __TI_int42                                 
 0000ffd6  __TI_int43                                 
@@ -2127,85 +2166,94 @@ address   name
 00010b5a  main                                       
 00010bfa  __mspabi_divf                              
 00010c8a  config_RTC                                 
-00010e1c  __TI_decompress_lzss                       
-00010e92  set_MotorAngle                             
-00010f08  Timer_A_outputPWM                          
-00010f7a  RTC_A_initCalendar                         
-00010fe2  get_Distance                               
-0001103c  displayTurnOn                              
-00011092  getButtonFlag                              
-000110e8  __TI_auto_init_nobinit_nopinit_hold_wdt    
-0001113c  HD44780_init                               
-0001118e  PMM_setVCore                               
-000111e0  Timer_B_initContinuousMode                 
-00011230  HD44780_write4bits                         
-0001127c  HD44780_setCursor                          
-000112c6  HD44780_pulseEnable                        
-0001130c  __mspabi_fixfu                             
-00011352  config_SR04                                
-00011392  GPIO_setAsInputPinWithPullDownResistor     
-000113d0  initDisplay                                
-0001140e  Display_Config                             
-00011446  UCS_turnOnLFXT1                            
-0001147e  config_Motor                               
-000114b6  UCS_initFLLSettle                          
-000114ec  GPIO_setAsInputPin                         
-00011520  RTC_A_clearInterrupt                       
-00011554  UCS_turnOnXT2                              
-00011588  delayMilliseconds                          
-000115bc  displayUpdate                              
-000115f0  Timer_B_getCounterValue                    
-00011622  config_Buzzer                              
-00011654  GPIO_getInterruptStatus                    
-00011684  GPIO_selectInterruptEdge                   
-000116b2  RTC_A_enableInterrupt                      
-000116e0  __mspabi_divi                              
-000116e0  __mspabi_remi                              
-0001170c  HD44780_send                               
-00011736  config_IO                                  
-00011760  initStateMachine                           
-0001178a  GPIO_setAsOutputPin                        
-000117b2  GPIO_setAsPeripheralModuleFunctionInputPin 
-000117da  GPIO_setAsPeripheralModuleFunctionOutputPin
-00011802  set_BuzzerOn                               
-00011828  __TI_zero_init_nomemset                    
-0001184c  __mspabi_fltuf                             
-00011870  WDT_A_hold                                 
-00011890  GPIO_clearInterrupt                        
-000118ae  GPIO_enableInterrupt                       
-000118cc  GPIO_getInputPinValue                      
-000118e8  GPIO_setOutputHighOnPin                    
-00011904  GPIO_setOutputLowOnPin                     
-00011920  displayClear                               
-0001193c  HD44780_print_string                       
-00011956  delayMicroseconds                          
-0001196e  __mspabi_divu                              
-0001196e  __mspabi_remu                              
-00011984  digitalWrite                               
-00011998  memcpy                                     
-000119ac  pinMode                                    
-000119c0  UCS_setExternalClockSource                 
-000119d2  __TI_decompress_none                       
-000119e4  strcpy                                     
-000119f6  HD44780_clear                              
-00011a06  HD44780_display                            
-00011a16  exeStateMachine                            
-00011a26  RTC_A_setCalendarEvent                     
-00011a32  RTC_A_startClock                           
-00011a3e  __mspabi_srli                              
-00011a48  set_BuzzerOff                              
-00011a52  HD44780_command                            
-00011a5a  HD44780_print_byte                         
-00011a5a  HD44780_write                              
-00011a62  Timer_A_stop                               
-00011a6a  Timer_B_startCounter                       
-00011a70  C$$EXIT                                    
-00011a70  abort                                      
-00011a76  _system_pre_init                           
-00011a7a  _system_post_cinit                         
+00010e1c  UART_get_status                            
+00010e96  __TI_decompress_lzss                       
+00010f0c  set_MotorAngle                             
+00010f82  Timer_A_outputPWM                          
+00010ff4  RTC_A_initCalendar                         
+0001105c  get_Distance                               
+000110b6  displayTurnOn                              
+0001110c  getButtonFlag                              
+00011162  __TI_auto_init_nobinit_nopinit_hold_wdt    
+000111b6  HD44780_init                               
+00011208  PMM_setVCore                               
+0001125a  UART_Alarme                                
+000112ac  Timer_B_initContinuousMode                 
+000112fc  HD44780_write4bits                         
+00011348  HD44780_setCursor                          
+00011392  HD44780_pulseEnable                        
+000113d8  __mspabi_fixfu                             
+0001141e  config_SR04                                
+0001145e  GPIO_setAsInputPinWithPullDownResistor     
+0001149c  initDisplay                                
+000114da  Display_Config                             
+00011512  UCS_turnOnLFXT1                            
+0001154a  config_Motor                               
+00011582  UCS_initFLLSettle                          
+000115b8  GPIO_setAsInputPin                         
+000115ec  RTC_A_clearInterrupt                       
+00011620  UCS_turnOnXT2                              
+00011654  delayMilliseconds                          
+00011688  displayUpdate                              
+000116bc  Abrir_Valvula                              
+000116ee  Parser_Comandos                            
+00011720  Timer_B_getCounterValue                    
+00011752  config_Buzzer                              
+00011784  GPIO_getInterruptStatus                    
+000117b4  GPIO_selectInterruptEdge                   
+000117e2  RTC_A_enableInterrupt                      
+00011810  config_IO                                  
+0001183e  __mspabi_divi                              
+0001183e  __mspabi_remi                              
+0001186a  HD44780_send                               
+00011894  initStateMachine                           
+000118be  GPIO_setAsOutputPin                        
+000118e6  GPIO_setAsPeripheralModuleFunctionInputPin 
+0001190e  GPIO_setAsPeripheralModuleFunctionOutputPin
+00011936  set_BuzzerOn                               
+0001195c  __TI_zero_init_nomemset                    
+00011980  __mspabi_fltuf                             
+000119a4  UART_Buzzer                                
+000119c6  USCI_A_UART_transmitData                   
+000119e6  WDT_A_hold                                 
+00011a06  GPIO_clearInterrupt                        
+00011a24  GPIO_enableInterrupt                       
+00011a42  USCI_A_UART_receiveData                    
+00011a60  GPIO_getInputPinValue                      
+00011a7c  GPIO_setOutputHighOnPin                    
+00011a98  GPIO_setOutputLowOnPin                     
+00011ab4  displayClear                               
+00011ad0  HD44780_print_string                       
+00011aea  delayMicroseconds                          
+00011b02  __mspabi_mpyi_f5hw                         
+00011b1a  UART_Manual                                
+00011b30  __mspabi_divu                              
+00011b30  __mspabi_remu                              
+00011b46  digitalWrite                               
+00011b5a  memcpy                                     
+00011b6e  pinMode                                    
+00011b82  UCS_setExternalClockSource                 
+00011b94  __TI_decompress_none                       
+00011ba6  strcpy                                     
+00011bb8  HD44780_clear                              
+00011bc8  HD44780_display                            
+00011bd8  exeStateMachine                            
+00011be8  RTC_A_setCalendarEvent                     
+00011bf4  RTC_A_startClock                           
+00011c00  __mspabi_srli                              
+00011c0a  set_BuzzerOff                              
+00011c14  HD44780_command                            
+00011c1c  HD44780_print_byte                         
+00011c1c  HD44780_write                              
+00011c24  Timer_A_stop                               
+00011c2c  Timer_B_startCounter                       
+00011c32  C$$EXIT                                    
+00011c32  abort                                      
+00011c38  _system_pre_init                           
+00011c3c  _system_post_cinit                         
 ffffffff  __TI_pprof_out_hndl                        
 ffffffff  __TI_prof_data_size                        
 ffffffff  __TI_prof_data_start                       
 ffffffff  __c_args__                                 
 
-[887 symbols]
+[902 symbols]

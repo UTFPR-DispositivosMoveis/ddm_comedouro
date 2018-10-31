@@ -13,8 +13,8 @@ extern short int hora_alarme1;
 extern short int hora_alarme2;
 extern short int hora_alarme3;
 extern unsigned short int tempo_motor;
-extern unsigned char hora;
-extern unsigned char minuto;
+extern unsigned short int hora_atual;
+extern unsigned char buzzer;
 
 
 #endif /* GLOBAL_VAR_H_ */

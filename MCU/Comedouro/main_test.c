@@ -12,15 +12,9 @@ unsigned int dist;
 void main (void){
     WDT_A_hold(WDT_A_BASE);
     config_BCS(24000);
-    config_IO();
-    set_MotorAngle(0);
-    __delay_cycles(24000000);
-    __enable_interrupt();
+    config_UART();
 
     while(1){
         __bis_SR_register(LPM0_bits + GIE);
     }
-
-
-    //__no_operation();
 }

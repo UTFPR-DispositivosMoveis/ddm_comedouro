@@ -13,10 +13,10 @@
 #include    "Display/HD44780/port_HD44780.h"
 #include    "Global_Var.h"
 
-
-unsigned char hora;
-unsigned char minuto;
+unsigned char buzzer;
+unsigned short int hora_atual;
 unsigned int nivel_dist;
+
 
 void config_RTC(){
         Calendar currentTime;
@@ -130,11 +130,31 @@ void config_IO(){
     config_Motor();
     config_SR04();
 
+    buzzer = 1;
     hora_alarme1 = -100;
     hora_alarme2 = -100;
     hora_alarme3 = -100;
     tempo_motor = 1000;
 }
+
+void Abrir_Valvula (short int tempo)
+{
+    if (buzzer == 1)
+    {
+        set_BuzzerOn();
+    }
+
+        set_MotorAngle(90);
+
+        delayMilliseconds(tempo);
+
+        set_MotorAngle(0);
+
+        nivel_dist = get_Distance();
+
+        set_BuzzerOff();
+}
+
 
 
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
@@ -149,23 +169,22 @@ void RTC_A_ISR (void){
         case 2: break;  //RTCRDYIFG
         case 4:         //RTCEVIFG
             //Interrupts every minute
-
-            set_BuzzerOn();
-
-            set_MotorAngle(90);
-
-            delayMilliseconds(tempo_motor);
-
-            set_MotorAngle(0);
-
-            nivel_dist = get_Distance();
-
-            set_BuzzerOff();
-
-            minuto++;
-            if(minuto >= 60){
-                minuto = 0;
-                hora = (hora + 1) % 24;
+            hora_atual++;
+            if(hora_atual % 100 >= 60){
+                hora_atual = 0;
+                hora_atual = (hora_atual + 100) % 2400;
+                if (hora_atual == hora_alarme1)
+                {
+                    Abrir_Valvula (tempo_motor);
+                }
+                else if (hora_atual == hora_alarme2)
+                {
+                    Abrir_Valvula (tempo_motor);
+                }
+                else if (hora_atual == hora_alarme3)
+                {
+                    Abrir_Valvula (tempo_motor);
+                }
             }
 
             break;
