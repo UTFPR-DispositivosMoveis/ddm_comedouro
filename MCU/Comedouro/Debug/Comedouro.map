@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker Unix v18.1.2                   
 ******************************************************************************
->> Linked Wed Oct 31 15:04:25 2018
+>> Linked Wed Oct 31 15:19:34 2018
 
 OUTPUT FILE NAME:   <Comedouro.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000044ee
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000044c2
 
 
 MEMORY CONFIGURATION
@@ -20,7 +20,7 @@ MEMORY CONFIGURATION
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   USBRAM                00001c00   00000800  00000000  00000800  RWIX
   RAM                   00002400   00002000  00000122  00001ede  RWIX
-  FLASH                 00004400   0000bb80  0000019a  0000b9e6  RWIX
+  FLASH                 00004400   0000bb80  0000016e  0000ba12  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -118,29 +118,29 @@ section   page    origin      length       input sections
                   00004364    0000009c     --HOLE--
 
 .text:_isr 
-*          0    00004400    00000112     
-                  00004400    0000005c     Config_IO.obj (.text:_isr:RTC_A_ISR)
-                  0000445c    0000005a     Protocol.obj (.text:_isr:USCI_A0_ISR)
-                  000044b6    00000038     main.obj (.text:_isr:Port_1)
-                  000044ee    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
-                  0000450a    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00004400    000000e6     
+                  00004400    0000005a     Protocol.obj (.text:_isr:USCI_A0_ISR)
+                  0000445a    00000038     main.obj (.text:_isr:Port_1)
+                  00004492    00000030     Config_IO.obj (.text:_isr:RTC_A_ISR)
+                  000044c2    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
+                  000044de    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
 
-.cinit     0    00004570    0000002a     
-                  00004570    0000000c     (__TI_handler_table)
-                  0000457c    00000008     (.cinit..data.load) [load image, compression = lzss]
-                  00004584    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000458a    00000010     (__TI_cinit_table)
+.cinit     0    00004544    0000002a     
+                  00004544    0000000c     (__TI_handler_table)
+                  00004550    00000008     (.cinit..data.load) [load image, compression = lzss]
+                  00004558    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  0000455e    00000010     (__TI_cinit_table)
 
 .binit     0    00004400    00000000     
 
 .init_array 
 *          0    00004400    00000000     UNINITIALIZED
 
-.const     0    00004512    0000005e     
-                  00004512    0000002e     StateMachine.obj (.const:.string)
-                  00004540    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
-                  0000455c    0000000c     Display.obj (.const:.string)
-                  00004568    00000008     HD44780.obj (.const:$P$T0$1)
+.const     0    000044e6    0000005e     
+                  000044e6    0000002e     StateMachine.obj (.const:.string)
+                  00004514    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  00004530    0000000c     Display.obj (.const:.string)
+                  0000453c    00000008     HD44780.obj (.const:$P$T0$1)
 
 RTC        0    0000ffd2    00000002     
                   0000ffd2    00000002     Config_IO.obj (.int41)
@@ -341,9 +341,9 @@ MODULE SUMMARY
        Total:                       768    8         0      
                                                             
     ./IO/
-       Config_IO.obj                514    2         5      
+       Config_IO.obj                470    2         5      
     +--+----------------------------+------+---------+---------+
-       Total:                       514    2         5      
+       Total:                       470    2         5      
                                                             
     ./IO/Buzzer/
        Buzzer.obj                   98     0         12     
@@ -423,19 +423,19 @@ MODULE SUMMARY
        Stack:                       0      0         160    
        Linker Generated:            0      42        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 7504   182       290    
+       Grand Total:                 7460   182       290    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000458a records: 2, size/record: 8, table size: 16
-	.data: load addr=0000457c, load size=00000008 bytes, run addr=00002454, run size=0000002e bytes, compression=lzss
-	.bss: load addr=00004584, load size=00000006 bytes, run addr=00002400, run size=00000054 bytes, compression=zero_init
+__TI_cinit_table @ 0000455e records: 2, size/record: 8, table size: 16
+	.data: load addr=00004550, load size=00000008 bytes, run addr=00002454, run size=0000002e bytes, compression=lzss
+	.bss: load addr=00004558, load size=00000006 bytes, run addr=00002400, run size=00000054 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00004570 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00004544 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -823,7 +823,7 @@ address   name
 00010ab8  PMM_setVCoreDown                           
 000107bc  PMM_setVCoreUp                             
 000116ee  Parser_Comandos                            
-000044b6  Port_1                                     
+0000445a  Port_1                                     
 00000158  RCCTL0                                     
 00000159  RCCTL0_H                                   
 00000158  RCCTL0_L                                   
@@ -882,7 +882,7 @@ address   name
 000004b6  RTCYEAR                                    
 000004b7  RTCYEAR_H                                  
 000004b6  RTCYEAR_L                                  
-00004400  RTC_A_ISR                                  
+00004492  RTC_A_ISR                                  
 000115ec  RTC_A_clearInterrupt                       
 000117e2  RTC_A_enableInterrupt                      
 00010ff4  RTC_A_initCalendar                         
@@ -1245,7 +1245,7 @@ address   name
 00000932  USBVECINT                                  
 00000933  USBVECINT_H                                
 00000932  USBVECINT_L                                
-0000445c  USCI_A0_ISR                                
+00004400  USCI_A0_ISR                                
 00011a42  USCI_A_UART_receiveData                    
 000119c6  USCI_A_UART_transmitData                   
 0000015c  WDTCTL                                     
@@ -1254,11 +1254,11 @@ address   name
 000119e6  WDT_A_hold                                 
 00004400  __STACK_END                                
 000000a0  __STACK_SIZE                               
-0000458a  __TI_CINIT_Base                            
-0000459a  __TI_CINIT_Limit                           
-00004570  __TI_Handler_Table_Base                    
-0000457c  __TI_Handler_Table_Limit                   
-0000450a  __TI_ISR_TRAP                              
+0000455e  __TI_CINIT_Base                            
+0000456e  __TI_CINIT_Limit                           
+00004544  __TI_Handler_Table_Base                    
+00004550  __TI_Handler_Table_Limit                   
+000044de  __TI_ISR_TRAP                              
 00011162  __TI_auto_init_nobinit_nopinit_hold_wdt    
 00010e96  __TI_decompress_lzss                       
 00011b94  __TI_decompress_none                       
@@ -1301,7 +1301,7 @@ ffffffff  __c_args__
 00011b30  __mspabi_remu                              
 00011c00  __mspabi_srli                              
 0001017a  __mspabi_subf                              
-000044ee  _c_int00_noargs                            
+000044c2  _c_int00_noargs                            
 0000fffe  _reset_vector                              
 00004360  _stack                                     
 00011c3c  _system_post_cinit                         
@@ -2120,16 +2120,16 @@ address   name
 00002480  posString                                  
 00002481  estadoString                               
 00004360  _stack                                     
-00004400  RTC_A_ISR                                  
+00004400  USCI_A0_ISR                                
 00004400  __STACK_END                                
-0000445c  USCI_A0_ISR                                
-000044b6  Port_1                                     
-000044ee  _c_int00_noargs                            
-0000450a  __TI_ISR_TRAP                              
-00004570  __TI_Handler_Table_Base                    
-0000457c  __TI_Handler_Table_Limit                   
-0000458a  __TI_CINIT_Base                            
-0000459a  __TI_CINIT_Limit                           
+0000445a  Port_1                                     
+00004492  RTC_A_ISR                                  
+000044c2  _c_int00_noargs                            
+000044de  __TI_ISR_TRAP                              
+00004544  __TI_Handler_Table_Base                    
+00004550  __TI_Handler_Table_Limit                   
+0000455e  __TI_CINIT_Base                            
+0000456e  __TI_CINIT_Limit                           
 0000ffd2  __TI_int41                                 
 0000ffd4  __TI_int42                                 
 0000ffd6  __TI_int43                                 

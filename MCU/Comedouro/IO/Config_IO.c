@@ -173,19 +173,12 @@ void RTC_A_ISR (void){
             if(hora_atual % 100 >= 60){
                 hora_atual = 0;
                 hora_atual = (hora_atual + 100) % 2400;
-                if (hora_atual == hora_alarme1)
-                {
-                    Abrir_Valvula (tempo_motor);
-                }
-                else if (hora_atual == hora_alarme2)
-                {
-                    Abrir_Valvula (tempo_motor);
-                }
-                else if (hora_atual == hora_alarme3)
-                {
-                    Abrir_Valvula (tempo_motor);
-                }
             }
+
+
+            if (hora_atual == hora_alarme1 || hora_atual == hora_alarme2 || hora_atual == hora_alarme3)
+                Abrir_Valvula (tempo_motor);
+
 
             break;
         case 6: break;  //RTCAIFG
