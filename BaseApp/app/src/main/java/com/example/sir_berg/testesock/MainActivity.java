@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Integer hora2 = -1;
     private Integer hora3 = -1;
 
-    private String ip = "172.30.14.32";
+    private String ip = "192.168.43.130";
     private int porta = 12345;
 
     @Override
