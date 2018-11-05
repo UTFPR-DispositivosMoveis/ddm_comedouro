@@ -174,8 +174,6 @@ void RTC_A_ISR (void){
                 hora_atual = 0;
                 hora_atual = (hora_atual + 100) % 2400;
             }
-
-
             if (hora_atual == hora_alarme1 || hora_atual == hora_alarme2 || hora_atual == hora_alarme3)
                 Abrir_Valvula (tempo_motor);
 

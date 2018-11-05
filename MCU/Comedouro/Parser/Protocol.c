@@ -71,15 +71,15 @@ void UART_get_status ()
 void UART_Alarme ()
 {
     short int temp = (short int) Comando [1];
-    if (Comando[2] == 1)
+    if (Comando[2] == '1')
     {
         hora_alarme1 = temp*100;
     }
-    else if (Comando[2] == 2)
+    else if (Comando[2] == '2')
     {
         hora_alarme2 = temp*100;
     }
-    else if (Comando[2] == 3)
+    else if (Comando[2] == '3')
     {
         hora_alarme3 = temp*100;
     }
@@ -95,11 +95,11 @@ void UART_Manual ()
 }
 void UART_Buzzer ()
 {
-    if (Comando [1] == 1) //Ligar
+    if (Comando [1] == '1') //Ligar
     {
         buzzer = 1;
     }
-    else if (Comando [1] == 2) //Desligar
+    else if (Comando [1] == '2') //Desligar
     {
         buzzer = 0;
     }
@@ -107,19 +107,19 @@ void UART_Buzzer ()
 }
 void Parser_Comandos ()
 {
-    if (Comando[0] == 1) //getStatus
+    if (Comando[0] == '1') //getStatus
     {
         UART_get_status ();
     }
-    else if (Comando[0] == 2)//Alarme
+    else if (Comando[0] == '2')//Alarme
     {
         UART_Alarme ();
     }
-    else if (Comando[0] == 3)//Manual
+    else if (Comando[0] == '3')//Manual
     {
         UART_Manual ();
     }
-    else if (Comando[0] == 4)//Buzzer
+    else if (Comando[0] == '4')//Buzzer
     {
         UART_Buzzer ();
     }
@@ -147,7 +147,7 @@ void USCI_A0_ISR (void)
             {
                 posString++;
             }
-            if (Comando[posString] == ';')
+            if (receivedData == ';')
             {
                 Parser_Comandos ();
                 posString = 0;

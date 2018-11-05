@@ -10,6 +10,7 @@
 #include    "IO/Config_IO.h"
 #include    "IO/Motor/Motor.h"
 #include    "IO/SR04/SR04.h"
+#include    "Parser/Protocol.h"
 #include    <stdio.h>
 
 HD44780 theHD44780;
@@ -65,6 +66,8 @@ void main(void){
     config_BCS(24000);
 
     config_IO();
+
+    while(config_UART() == -1);
 
     set_MotorAngle(0);
 
