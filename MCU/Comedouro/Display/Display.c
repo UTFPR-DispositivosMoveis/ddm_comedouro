@@ -42,9 +42,9 @@ void displayTurnOn(Display_Interface_t *display, int isOn){
 
 void initDisplay(Display_Interface_t *display){
 
-    hora_alarme1 = display->var[st_alarme1] = -100;
-    hora_alarme2 = display->var[st_alarme2] = -100;
-    hora_alarme3 = display->var[st_alarme3] = -100;
+    hora_alarme1 = display->var[st_alarme1] = 2500;
+    hora_alarme2 = display->var[st_alarme2] = 2500;
+    hora_alarme3 = display->var[st_alarme3] = 2500;
     tempo_motor = display->var[st_tmpAberto] = 1000;
 
     display->state = st_off;

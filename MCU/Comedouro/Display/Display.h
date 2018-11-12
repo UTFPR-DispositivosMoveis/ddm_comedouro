@@ -30,11 +30,12 @@
 #define BUTTON_PORT_VECTOR  PORT2_VECTOR
 
 
-#define OK_PIN              GPIO_PIN6
-#define PREV_PIN            GPIO_PIN5
-#define NEXT_PIN            GPIO_PIN3
+#define NEXT_PIN            GPIO_PIN6
+#define PREV_PIN            GPIO_PIN4
+#define OK_PIN              GPIO_PIN3
 #define INC_PIN             GPIO_PIN2
 #define DEC_PIN             GPIO_PIN0
+
 
 
 #define NEXT_BIT            (0x0001)
@@ -42,6 +43,8 @@
 #define INC_BIT             (0x0004)
 #define DEC_BIT             (0x0008)
 #define OK_BIT              (0x0010)
+
+
 
 typedef void (*Action_t)(void *display, uint16_t flag);
 //typedef void (*handler_t)(uint64_t *flag);

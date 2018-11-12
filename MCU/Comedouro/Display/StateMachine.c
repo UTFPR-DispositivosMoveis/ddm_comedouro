@@ -52,8 +52,8 @@ static void fn_alarme1(Display_Interface_t *display, uint16_t flag){
         minutos = display->var[display->state] % 100;
         display->var[display->state] += 100 - minutos;
 
-        if(display->var[display->state] > 2400)
-            display->var[display->state] = 2400;
+        if(display->var[display->state] >= 2400)
+            display->var[display->state] = 0;
         return;
     case    DEC_BIT:
         display->var_nome = "Alarme 1:";
@@ -66,8 +66,8 @@ static void fn_alarme1(Display_Interface_t *display, uint16_t flag){
             display->var[display->state] -= 100;
 
 
-        if(display->var[display->state] < -100)
-            display->var[display->state] = -100;
+        if(display->var[display->state] < 0)
+            display->var[display->state] = 2500;
         return;
     case    OK_BIT:
         displayTurnOn(display, LOW);
@@ -97,8 +97,8 @@ static void fn_alarme2(Display_Interface_t *display, uint16_t flag){
         minutos = display->var[display->state] % 100;
         display->var[display->state] += 100 - minutos;
 
-        if(display->var[display->state] > 2400)
-            display->var[display->state] = 2400;
+        if(display->var[display->state] >= 2400)
+            display->var[display->state] = 0;
         return;
     case    DEC_BIT:
         display->var_nome = "Alarme 2:";
@@ -111,8 +111,8 @@ static void fn_alarme2(Display_Interface_t *display, uint16_t flag){
             display->var[display->state] -= 100;
 
 
-        if(display->var[display->state] < -100)
-            display->var[display->state] = -100;
+        if(display->var[display->state] < 0)
+            display->var[display->state] = 2500;
         return;
     case    OK_BIT:
         displayTurnOn(display, LOW);
@@ -142,8 +142,8 @@ static void fn_alarme3(Display_Interface_t *display, uint16_t flag){
         minutos = display->var[display->state] % 100;
         display->var[display->state] += 100 - minutos;
 
-        if(display->var[display->state] > 2400)
-            display->var[display->state] = 2400;
+        if(display->var[display->state] >= 2400)
+            display->var[display->state] = 0;
         return;
     case    DEC_BIT:
         display->var_nome = "Alarme 3:";
@@ -156,8 +156,8 @@ static void fn_alarme3(Display_Interface_t *display, uint16_t flag){
             display->var[display->state] -= 100;
 
 
-        if(display->var[display->state] < -100)
-            display->var[display->state] = -100;
+        if(display->var[display->state] < 0)
+            display->var[display->state] = 2500;
         return;
     case    OK_BIT:
         displayTurnOn(display, LOW);
@@ -181,11 +181,13 @@ static void fn_tmpAberto(Display_Interface_t *display, uint16_t flag){
         return;
     case    INC_BIT:
         display->var_nome = "Tempo Aberto:";
-        display->var[display->state] += 200;
+        if(display->var[display->state] <= 20000)
+            display->var[display->state] += 200;
         return;
     case    DEC_BIT:
         display->var_nome = "Tempo Aberto:";
-        display->var[display->state] -= 200;
+        if(display->var[display->state] >= 200)
+            display->var[display->state] -= 200;
         return;
     case    OK_BIT:
         displayTurnOn(display, LOW);

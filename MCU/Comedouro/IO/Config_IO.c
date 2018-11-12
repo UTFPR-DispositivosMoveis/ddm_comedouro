@@ -131,9 +131,9 @@ void config_IO(){
     config_SR04();
 
     buzzer = 1;
-    hora_alarme1 = -100;
-    hora_alarme2 = -100;
-    hora_alarme3 = -100;
+    hora_alarme1 = 2500;
+    hora_alarme2 = 2500;
+    hora_alarme3 = 2500;
     tempo_motor = 1000;
 }
 
