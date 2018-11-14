@@ -181,13 +181,17 @@ static void fn_tmpAberto(Display_Interface_t *display, uint16_t flag){
         return;
     case    INC_BIT:
         display->var_nome = "Tempo Aberto:";
-        if(display->var[display->state] <= 20000)
-            display->var[display->state] += 200;
+        if(display->var[display->state] <= 19500)
+            display->var[display->state] += 500;
+        else
+            display->var[display->state] = 20000;
         return;
     case    DEC_BIT:
         display->var_nome = "Tempo Aberto:";
-        if(display->var[display->state] >= 200)
-            display->var[display->state] -= 200;
+        if(display->var[display->state] >= 500)
+            display->var[display->state] -= 500;
+        else
+            display->var[display->state] = 0;
         return;
     case    OK_BIT:
         displayTurnOn(display, LOW);

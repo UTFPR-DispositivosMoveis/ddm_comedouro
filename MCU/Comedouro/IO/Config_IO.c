@@ -143,16 +143,17 @@ void Abrir_Valvula (short int tempo)
     {
         set_BuzzerOn();
     }
+    delayMilliseconds(5000);
 
-        set_MotorAngle(90);
+    set_BuzzerOff();
 
-        delayMilliseconds(tempo);
+    set_MotorAngle(90);
 
-        set_MotorAngle(0);
+    delayMilliseconds(tempo);
 
-        nivel_dist = get_Distance();
+    set_MotorAngle(0);
 
-        set_BuzzerOff();
+    nivel_dist = 6 - (get_Distance() * 0.0017);
 }
 
 

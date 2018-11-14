@@ -14,23 +14,23 @@ void config_Motor(){
     /*
      * Timer A1 -> Motor
      */
-    //TA0.3 -> P1.4
+    //TA2.2 -> P2.5
     GPIO_setAsPeripheralModuleFunctionOutputPin(MOTOR_PORT, MOTOR_PIN);
     //Generate PWM - Timer runs in Up mode
     motorTimer.clockSource = TIMER_A_CLOCKSOURCE_ACLK;
     motorTimer.clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_1;
     motorTimer.timerPeriod = 32768 / FREQ_MOTOR;
-    motorTimer.compareRegister = TIMER_A_CAPTURECOMPARE_REGISTER_3;
+    motorTimer.compareRegister = TIMER_A_CAPTURECOMPARE_REGISTER_2;
     motorTimer.compareOutputMode = TIMER_A_OUTPUTMODE_RESET_SET;
     motorTimer.dutyCycle = 26;
-    Timer_A_outputPWM(TIMER_A0_BASE, &motorTimer);
+    Timer_A_outputPWM(TIMER_A2_BASE, &motorTimer);
 }
 
 void set_MotorAngle(int angle){
 
     static uint8_t angl;
 
-    Timer_A_stop(TIMER_A0_BASE);
+    Timer_A_stop(TIMER_A2_BASE);
 
     if(angle < 0)
         angle = 0;
@@ -46,7 +46,7 @@ void set_MotorAngle(int angle){
 */
     motorTimer.dutyCycle = (uint16_t)(motorTimer.timerPeriod * (0.04f + 7 * (float)angl / 18000));  //(0.04 + 7 * (float)angle / 18000)
 
-    Timer_A_outputPWM(TIMER_A0_BASE, &motorTimer);
+    Timer_A_outputPWM(TIMER_A2_BASE, &motorTimer);
 }
 
 

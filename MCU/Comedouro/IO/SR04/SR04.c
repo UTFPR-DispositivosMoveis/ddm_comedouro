@@ -6,6 +6,7 @@
  */
 
 #include    <driverlib.h>
+#include    "Display/HD44780/port_HD44780.h"
 #include    "SR04.h"
 
 Timer_B_initContinuousModeParam SR04Timer = {0};
@@ -35,7 +36,7 @@ unsigned int get_Distance(){
      * Gera o pulso de 10 uS
      */
     GPIO_setOutputHighOnPin(SR04_TRIG_PORT, SR04_TRIG_PIN);
-    __delay_cycles (264);
+    delayMilliseconds(11);
     GPIO_setOutputLowOnPin(SR04_TRIG_PORT, SR04_TRIG_PIN);
 
     while (!GPIO_getInputPinValue(SR04_ECHO_PORT, SR04_ECHO_PIN));   // Wait for start of echo pulse
