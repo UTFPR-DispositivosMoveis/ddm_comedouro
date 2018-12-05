@@ -42,8 +42,8 @@ static void fn_alarme1(Display_Interface_t *display, uint16_t flag){
         display->state = st_alarme2;
         return;
     case    PREV_BIT:
-        display->var_nome = "Tempo Aberto:";
-        display->state = st_tmpAberto;
+        display->var_nome = "Racao:";
+        display->state = st_nivelRacao;
         return;
     case    INC_BIT:
         display->var_nome = "Alarme 1:";
@@ -172,8 +172,8 @@ static void fn_tmpAberto(Display_Interface_t *display, uint16_t flag){
 
     switch(flag & (PREV_BIT | NEXT_BIT | INC_BIT | DEC_BIT | OK_BIT)){
     case    NEXT_BIT:
-        display->var_nome = "Alarme 1:";
-        display->state = st_alarme1;
+        display->var_nome = "Buzzer";
+        display->state = st_buzzer;
         return;
     case    PREV_BIT:
         display->var_nome = "Alarme 3:";
@@ -202,6 +202,54 @@ static void fn_tmpAberto(Display_Interface_t *display, uint16_t flag){
 
 }
 
+static void fn_buzzer(Display_Interface_t *display, uint16_t flag){
+
+    switch(flag & (PREV_BIT | NEXT_BIT | INC_BIT | DEC_BIT | OK_BIT)){
+    case    NEXT_BIT:
+        display->var_nome = "Racao:";
+        display->state = st_nivelRacao;
+        return;
+    case    PREV_BIT:
+        display->var_nome = "Tempo Aberto:";
+        display->state = st_tmpAberto;
+        return;
+    case    INC_BIT:
+        display->var_nome = "Buzzer";
+        display->var[display->state] = 1;
+        return;
+    case    DEC_BIT:
+        display->var_nome = "Buzzer";
+        display->var[display->state] = 0;
+        return;
+    case    OK_BIT:
+        displayTurnOn(display, LOW);
+        display->var_nome = "";
+        display->state = st_off;
+        return;
+    }
+
+}
+
+static void fn_nivelRacao(Display_Interface_t *display, uint16_t flag){
+
+    switch(flag & (PREV_BIT | NEXT_BIT | INC_BIT | DEC_BIT | OK_BIT)){
+    case    NEXT_BIT:
+        display->var_nome = "Alarme 1:";
+        display->state = st_alarme1;
+        return;
+    case    PREV_BIT:
+        display->var_nome = "Buzzer";
+        display->state = st_buzzer;
+        return;
+    case    OK_BIT:
+        displayTurnOn(display, LOW);
+        display->var_nome = "";
+        display->state = st_off;
+        return;
+    }
+
+}
+
 void initStateMachine(Display_Interface_t *display){
 
 
@@ -210,12 +258,12 @@ void initStateMachine(Display_Interface_t *display){
     display->action[st_alarme2] = (Action_t)fn_alarme2;
     display->action[st_alarme3] = (Action_t)fn_alarme3;
     display->action[st_tmpAberto] = (Action_t)fn_tmpAberto;
+    display->action[st_buzzer] = (Action_t)fn_buzzer;
+    display->action[st_nivelRacao] = (Action_t)fn_nivelRacao;
 }
 
 
 void exeStateMachine(Display_Interface_t *display, uint16_t flag){
     display->action[display->state](display, flag);
 }
-
-
 

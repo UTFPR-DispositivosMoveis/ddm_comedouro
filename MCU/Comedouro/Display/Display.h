@@ -55,6 +55,8 @@ typedef enum {
     st_alarme2,
     st_alarme3,
     st_tmpAberto,
+    st_buzzer,
+    st_nivelRacao,
     st_end
 }   state_t;
 
@@ -72,8 +74,8 @@ typedef struct Display_Interface_t  {
 void Display_Config();
 void initDisplay(Display_Interface_t *display);
 void displayUpdate(Display_Interface_t *display, HD44780 *me);
-uint16_t getButtonFlag();
 void displayTurnOn(Display_Interface_t *display, int isOn);
+uint16_t getButtonFlag();
 
 void initStateMachine(Display_Interface_t *display);
 void exeStateMachine(Display_Interface_t *display, uint16_t flag);

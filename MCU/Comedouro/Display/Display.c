@@ -8,15 +8,20 @@
 #include    <string.h>
 #include    "Display.h"
 #include    "Global_Var.h"
+#include    "IO/Buzzer/Buzzer.h"
+#include    "IO/SR04/SR04.h"
+#include    "Display/HD44780/port_HD44780.h"
 #include    "driverlib.h"
 
 short int hora_alarme1;
 short int hora_alarme2;
 short int hora_alarme3;
 unsigned short int tempo_motor;
+unsigned char buzzer;
 
 void Display_Config(){
     GPIO_setAsOutputPin(DISPLAY_PORT, LED_PIN);
+    GPIO_setOutputLowOnPin(DISPLAY_PORT, LED_PIN);
     GPIO_setAsInputPinWithPullDownResistor(BUTTON_PORT, PREV_PIN | NEXT_PIN | INC_PIN | DEC_PIN | OK_PIN);
     GPIO_enableInterrupt(BUTTON_PORT, PREV_PIN | NEXT_PIN | INC_PIN | DEC_PIN | OK_PIN);
     GPIO_selectInterruptEdge(BUTTON_PORT, PREV_PIN | NEXT_PIN | INC_PIN | DEC_PIN | OK_PIN, GPIO_LOW_TO_HIGH_TRANSITION);
@@ -46,6 +51,7 @@ void initDisplay(Display_Interface_t *display){
     hora_alarme2 = display->var[st_alarme2] = 2500;
     hora_alarme3 = display->var[st_alarme3] = 2500;
     tempo_motor = display->var[st_tmpAberto] = 1000;
+    tempo_motor = display->var[st_buzzer] = 0;
 
     display->state = st_off;
     display->var_nome = "";
@@ -83,6 +89,28 @@ void displaySetState(Display_Interface_t *display){
 
     if(display->state == st_off){
         strcpy(display->var_value, "");
+    }
+
+    else if(display->state == st_buzzer){
+        if(display->var[display->state] == 1){
+            delayMilliseconds(100);
+            set_BuzzerOn();
+            delayMilliseconds(100);
+            strcpy(display->var_value, "ON");
+        }
+
+        else    {
+            delayMilliseconds(100);
+            set_BuzzerOff();
+            delayMilliseconds(100);
+            strcpy(display->var_value, "OFF");
+        }
+    }
+
+    else if(display->state == st_nivelRacao){
+        strcpy(display->var_value, "         ");
+        display->var[display->state] = 6 - (get_Distance() * 0.0015);
+        display->var_value[0] = display->var[display->state] + 48;
     }
 
     else if(display->state == st_tmpAberto){  // Estado do tempo do motor

@@ -54,16 +54,16 @@ int config_UART ()
 void UART_get_status ()
 {
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (nivel_dist/1000) );
-    //USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
+    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
 
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (hora_alarme1/100) );
-    ///USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
+    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
 
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (hora_alarme2/100));
-    //USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
+    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
 
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (hora_alarme3/100));
-    //USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
+    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
 
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (tempo_motor/1000));
     USCI_A_UART_transmitData(USCI_A0_BASE, ';');
@@ -85,12 +85,14 @@ void UART_Alarme ()
     }
     tempo_motor = (short int)  Comando [3];
     USCI_A_UART_transmitData(USCI_A0_BASE, 1);
+    USCI_A_UART_transmitData(USCI_A0_BASE, ';');
 }
 void UART_Manual ()
 {
     short int var = (short int) Comando [1];
-    Abrir_Valvula (var*1000);
     USCI_A_UART_transmitData(USCI_A0_BASE, 1);
+    USCI_A_UART_transmitData(USCI_A0_BASE, ';');
+    Abrir_Valvula (var*1000);
 }
 void UART_Buzzer ()
 {
@@ -103,6 +105,7 @@ void UART_Buzzer ()
         buzzer = 0;
     }
     USCI_A_UART_transmitData(USCI_A0_BASE, 1);
+    USCI_A_UART_transmitData(USCI_A0_BASE, ';');
 }
 void Parser_Comandos ()
 {

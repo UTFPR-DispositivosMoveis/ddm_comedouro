@@ -62,7 +62,9 @@ main.obj: ../Display/HD44780/HD44780.h
 main.obj: ../IO/Config_IO.h
 main.obj: ../IO/Motor/Motor.h
 main.obj: ../IO/SR04/SR04.h
+main.obj: ../IO/Buzzer/Buzzer.h
 main.obj: ../Parser/Protocol.h
+main.obj: ../Global_Var.h
 main.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/stdio.h
 main.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/_ti_config.h
 main.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/linkage.h
@@ -130,7 +132,9 @@ main.obj: /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/st
 ../IO/Config_IO.h: 
 ../IO/Motor/Motor.h: 
 ../IO/SR04/SR04.h: 
+../IO/Buzzer/Buzzer.h: 
 ../Parser/Protocol.h: 
+../Global_Var.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/stdio.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/_ti_config.h: 
 /home/raul/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.2.LTS/include/linkage.h: 
