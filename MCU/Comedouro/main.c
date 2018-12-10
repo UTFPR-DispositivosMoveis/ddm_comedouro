@@ -10,7 +10,9 @@
 #include    "IO/Config_IO.h"
 #include    "IO/Motor/Motor.h"
 #include    "IO/SR04/SR04.h"
+#include    "IO/Buzzer/Buzzer.h"
 #include    "Parser/Protocol.h"
+#include    "Global_Var.h"
 #include    <stdio.h>
 
 HD44780 theHD44780;
