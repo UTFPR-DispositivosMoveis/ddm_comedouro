@@ -53,9 +53,6 @@ int config_UART ()
 }
 void UART_get_status ()
 {
-    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (nivel_dist/1000) );
-    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
-
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (hora_alarme1/100) );
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
 
@@ -66,7 +63,10 @@ void UART_get_status ()
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ' ');
 
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (tempo_motor/1000));
-    USCI_A_UART_transmitData(USCI_A0_BASE, ';');
+    USCI_A_UART_transmitData(USCI_A0_BASE, ' ');
+
+    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (nivel_dist) );
+    USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ';');
 }
 void UART_Alarme ()
 {

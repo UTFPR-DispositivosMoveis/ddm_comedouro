@@ -32,8 +32,9 @@ void displayTurnOn(Display_Interface_t *display, int isOn){
     if(isOn){
         GPIO_setOutputHighOnPin(DISPLAY_PORT, LED_PIN);
         display->var[st_alarme1] = hora_alarme1;
-        display->var[st_alarme3] = hora_alarme2;
-        display->var[st_alarme2] = hora_alarme3;
+        display->var[st_alarme2] = hora_alarme2;
+        display->var[st_alarme3] = hora_alarme3;
+        display->var[st_nivelRacao] = nivel_dist;
         display->var[st_tmpAberto] = (short int)tempo_motor;
     }
     else    {
@@ -41,6 +42,7 @@ void displayTurnOn(Display_Interface_t *display, int isOn){
         hora_alarme1 = display->var[st_alarme1];
         hora_alarme2 = display->var[st_alarme2];
         hora_alarme3 = display->var[st_alarme3];
+        nivel_dist = display->var[st_nivelRacao];
         tempo_motor = (unsigned short int)display->var[st_tmpAberto];
     }
 }
