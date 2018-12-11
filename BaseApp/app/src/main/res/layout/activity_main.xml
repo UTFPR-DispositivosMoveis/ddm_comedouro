@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tratar: 19:30"
+        android:text="Tratar 1: não conectado\nTratar 2: não conectado\nTratar 3: não conectado"
         android:id="@+id/tvHora"
         android:textSize="30dp"/>
 

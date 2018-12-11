@@ -74,14 +74,17 @@ class RunClient implements Runnable{
         switch (act){
             case "ma": // MainActivity
                 final MainActivity auxMA = (MainActivity)context;
+                final String requisicao = this.requi;
                 auxMA.runOnUiThread(new Thread(){
                     public void run(){
                         String aux[] = resp.split(" ");
                         if(!aux[0].equals("fail")) {
+                            Toast.makeText(auxMA, resp, Toast.LENGTH_SHORT).show();
                             auxMA.setStatus(Integer.valueOf(aux[0]), Integer.valueOf(aux[1]), Integer.valueOf(aux[2]), Integer.valueOf(aux[3]), Integer.valueOf(aux[4]));
                         }else{
                             auxMA.setStatusNotConnect();
                         }
+                        Toast.makeText(auxMA, requisicao, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -95,6 +98,7 @@ class RunClient implements Runnable{
                 final Configuracao auxC = (Configuracao)context;
                 final int indice = Integer.valueOf(requi.split(" ")[2]);
                 final int hora = Integer.valueOf(requi.split(" ")[1]);
+                final String requisicaox = this.requi;
                 auxC.runOnUiThread(new Thread(){
                     public void run(){
                         if(resp.equals("fail")){
@@ -104,6 +108,7 @@ class RunClient implements Runnable{
                                 auxC.setHora(hora, indice);
                             }
                         }
+                        Toast.makeText(auxC, requisicaox, Toast.LENGTH_SHORT).show();
                     }
                 });
 
