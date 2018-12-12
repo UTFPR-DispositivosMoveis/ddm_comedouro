@@ -53,9 +53,9 @@ public class Configuracao extends AppCompatActivity {
 
         Intent i = getIntent();
 
-        hora1 = i.getIntExtra("hora1", -1);
-        hora2 = i.getIntExtra("hora2", -1);
-        hora3 = i.getIntExtra("hora3", -1);
+        hora1 = i.getIntExtra("hora1", 25);
+        hora2 = i.getIntExtra("hora2", 25);
+        hora3 = i.getIntExtra("hora3", 25);
 
         ip = i.getStringExtra("ip");
         porta = i.getIntExtra("porta", 12345);
@@ -67,7 +67,7 @@ public class Configuracao extends AppCompatActivity {
 
     private String makeHora(int hora, int indice){
         String aux="";
-        if(hora == -1){
+        if(hora == 25){
             aux = aux + "Tratar "+indice+": desativado!";
         }else{
             aux = aux + "Tratar "+indice+": " + String.format("%02d", hora)+ "h00";
@@ -76,6 +76,7 @@ public class Configuracao extends AppCompatActivity {
     }
 
     public void setHora(int hora, int indice){
+
         switch (indice){
             case 1:
                 this.hora1 = hora;
@@ -129,12 +130,12 @@ public class Configuracao extends AppCompatActivity {
 
     public void btSet1(View view) {
         if(hora == -1){
-            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora -1 1"));
+            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora 25 1 10"));
             thread.start();
             return;
         }else{
             if(hora != hora2 && hora != hora3) {
-                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 1"));
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 1 10"));
                 thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",
@@ -145,12 +146,12 @@ public class Configuracao extends AppCompatActivity {
 
     public void btSet2(View view) {
         if(hora==-1){
-            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora -1 2"));
+            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora 25 2 10"));
             thread.start();
             return;
         }else{
             if(hora != hora1 && hora!=hora3) {
-                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 2"));
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 2 10"));
                 thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",
@@ -160,12 +161,12 @@ public class Configuracao extends AppCompatActivity {
     }
     public void btSet3(View view) {
         if(hora==-1){
-            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora -1 3"));
+            Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora 25 3 10"));
             thread.start();
             return;
         }else{
             if(hora != hora2 && hora != hora1) {
-                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 3"));
+                Thread thread = new Thread(new RunClient(this.ip, this.porta, this, "cf hora "+hora+" 3 10"));
                 thread.start();
             }else{
                 Toast.makeText(this, "Hora já selecionada!",

@@ -1,6 +1,5 @@
 package com.example.sir_berg.testesock;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Integer hora2 = -1;
     private Integer hora3 = -1;
 
-    private String ip = "192.168.43.130";
+    private String ip = "172.20.221.226";
     private int porta = 12345;
 
     @Override
@@ -60,28 +59,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if ( data != null){
-            hora1 = data.getIntExtra("hora1", -1);
-            hora2 = data.getIntExtra("hora2", -1);
-            hora3 = data.getIntExtra("hora3", -1);
+            hora1 = data.getIntExtra("hora1", 25);
+            hora2 = data.getIntExtra("hora2", 25);
+            hora3 = data.getIntExtra("hora3", 25);
             tvHora.setText(makeHora());
         }
     }
 
     private String makeHora(){
         String aux="";
-        if(hora1 == -1){
+        if(hora1 == 25){
             aux = aux + "Tratar 1: desativado!\n";
         }else{
             aux = aux + "Tratar 1: " + String.format("%02d", hora1)+ "h00\n";
         }
 
-        if(hora2 == -1){
+        if(hora2 == 25){
             aux = aux + "Tratar 2: desativado!\n";
         }else{
             aux = aux + "Tratar 2: " + String.format("%02d", hora2)+ "h00\n";
         }
 
-        if(hora3 == -1){
+        if(hora3 == 25){
             aux = aux + "Tratar 3: desativado!\n";
         }else{
             aux = aux + "Tratar 3: " + String.format("%02d", hora3)+ "h00";

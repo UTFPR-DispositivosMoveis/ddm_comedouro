@@ -46,6 +46,9 @@ public class ClientTCP{
             resp = "fail";
         }
 
+        if(resp == "")
+            resp = "fail";
+
         return resp;
     }
 
