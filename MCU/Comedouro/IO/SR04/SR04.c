@@ -35,6 +35,9 @@ unsigned int get_Distance(){
     /*
      * Gera o pulso de 10 uS
      */
+
+    return 0;
+
     GPIO_setOutputHighOnPin(SR04_TRIG_PORT, SR04_TRIG_PIN);
     delayMilliseconds(11);
     GPIO_setOutputLowOnPin(SR04_TRIG_PORT, SR04_TRIG_PIN);
@@ -52,5 +55,8 @@ unsigned int get_Distance(){
     else
         dist = 65535 + stop_Count - start_Count;
 
-    return dist;
+
+
+    return (6 - (dist * 0.0015));
+
 }

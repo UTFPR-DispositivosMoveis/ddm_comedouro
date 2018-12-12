@@ -94,24 +94,24 @@ void displaySetState(Display_Interface_t *display){
     }
 
     else if(display->state == st_buzzer){
+
         if(display->var[display->state] == 1){
-            delayMilliseconds(100);
-            set_BuzzerOn();
-            delayMilliseconds(100);
+            Abrir_Valvula (tempo_motor);
             strcpy(display->var_value, "ON");
         }
-
+        /*
         else    {
             delayMilliseconds(100);
             set_BuzzerOff();
             delayMilliseconds(100);
-            strcpy(display->var_value, "OFF");
-        }
+            strcpy(display->var_value, "Alimentado");
+        }*/
     }
 
     else if(display->state == st_nivelRacao){
         strcpy(display->var_value, "         ");
-        display->var[display->state] = 6 - (get_Distance() * 0.0015);
+        //display->var[display->state] = 3;
+        display->var[display->state] = get_Distance();
         display->var_value[0] = display->var[display->state] + 48;
     }
 

@@ -65,6 +65,7 @@ void UART_get_status ()
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (tempo_motor/1000));
     USCI_A_UART_transmitData(USCI_A0_BASE, ' ');
 
+    nivel_dist = get_Distance();
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) (nivel_dist) );
     USCI_A_UART_transmitData(USCI_A0_BASE, (uint8_t) ';');
 }

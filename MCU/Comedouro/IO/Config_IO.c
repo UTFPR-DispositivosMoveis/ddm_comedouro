@@ -83,7 +83,7 @@ void config_RTC(){
 
         //Start RTC Clock
         RTC_A_startClock(RTC_A_BASE);
-
+        hora_atual = 759;
 }
 
 
@@ -153,7 +153,7 @@ void Abrir_Valvula (short int tempo)
 
     set_MotorAngle(0);
 
-    nivel_dist = 6 - (get_Distance() * 0.0017);
+    nivel_dist = get_Distance();
 }
 
 

@@ -172,7 +172,7 @@ static void fn_tmpAberto(Display_Interface_t *display, uint16_t flag){
 
     switch(flag & (PREV_BIT | NEXT_BIT | INC_BIT | DEC_BIT | OK_BIT)){
     case    NEXT_BIT:
-        display->var_nome = "Buzzer";
+        display->var_nome = "Abrir Valvula";
         display->state = st_buzzer;
         return;
     case    PREV_BIT:
@@ -214,11 +214,11 @@ static void fn_buzzer(Display_Interface_t *display, uint16_t flag){
         display->state = st_tmpAberto;
         return;
     case    INC_BIT:
-        display->var_nome = "Buzzer";
+        display->var_nome = "Abrir Valvula";
         display->var[display->state] = 1;
         return;
     case    DEC_BIT:
-        display->var_nome = "Buzzer";
+        display->var_nome = "Abrir Valvula";
         display->var[display->state] = 0;
         return;
     case    OK_BIT:
@@ -238,7 +238,7 @@ static void fn_nivelRacao(Display_Interface_t *display, uint16_t flag){
         display->state = st_alarme1;
         return;
     case    PREV_BIT:
-        display->var_nome = "Buzzer";
+        display->var_nome = "Abrir Valvula";
         display->state = st_buzzer;
         return;
     case    OK_BIT:
