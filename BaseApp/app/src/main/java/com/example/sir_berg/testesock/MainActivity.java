@@ -22,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
     private Integer alturaRacao = 0;
     private Integer nivelBateria = 0;
 
-    private Integer hora1 = -1;
-    private Integer hora2 = -1;
-    private Integer hora3 = -1;
+    private Integer hora1 = 25;
+    private Integer hora2 = 25;
+    private Integer hora3 = 25;
 
-    private String ip = "172.20.221.226";
+    private String ip = "192.168.43.130";
     private int porta = 12345;
 
     @Override
@@ -104,15 +104,15 @@ public class MainActivity extends AppCompatActivity {
      * getstatus: Ordem de recebimento
      * hora1 hora2 hora3 alturaRacao nivelBateria
      **/
-    public void setStatus(int hora1, int hora2, int hora3, int alturaRacao, int nivelBateria){
+    public void setStatus(int hora1, int hora2, int hora3, int alturaRacao, int tempoAbertura){
         this.hora1 = hora1;
         this.hora2 = hora2;
         this.hora3 = hora3;
         this.alturaRacao = alturaRacao;
         this.nivelBateria = nivelBateria;
 
-        tvBateria.setText("Bateria: " + String.format("%02d", nivelBateria) + "%");
-        tvRacao.setText("Nível Ração: " + String.format("%02d", alturaRacao) + "%");
+        tvBateria.setText("Nível Ração: " + String.format("%02d", tempoAbertura));
+        tvRacao.setText("Tempo Abertura: " + String.format("%02d", alturaRacao) + "s");
         tvHora.setText(makeHora());
     }
 
